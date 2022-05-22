@@ -11,26 +11,57 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  firstName     String   @db.VarChar(25)
+  id Int      @id @default(autoincrement())
+  firstName String   @db.VarChar(25)
   lastName String @db.VarChar(25)
-  content   String?
-  published Boolean  @default(false)
-  authorId  Int
-  User      User     @relation(fields: [authorId], references: [id])
+  email   String  @unique @db.VarChar(50) 
+  password String  @db.VarChar(50) 
+  gender  Boolean 
+  age Int 
+  weight Int 
+  height Int 
+  userLogs UserLog[] //one user with userlogs
 }
 
-model Profile {
+model Workout {
   id     Int     @id @default(autoincrement())
-  bio    String?
-  userId Int     @unique
-  User   User    @relation(fields: [userId], references: [id])
+  name    String   @db.VarChar(25)
+  imgUrl String 
+  //relationship with exerecise
+  exercises WorkoutLine[]
 }
 
-model User {
+model Excercise {
   id      Int      @id @default(autoincrement())
-  name    String?  @db.VarChar(255)
-  email   String   @unique @db.VarChar(255)
-  Post    Post[]
-  Profile Profile?
+  name    String @db.VarChar(255)
+  videoUrl String  @db.VarChar(255)
+  description String @db.VarChar(500)    
+  //relationship with workout
+  workouts WorkoutLine[]
+}
+
+model WorkoutLine {
+  id     Int     @id @default(autoincrement())
+  recWeight Int 
+  recSets Int 
+  recReps Int 
+  steps Int 
+  userlogs UserLog[] //one workout to many userlogs 
+  exercise Excercise @relation(fields:[exerciseId], references:[id])
+  exerciseId Int
+  workout Workout @relation(fields: [workoutId], references: [id]) 
+  workoutId Int
+
+}
+
+model UserLog {
+  id     Int     @id @default(autoincrement())
+  weight Int 
+  reps Int 
+  setNumber Int 
+  date  DateTime   @default(now())
+  user User @relation(fields: [userId], references: [id]) //many userlogs to one user
+  userId Int 
+  workoutLine WorkoutLine @relation(fields: [workoutLineId], references: [id])//many userlogs to one workout line
+  workoutLineId Int 
 }
