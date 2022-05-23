@@ -4,7 +4,7 @@ import Layout from '../components/layout'
 
 const dashboard = () => {
   return (
-    <Layout><div>dashboard</div></Layout>
+    <Layout><div className="bg-gray-100 min-h-screen">dashboard</div></Layout>
   )
 }
 

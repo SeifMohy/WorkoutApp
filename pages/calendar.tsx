@@ -3,7 +3,7 @@ import Layout from '../components/layout'
 
 const calendar = () => {
   return (
-    <Layout><div>calendar</div></Layout>
+    <Layout><div className="bg-gray-100 min-h-screen">calendar</div></Layout>
   )
 }
 

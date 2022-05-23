@@ -5,7 +5,7 @@ import Layout from '../components/layout'
 const browseWorkouts = () => {
   return (
     <Layout>
-    <div>browseWorkouts</div>
+    <div className="bg-gray-100 min-h-screen">browseWorkouts</div>
     </Layout>
   )
 }

@@ -12,34 +12,41 @@ type headerProps = {
   setOpenAccount: (open: boolean) => void;
 };
 
-const header = ({ open, setOpen, openAccount, setOpenAccount }: headerProps) => {
-console.log(open)
+const header = ({
+  open,
+  setOpen,
+  openAccount,
+  setOpenAccount,
+}: headerProps) => {
   return (
     <div>
       <Sidebar open={open} setOpen={setOpen} />
       <header className="relative">
-        <nav className="flex justify-between items-center p-2">
+        <nav className="flex justify-between items-center p-2 lg:justify-end">
           <button
             type="button"
-            className="-ml-2 rounded-md bg-white p-2 text-gray-400"
+            className="-ml-2 rounded-md bg-white p-2 text-gray-400 block lg:hidden" 
             onClick={() => setOpen(true)}
           >
             <MenuIcon className="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
           </button>
-          <div className="bg-white flex items-center ">
+          <div className="bg-white flex items-center">
             Seif Mohy
             <Menu>
-            <Menu.Button type="button" onClick={() => setOpenAccount(!openAccount)}>
-              <img
-                className="w-14 h-14 rounded-full m-2"
-                src="/icon.png"
-                alt="Rounded avatar"
+              <Menu.Button
+                type="button"
+                onClick={() => setOpenAccount(!openAccount)}
+              >
+                <img
+                  className="w-14 h-14 rounded-full m-2"
+                  src="/icon.png"
+                  alt="Rounded avatar"
+                />
+              </Menu.Button>
+              <AccountProp
+                openAccount={openAccount}
+                setOpenAccount={setOpenAccount}
               />
-            </Menu.Button>
-            <AccountProp
-              openAccount={openAccount}
-              setOpenAccount={setOpenAccount}
-            />
             </Menu>
           </div>
         </nav>
