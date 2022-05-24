@@ -2,7 +2,9 @@ import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import React from 'react'
 import ProtectedRoute from './ProtectedRoute'
-const authRoute = ['/dashboard']
+
+
+const authRoute = ['/dashboard', '/']
 
 const AuthWrapper = ({children}:{children: React.ReactNode}) => {
     const {status} = useSession()
