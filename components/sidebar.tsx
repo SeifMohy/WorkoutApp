@@ -8,6 +8,7 @@ import {
   CalendarIcon,
   ChartBarIcon,
 } from "@heroicons/react/outline";
+import Link from "next/link";
 
 type sidebarProps = {
   open: boolean;
@@ -66,7 +67,7 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
                     href="/dashboard"
                     className="-m-2 flex p-2 font-medium text-gray-900"
                   >
-                    <HomeIcon className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-900 mx-2" />
+                    <HomeIcon className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-900 mx-2 xl: display" />
                     Dashboard
                   </a>
                   <div>

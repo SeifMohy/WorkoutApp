@@ -3,7 +3,11 @@ import Layout from '../components/layout'
 
 const progress = () => {
   return (
-    <Layout> <div className="bg-gray-100 min-h-screen">progress</div> </Layout>
+    <Layout> 
+      <div className="bg-gray-100 min-h-screen">
+        <div>Progress</div>
+      </div> 
+      </Layout>
   )
 }
 
