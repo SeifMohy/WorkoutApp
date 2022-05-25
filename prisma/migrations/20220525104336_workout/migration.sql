@@ -33,6 +33,13 @@ CREATE TABLE "User" (
     "email" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
+    "firstName" VARCHAR(25) NOT NULL,
+    "lastName" VARCHAR(25) NOT NULL,
+    "password" VARCHAR(50) NOT NULL,
+    "gender" BOOLEAN NOT NULL,
+    "age" INTEGER NOT NULL,
+    "weight" INTEGER NOT NULL,
+    "height" INTEGER NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -42,21 +49,6 @@ CREATE TABLE "VerificationToken" (
     "identifier" TEXT NOT NULL,
     "token" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL
-);
-
--- CreateTable
-CREATE TABLE "Profile" (
-    "id" SERIAL NOT NULL,
-    "firstName" VARCHAR(25) NOT NULL,
-    "lastName" VARCHAR(25) NOT NULL,
-    "email" VARCHAR(50) NOT NULL,
-    "password" VARCHAR(50) NOT NULL,
-    "gender" BOOLEAN NOT NULL,
-    "age" INTEGER NOT NULL,
-    "weight" INTEGER NOT NULL,
-    "height" INTEGER NOT NULL,
-
-    CONSTRAINT "Profile_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -98,7 +90,7 @@ CREATE TABLE "UserLog" (
     "reps" INTEGER NOT NULL,
     "setNumber" INTEGER NOT NULL,
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "profileId" INTEGER NOT NULL,
+    "userId" TEXT NOT NULL,
     "workoutLineId" INTEGER NOT NULL,
 
     CONSTRAINT "UserLog_pkey" PRIMARY KEY ("id")
@@ -119,9 +111,6 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token"
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
 
--- CreateIndex
-CREATE UNIQUE INDEX "Profile_email_key" ON "Profile"("email");
-
 -- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -135,7 +124,7 @@ ALTER TABLE "WorkoutLine" ADD CONSTRAINT "WorkoutLine_workoutId_fkey" FOREIGN KE
 ALTER TABLE "WorkoutLine" ADD CONSTRAINT "WorkoutLine_exerciseId_fkey" FOREIGN KEY ("exerciseId") REFERENCES "Excercise"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "UserLog" ADD CONSTRAINT "UserLog_profileId_fkey" FOREIGN KEY ("profileId") REFERENCES "Profile"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "UserLog" ADD CONSTRAINT "UserLog_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserLog" ADD CONSTRAINT "UserLog_workoutLineId_fkey" FOREIGN KEY ("workoutLineId") REFERENCES "WorkoutLine"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

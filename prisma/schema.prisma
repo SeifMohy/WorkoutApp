@@ -46,6 +46,14 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  firstName String   @db.VarChar(25)
+  lastName String @db.VarChar(25)
+  password String  @db.VarChar(50) 
+  gender  Boolean 
+  age Int 
+  weight Int 
+  height Int 
+  userLogs UserLog[] //one user with userlogs
 }
 
 model VerificationToken {
@@ -54,22 +62,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-
-
-
-model Profile {
-  id Int      @id @default(autoincrement())
-  firstName String   @db.VarChar(25)
-  lastName String @db.VarChar(25)
-  email   String  @unique @db.VarChar(50) 
-  password String  @db.VarChar(50) 
-  gender  Boolean 
-  age Int 
-  weight Int 
-  height Int 
-  userLogs UserLog[] //one user with userlogs
 }
 
 model Workout {
@@ -109,8 +101,8 @@ model UserLog {
   reps Int 
   setNumber Int 
   date  DateTime   @default(now())
-  profile Profile @relation(fields: [profileId], references: [id]) //many userlogs to one user
-  profileId Int 
+  user User @relation(fields: [userId], references: [id]) //many userlogs to one user
+  userId String
   workoutLine WorkoutLine @relation(fields: [workoutLineId], references: [id])//many userlogs to one workout line
   workoutLineId Int 
 }
