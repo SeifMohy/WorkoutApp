@@ -33,7 +33,10 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
+enum Gender {
+  male
+  female
+}
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -95,9 +98,4 @@ model UserLog {
   workoutLineId String
   user          User        @relation(fields: [userId], references: [id])
   workoutLine   WorkoutLine @relation(fields: [workoutLineId], references: [id])
-}
-
-enum Gender {
-  male
-  female
 }

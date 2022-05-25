@@ -1,6 +1,6 @@
 import React from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { Fragment } from "react";
+import { signOut } from "next-auth/react";
 
 type accountProps = {
   openAccount: boolean;
@@ -8,6 +8,7 @@ type accountProps = {
 };
 
 const accountProp = ({ openAccount, setOpenAccount }: accountProps) => {
+
   return (
     <Transition
       as="div"
@@ -24,7 +25,7 @@ const accountProp = ({ openAccount, setOpenAccount }: accountProps) => {
           <a className="p-2 text-gray-500">Your Profile</a>
         </div>
         <div>
-          <a className="p-2 text-gray-500">Sign Out</a>
+          <a onClick={() => signOut()} className="p-2 text-gray-500">Sign Out</a>
         </div>
       </Menu.Items>
     </Transition>
