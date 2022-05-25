@@ -1,9 +1,9 @@
 import React from "react";
-import { Fragment, useState } from "react";
 import Sidebar from "./sidebar";
 import AccountProp from "./accountProp";
 import { MenuIcon } from "@heroicons/react/solid";
 import { Menu } from "@headlessui/react";
+import { useSession } from "next-auth/react";
 
 type headerProps = {
   open: boolean;
@@ -18,20 +18,21 @@ const header = ({
   openAccount,
   setOpenAccount,
 }: headerProps) => {
+  const session = useSession();
   return (
     <div>
       <Sidebar open={open} setOpen={setOpen} />
       <header className="relative">
-        <nav className="flex justify-between items-center p-2 lg:justify-end">
+        <nav className="flex justify-between items-center px-4 lg:justify-end">
           <button
             type="button"
-            className="-ml-2 rounded-md bg-white p-2 text-gray-400 block lg:hidden" 
+            className="-ml-2 rounded-md bg-white p-2 text-gray-400 block lg:hidden"
             onClick={() => setOpen(true)}
           >
             <MenuIcon className="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
           </button>
           <div className="bg-white flex items-center">
-            Seif Mohy
+            {session?.data?.user?.name}
             <Menu>
               <Menu.Button
                 type="button"
