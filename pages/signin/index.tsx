@@ -1,24 +1,33 @@
-import { useSession, signIn, signOut, getProviders } from "next-auth/react";
+import {
+  signIn,
+  getProviders,
+  ClientSafeProvider,
+} from "next-auth/react";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
 const SignIn = () => {
-  const [provider, setProvider] = useState<any>({});
+  const [authProviders, setAuthProviders] = useState<ClientSafeProvider[]>([]);
 
   const gitProviderList = async () => {
-    const authProviders = await getProviders();
-    setProvider(authProviders);    
-    
+    const res = await getProviders();
+
+    const data = res && Object.values(res).map((x) => x);
+    console.log({ data });
+
+    if (data) setAuthProviders(data);
   };
+
+  console.log({ authProviders });
 
   useEffect(() => {
     gitProviderList();
   }, []);
 
   return (
-    <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 ">
-      <div className="lg:col-span-1 md:col-span-1 flex items-center justify-center">
-        <div className="h-80 ">
+    <div className="grid sm:grid-cols-1 lg:grid-cols-3 ">
+      <div className="lg:col-span-1 md:col-span-1 flex items-center justify-center h-screen">
+        <div className="h-80 px-4 ">
           <div>
             <Image
               src="/images/logo.png"
@@ -35,14 +44,27 @@ const SignIn = () => {
             <span className="">Or create a new acount</span>
           </div>
           <div className="w-full mt-6">
-            <button onClick={() => signIn()} className="bg-black w-full text-white py-3 rounded-md">
-              Log in
-            </button>
+            {authProviders &&
+              authProviders.map((authProvider: any) => {
+                return (
+                  <button
+                    key={authProvider.id}
+                    onClick={() =>
+                      signIn(authProvider.id, {
+                        callbackUrl: "http://localhost:3000/dashboard",
+                      })
+                    }
+                    className="bg-black w-full mb-2 text-white py-3 rounded-md"
+                  >
+                    {authProvider.name}
+                  </button>
+                );
+              })}
           </div>
         </div>
       </div>
 
-      <div className="lg:col-span-2 md:col-span-2 relative h-[100vh]">
+      <div className="lg:col-span-2 md:col-span-2 relative h-[100vh] hidden lg:block">
         <Image
           src="/images/signin.jpg"
           alt="Picture of the author"

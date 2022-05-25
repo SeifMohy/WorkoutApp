@@ -37,7 +37,10 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
-
+enum Gender {
+  male
+  female
+}
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -46,13 +49,10 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  firstName String   @db.VarChar(25)
-  lastName String @db.VarChar(25)
-  password String  @db.VarChar(50) 
-  gender  Boolean 
-  age Int 
-  weight Int 
-  height Int 
+  gender  Gender? 
+  age Int? 
+  weight Int? 
+  height Int? 
   userLogs UserLog[] //one user with userlogs
 }
 

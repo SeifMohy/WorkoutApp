@@ -1,3 +1,6 @@
+-- CreateEnum
+CREATE TYPE "Gender" AS ENUM ('male', 'female');
+
 -- CreateTable
 CREATE TABLE "Account" (
     "id" TEXT NOT NULL,
@@ -33,13 +36,10 @@ CREATE TABLE "User" (
     "email" TEXT,
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
-    "firstName" VARCHAR(25) NOT NULL,
-    "lastName" VARCHAR(25) NOT NULL,
-    "password" VARCHAR(50) NOT NULL,
-    "gender" BOOLEAN NOT NULL,
-    "age" INTEGER NOT NULL,
-    "weight" INTEGER NOT NULL,
-    "height" INTEGER NOT NULL,
+    "gender" "Gender",
+    "age" INTEGER,
+    "weight" INTEGER,
+    "height" INTEGER,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
