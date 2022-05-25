@@ -95,17 +95,17 @@ export default async function handler(
   //     height: 12,
   //   }
   // });
-  res.status(200).json({ name: "John Doe" });
+  //res.status(200).json({ name: "John Doe" });
 }
-  const prisma = new PrismaClient();
-  await prisma.userLog.create({
-    data:{
-      weight: 10,
-      setNumber: 2,
-      reps: 3,
-      userId: 1,
-      workoutLineId: 1,
-    }
-  });
-  res.status(200).json({ name: "John Doe" });
-}
+//   const prisma = new PrismaClient();
+//   await prisma.userLog.create({
+//     data:{
+//       weight: 10,
+//       setNumber: 2,
+//       reps: 3,
+//       userId: 1,
+//       workoutLineId: 1,
+//     }
+//   });
+//   res.status(200).json({ name: "John Doe" });
+// }

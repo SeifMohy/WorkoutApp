@@ -14,6 +14,10 @@ import {
   ChartData,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
+import "chartjs-adapter-moment";
+
+import axios from "axios";
+//const fetcher = url => axios.get(url).then(res => res.data)
 
 const workoutData = [
   { date: "2022-04-11 12:35:55.268272", workout: "squat", weight: 10, sets: 3 },
@@ -30,8 +34,6 @@ ChartJS.register(
   Tooltip,
   TimeScale
 );
-import "chartjs-adapter-moment";
-import moment from "moment";
 
 export const options: ChartOptions<"line"> = {
   responsive: true,
