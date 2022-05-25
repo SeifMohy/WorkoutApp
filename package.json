@@ -11,10 +11,11 @@
   "dependencies": {
     "@headlessui/react": "^1.6.2",
     "@heroicons/react": "^1.0.6",
-    "@next-auth/prisma-adapter": "^1.0.3",
     "@kurkle/color": "^0.2.1",
+    "@next-auth/prisma-adapter": "^1.0.3",
     "@prisma/client": "^3.14.0",
     "@types/luxon": "^2.3.2",
+    "axios": "^0.27.2",
     "chart.js": "^3.7.1",
     "chartjs-adapter-luxon": "^1.1.0",
     "chartjs-adapter-moment": "^1.0.0",
