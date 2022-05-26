@@ -13,13 +13,18 @@ export default async function handler(
   res: NextApiResponse<Data | Error>
 ) {
   const prisma = new PrismaClient();
-  const userId = req.body.userId;
+  const {userId} = req.query;
 
+  console.log(userId);
+  
   if (!userId) {
     return res.status(404).json({ message: "User not Found" });
   }
 
-  const workoutLines = await prisma.userLog.findMany({ where: userId });
+  const userLogs = await prisma.userLog.findMany({ where: {userId: userId},
+    include: {workoutLine: true} });
 
-  res.status(200).json({ data: workoutLines });
+  console.log(userLogs)
+
+  res.status(200).json({ data: userLogs });
 }
