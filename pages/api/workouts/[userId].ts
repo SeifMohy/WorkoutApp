@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient, UserLog } from "@prisma/client";
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { PrismaClient, UserLog } from '@prisma/client';
 
 type Data = {
   data: UserLog[];
@@ -13,18 +13,20 @@ export default async function handler(
   res: NextApiResponse<Data | Error>
 ) {
   const prisma = new PrismaClient();
-  const {userId} = req.query;
+  const { userId } = req.query;
 
   console.log(userId);
-  
+
   if (!userId) {
-    return res.status(404).json({ message: "User not Found" });
+    return res.status(404).json({ message: 'User not Found' });
   }
 
-  const userLogs = await prisma.userLog.findMany({ where: {userId: userId},
-    include: {workoutLine: true} });
+  const userLogs = await prisma.userLog.findMany({
+    where: { userId: userId as string },
+    include: { workoutLine: true }
+  });
 
-  console.log(userLogs)
+  console.log(userLogs);
 
   res.status(200).json({ data: userLogs });
 }
