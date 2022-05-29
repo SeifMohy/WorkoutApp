@@ -1,22 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Excercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
 import _ from 'lodash';
+import { ProgressAPIResponseType } from 'types';
 
-type Data = {
-  userLogs: UserLogEnhanced[];
-};
-
-type ResponseType = _.Collection<{
-  name: string;
-  exercise: Excercise;
-  max: number;
-  data: number[];
-  labels: Date[];
-}>;
-
-type Response = {
-  data: ResponseType;
-};
 
 type UserLogEnhanced = UserLog & {
   workoutLine: WorkoutLine & {
@@ -27,9 +13,10 @@ type UserLogEnhanced = UserLog & {
 type Error = {
   message: string;
 };
+
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseType | Error>
+  res: NextApiResponse<ProgressAPIResponseType | Error>
 ) {
   const prisma = new PrismaClient();
   const { userId } = req.query;
@@ -38,9 +25,9 @@ export default async function handler(
     where: { userId: userId as string },
     include: { workoutLine: { include: { excercise: true } } }
   });
-  const exercise = await prisma.excercise.findMany();
+  const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
 
-  const groupedData = _(userLogs).groupBy(
+  const groupedData = _(sortedUserLogs).groupBy(
     (x: UserLogEnhanced) => x.workoutLine.exerciseId
   );
 
@@ -49,14 +36,14 @@ export default async function handler(
       name: value[0].workoutLine.excercise.name,
       exercise: value[0].workoutLine.excercise,
       max: Math.max(
-        ...value.map((x: any) => {
+        ...value.map((x) => {
           return x.weight * x.reps;
         })
       ),
-      data: value.map((x: any) => {
+      data: value.map((x) => {
         return x.weight * x.reps;
       }),
-      labels: value.map((x: any) => {
+      labels: value.map((x) => {
         return new Date(x.date);
       })
     };
