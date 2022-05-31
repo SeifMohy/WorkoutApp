@@ -1,4 +1,4 @@
-import { Excercise } from "@prisma/client";
+import { Excercise, Workout, WorkoutLine } from "@prisma/client";
 import { Collection } from "lodash";
 
 export type ProgressAPIResponseType = Collection<{
@@ -9,3 +9,12 @@ export type ProgressAPIResponseType = Collection<{
     labels: Date[];
   }>;
   
+  export type WorkoutLineData = {
+    data: _.Object<_.Dictionary<(WorkoutLine & {
+      excercise: Excercise;
+  })[]>>
+  };
+
+  export interface todaysWorkoutData extends WorkoutLine {
+    excercise: Excercise
+  }

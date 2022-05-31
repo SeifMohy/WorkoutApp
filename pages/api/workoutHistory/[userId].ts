@@ -5,11 +5,12 @@ import { ProgressAPIResponseType } from 'types';
 import { Collection } from "lodash";
 
 
-
-type UserLogEnhanced = UserLog & {
-  workoutLine: WorkoutLine & {
-    excercise: Excercise;
-  };
+type Data = {
+  data:  _.Object<_.Dictionary<(UserLog & {
+    workoutLine: WorkoutLine & {
+        excercise: Excercise;
+    };
+})[]>>
 };
 
 type Error = {
@@ -20,7 +21,7 @@ type Error = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ProgressAPIResponseType | Error>
+  res: NextApiResponse<Data | Error>
 ) {
   const prisma = new PrismaClient();
   const { userId } = req.query;
@@ -34,8 +35,8 @@ export default async function handler(
   console.log(sortedUserLogs)
 
   const groupedData = _(sortedUserLogs).groupBy(
-    (x: UserLogEnhanced) => x.date
+    (x) => x.date
   );
 
-  res.status(200).json(groupedData);
+  res.status(200).json({data: groupedData});
 }

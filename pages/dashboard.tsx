@@ -3,7 +3,9 @@ import Layout from '../components/layout';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import useSWR from 'swr';
-import { ProgressAPIResponseType } from 'types';
+import { ProgressAPIResponseType, todaysWorkoutData, WorkoutLineData } from 'types';
+import workouts from './api/workouts';
+import { WorkoutLine } from '@prisma/client';
 
 function choosingColor(name: string) {
   switch (name) {
@@ -17,8 +19,12 @@ function choosingColor(name: string) {
       return 'bg-red-700';
   }
 }
-const userId = '1';
+const userId = '1'; //TODO: Get user from session data
+const todaysWorkoutId = "1"; //TODO: have something that determines which workout is todays workout
 const fetchExercisesById = (url: string) =>
+  axios.get(url).then((res) => res.data);
+
+const fetchWorkout = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const dashboard = () => {
@@ -27,14 +33,21 @@ const dashboard = () => {
       `/api/progress/${userId}`,
       fetchExercisesById
     );
+    const { data: workout, error: workoutError } =
+    useSWR<WorkoutLineData>(
+      `/api/workoutLines/${todaysWorkoutId}`,
+      fetchWorkout
+    );
   const session = useSession();
 
-  console.log(logsByExercise);
+  //console.log(logsByExercise);
+  
 
-  if (!logsByExercise) {
+  if (!logsByExercise || !workout) {
     return <div>loading...</div>;
   }
-
+  console.log(Object.values(workout?.data)[0])
+  const todaysWorkout : todaysWorkoutData[] = Object.values(workout?.data)[0]
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen p-5 pt-8">
@@ -82,6 +95,36 @@ const dashboard = () => {
             })}
             </>
           </div>
+        </div>
+        <div className="text-lg m-3">Today's Workout (Workout Name)</div>
+        <div>
+          <div className="grid grid-cols-2 divide-y-2">
+            <div className="text-center">Weight</div>
+            <div className="text-center">Reps</div>
+            </div>
+            <>
+            {todaysWorkout.map((workout)=>{
+              return(
+                <div className="flex items-stretch">
+                <img
+                  className="w-14 h-14 rounded-full m-2"
+                  src={workout.excercise.videoUrl} //TODO: Add a picture
+                  alt="Rounded avatar"
+                />
+                <div className="self-center">
+                  <div className="text-xl font-bold">
+                  {workout.excercise.name}
+                  </div>
+                  {/* TODO: Fire Emoji */}
+                  <div className="text-xs font-light text-gray-600">
+                    {workout.recSets} Sets x {workout.recReps} Reps
+                  </div>
+                  {/* TODO: Endpoint for streaks */}
+                </div>
+              </div>
+              )
+            })}
+            </>
         </div>
       </div>
     </Layout>
