@@ -28,7 +28,7 @@ const browseWorkouts = () => {
             return (
               <div className="lg:h-96">
                 <img
-                  // object-fit="contain"
+                  object-fit="contain"
                   src="/images/signin.jpg"
                   alt="workout picture"
                   className="w-full h-4/5 object-fill p-3 rounded-3xl" 
