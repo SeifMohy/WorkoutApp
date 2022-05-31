@@ -1,5 +1,9 @@
-import React from 'react'
-import Layout from '../components/layout'
+import React, { useEffect, useState } from 'react';
+import Layout from '../components/layout';
+import Image from 'next/image';
+import axios from 'axios';
+import useSWR from 'swr';
+import { Workout } from '@prisma/client';
 
 const fetchWorkouts = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -22,12 +26,12 @@ const browseWorkouts = () => {
         <div className="grid lg:grid-cols-3 gap-5 mt-10 relative">
           {data.data.map((workout: Workout) => {
             return (
-              <div>
+              <div className="lg:h-96">
                 <img
-                  object-fit="contain"
+                  // object-fit="contain"
                   src="/images/signin.jpg"
                   alt="workout picture"
-                  className="w-full object-fill p-3 rounded-2xl h-80"
+                  className="w-full h-4/5 object-fill p-3 rounded-3xl" 
                 />
                 <div>{workout.name}</div>
                 <div>description</div>
