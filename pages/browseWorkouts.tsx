@@ -7,16 +7,8 @@ import { Workout } from '@prisma/client';
 
 const fetchWorkouts = (url: string) => axios.get(url).then((res) => res.data);
 
-const [screenWidth, setScreenWidth] = useState(window.innerWidth)
-
 const browseWorkouts = () => {
   const { data, error } = useSWR(`/api/workouts`, fetchWorkouts);
-
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      setScreenWidth(window.innerWidth)
-    })
-  }, [screenWidth])
 
   if (!data) {
     return <div>loading...</div>;
@@ -34,15 +26,12 @@ const browseWorkouts = () => {
         <div className="grid lg:grid-cols-3 gap-5 mt-10 relative">
           {data.data.map((workout: Workout) => {
             return (
-              <div>
-                <Image
-                  object-fit="contain"
+              <div className="lg:h-96">
+                <img
+                  // object-fit="contain"
                   src="/images/signin.jpg"
                   alt="workout picture"
-                  layout="responsive"
-                  width={80}
-                  height={80}
-                  className="w-full object-fill p-3 rounded-2xl"
+                  className="w-full h-4/5 object-fill p-3 rounded-3xl" 
                 />
                 <div>{workout.name}</div>
                 <div>description</div>
@@ -54,3 +43,5 @@ const browseWorkouts = () => {
     </Layout>
   );
 };
+
+export default browseWorkouts

@@ -33,10 +33,12 @@ model Session {
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
+
 enum Gender {
   male
   female
 }
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -61,10 +63,11 @@ model VerificationToken {
 }
 
 model Workout {
-  id         String        @id @default(cuid())
-  name       String        @db.VarChar(25)
-  imgUrl     String
-  excercises WorkoutLine[]
+  id          String        @id @default(cuid())
+  name        String        @db.VarChar(25)
+  imgUrl      String
+  description String?       @db.VarChar(100)
+  excercises  WorkoutLine[]
 }
 
 model Excercise {
