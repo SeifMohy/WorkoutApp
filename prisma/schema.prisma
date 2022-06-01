@@ -66,14 +66,15 @@ model Workout {
   id          String        @id @default(cuid())
   name        String        @db.VarChar(25)
   imgUrl      String
-  // description String?       @db.VarChar(100) //TODO: Add description to schema
+  // description String       @db.VarChar(100) //TODO: Add description to schema
   excercises  WorkoutLine[]
 }
 
-model Excercise { //TODO: Change Name
+model Excercise { //TODO: Change Name  
   id          String        @id @default(cuid())
   name        String        @db.VarChar(25)
   videoUrl    String        @db.VarChar(25)
+    //imageUrl    String //TODO: Add a picture section
   description String        @db.VarChar(250)
   workouts    WorkoutLine[]
 }

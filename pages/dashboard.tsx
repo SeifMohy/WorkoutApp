@@ -3,9 +3,11 @@ import Layout from '../components/layout';
 import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import useSWR from 'swr';
-import { ProgressAPIResponseType, todaysWorkoutData, WorkoutLineData } from 'types';
-import workouts from './api/workouts';
-import { WorkoutLine } from '@prisma/client';
+import {
+  ProgressAPIResponseType,
+  todaysWorkoutData,
+  WorkoutLineData
+} from 'types';
 
 function choosingColor(name: string) {
   switch (name) {
@@ -20,12 +22,11 @@ function choosingColor(name: string) {
   }
 }
 const userId = '1'; //TODO: Get user from session data
-const todaysWorkoutId = "1"; //TODO: have something that determines which workout is todays workout
+const todaysWorkoutId = '1'; //TODO: have something that determines which workout is todays workout
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
 
-const fetchWorkout = (url: string) =>
-  axios.get(url).then((res) => res.data);
+const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
 
 const dashboard = () => {
   const { data: logsByExercise, error: logsByExerciseError } =
@@ -33,21 +34,19 @@ const dashboard = () => {
       `/api/progress/${userId}`,
       fetchExercisesById
     );
-    const { data: workout, error: workoutError } =
-    useSWR<WorkoutLineData>(
-      `/api/workoutLines/${todaysWorkoutId}`,
-      fetchWorkout
-    );
+  const { data: workout, error: workoutError } = useSWR<WorkoutLineData>(
+    `/api/workoutLines/${todaysWorkoutId}`,
+    fetchWorkout
+  );
   const session = useSession();
 
   //console.log(logsByExercise);
-  
 
   if (!logsByExercise || !workout) {
     return <div>loading...</div>;
   }
-  console.log(Object.values(workout?.data)[0])
-  const todaysWorkout : todaysWorkoutData[] = Object.values(workout?.data)[0]
+  console.log(Object.values(workout?.data)[0]);
+  const todaysWorkout: todaysWorkoutData[] = Object.values(workout?.data)[0];
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen p-5 pt-8">
@@ -84,47 +83,70 @@ const dashboard = () => {
         <div className="text-lg m-3">Personal Records</div>
         <div className="">
           <div className="lg:grid lg:grid-cols-3 lg:gap-5 grid justify-items-stretch">
-          <>
-            {logsByExercise.map((exercise) => {
-              return (
-                <div key={exercise.name} className={`${choosingColor(exercise.name)} rounded-md p-5 w-3/4 lg:w-full my-3 justify-self-center`}>
-                  <div className="text-white text-base">{exercise.name}</div>
-                  <div className="text-white text-sm">{exercise.max} KG</div>
-                </div>
-              );
-            })}
+            <>
+              {logsByExercise.map((exercise) => {
+                return (
+                  <div
+                    key={exercise.name}
+                    className={`${choosingColor(
+                      exercise.name
+                    )} rounded-md p-5 w-3/4 lg:w-full my-3 justify-self-center`}
+                  >
+                    <div className="text-white text-base">{exercise.name}</div>
+                    <div className="text-white text-sm">{exercise.max} KG</div>
+                  </div>
+                );
+              })}
             </>
           </div>
         </div>
         <div className="text-lg m-3">Today's Workout (Workout Name)</div>
         <div>
-          <div className="grid grid-cols-2 divide-y-2">
-            <div className="text-center">Weight</div>
-            <div className="text-center">Reps</div>
-            </div>
-            <>
-            {todaysWorkout.map((workout)=>{
-              return(
-                <div className="flex items-stretch">
-                <img
-                  className="w-14 h-14 rounded-full m-2"
-                  src={workout.excercise.videoUrl} //TODO: Add a picture
-                  alt="Rounded avatar"
-                />
-                <div className="self-center">
-                  <div className="text-xl font-bold">
-                  {workout.excercise.name}
+          <>
+            {todaysWorkout.map((workout) => {
+              return (
+                <div>
+                  <div className="flex items-stretch">
+                    <img
+                      className="w-14 h-14 rounded-full m-2"
+                      src={workout.excercise.videoUrl} //TODO: Add a picture
+                      alt="Rounded avatar"
+                    />
+                    <div className="self-center">
+                      <div className="text-xl font-bold">
+                        {workout.excercise.name}
+                      </div>
+                      {/* TODO: Fire Emoji */}
+                      <div className="text-xs font-light text-gray-600">
+                        {workout.recSets} Sets x {workout.recReps} Reps
+                      </div>
+                      {/* TODO: Endpoint for streaks */}
+                    </div>
                   </div>
-                  {/* TODO: Fire Emoji */}
-                  <div className="text-xs font-light text-gray-600">
-                    {workout.recSets} Sets x {workout.recReps} Reps
+                  <div className="grid grid-cols-4">
+                    <div className="text-center">#</div>
+                    <div className="text-center">Weight</div>
+                    <div className="text-center">Reps</div>
+                    <div className="text-center accent-white">check</div>
                   </div>
-                  {/* TODO: Endpoint for streaks */}
+                  <div className="grid grid-cols-4 gap-5">
+                    <div className="text-center">1</div>
+                    <input></input>
+                    <input></input>
+                    <input type="checkbox"></input>
+                    <div className="text-center">2</div>
+                    <input></input>
+                    <input></input>
+                    <input type="checkbox"></input>
+                    <div className="text-center">3</div>
+                    <input></input>
+                    <input></input>
+                    <input type="checkbox"></input>
+                  </div>
                 </div>
-              </div>
-              )
+              );
             })}
-            </>
+          </>
         </div>
       </div>
     </Layout>
