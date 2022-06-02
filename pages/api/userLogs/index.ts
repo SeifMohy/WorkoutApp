@@ -1,6 +1,4 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { WorkoutLine, PrismaClient } from '@prisma/client';
-import { WorkoutLineData } from 'types';
 import { prisma } from '../prismaClient';
 
 type Error = {
@@ -8,7 +6,7 @@ type Error = {
 };
 
 type Data = {
-  data: [];
+  data: {};
 };
 
 export default async function handler(
@@ -18,24 +16,21 @@ export default async function handler(
   prisma;
   const { workoutLogs } = req.body;
 
-  const userId = workoutLogs.userId;
-  const workoutLineId = workoutLogs.lineId;
-
   const userLogs = workoutLogs.map((log: any,idx:number) => {
       return{
-          reps: log.reps[idx],
-          weight: log.weight[idx],
+          reps: +log.reps[idx],
+          weight: +log.weight[idx],
           userId: log.userId,
-          workoutLineId: log.workoutLineId
+          workoutLineId: log.workoutLineId,
+          setNumber: +idx+1
       }
   })
 
   console.log(userLogs);
 
-  //   const workoutLine = await prisma.workoutLine.findMany(
-  //     {where: { workoutId: todaysWorkoutId as string },
-  //   include: {excercise: true}}
-  //   )
+  const userLog = await prisma.userLog.createMany(
+    {data: userLogs}
+  )
 
-  res.status(200).json({ data: userLogs });
+  res.status(200).json({ data: userLog });
 }

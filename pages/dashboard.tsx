@@ -71,7 +71,7 @@ const dashboard = () => {
       console.log(values);
       const res = axios.put("/api/userLogs", values);
       const data = await res;
-      console.log("userLogs", data);
+      console.log("userLogs", data); //TODO: Reset Form
     }
   });
 
@@ -177,8 +177,8 @@ const dashboard = () => {
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
                         ></input>
-                        <input type="checkbox"></input>
-                      </div>
+                        <input type="checkbox"></input> 
+                      </div>//TODO: make check button work and filter if not checked
                     )
                   )}
                   <button
@@ -189,9 +189,9 @@ const dashboard = () => {
                       formik.handleSubmit();
                     }}
                   >
-                    Submit
+                    Submit 
                   </button>
-                </div>
+                </div>//TODO: make 1 submit button
               );
             })}
           </>
