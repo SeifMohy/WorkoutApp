@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { WorkoutLine, PrismaClient } from '@prisma/client';
 import { WorkoutLineData } from 'types';
+import { prisma } from '../prismaClient';
 
 type Error = {
   message: string;
@@ -14,8 +15,20 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Error | Data>
 ) {
-  const prisma = new PrismaClient();
-  const { userLogs } = req.body;
+  prisma;
+  const { workoutLogs } = req.body;
+
+  const userId = workoutLogs.userId;
+  const workoutLineId = workoutLogs.lineId;
+
+  const userLogs = workoutLogs.map((log: any,idx:number) => {
+      return{
+          reps: log.reps[idx],
+          weight: log.weight[idx],
+          userId: log.userId,
+          workoutLineId: log.workoutLineId
+      }
+  })
 
   console.log(userLogs);
 

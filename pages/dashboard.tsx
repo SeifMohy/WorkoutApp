@@ -49,17 +49,13 @@ const dashboard = () => {
   );
   const session = useSession();
 
-  console.log(workout);
+  //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
   )[0];
   const initialValues = {
     workoutLogs: todaysWorkout?.map((workoutLine) => {
       return {
-        // weight: 0,
-        // reps: 0,
-        // workoutLineId: workoutLine.id,
-        // userId: '1'
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
@@ -82,7 +78,7 @@ const dashboard = () => {
   if (!logsByExercise || !workout || !todaysWorkout) {
     return <div>loading...</div>;
   }
-  console.log({ initialValues });
+  //console.log({ initialValues });
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen p-5 pt-8">
@@ -141,7 +137,7 @@ const dashboard = () => {
           <>
             {todaysWorkout.map((workout, workoutIndex) => {
               return (
-                <div>
+                <div key={workoutIndex}>
                   <div className="flex items-stretch">
                     <img
                       className="w-14 h-14 rounded-full m-2"
@@ -167,7 +163,7 @@ const dashboard = () => {
                   </div>
                   {Array.from(Array(workout.recSets)).map(
                     (_, exerciseSetIndex) => (
-                      <div className="grid grid-cols-4 gap-5">
+                      <div key={exerciseSetIndex} className="grid grid-cols-4 gap-5">
                         <div className="text-center">
                           {exerciseSetIndex + 1}
                         </div>
@@ -177,7 +173,7 @@ const dashboard = () => {
                           onChange={formik.handleChange}
                         ></input>
                         <input
-                          name={`workoutLogs[${workoutIndex}].exercise[${exerciseSetIndex}]`}
+                          name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
                         ></input>

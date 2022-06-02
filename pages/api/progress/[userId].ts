@@ -50,7 +50,7 @@ export default async function handler(
     };
   });
 
-  console.log(groupedDataClean);
+  //console.log(groupedDataClean);
 
   res.status(200).json(groupedDataClean);
 }
