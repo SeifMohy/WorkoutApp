@@ -24,11 +24,11 @@ function choosingColor(name: string) {
   }
 }
 type WorkoutLine = {
-  weight: any[],
-  reps: any[],
-  workoutLineId: String,
-  userId: String
-}
+  weight: any[];
+  reps: any[];
+  workoutLineId: String;
+  userId: String;
+};
 const userId = '1'; //TODO: Get user from session data
 const todaysWorkoutId = '1'; //TODO: have something that determines which workout is todays workout
 
@@ -54,27 +54,18 @@ const dashboard = () => {
     workout?.data || []
   )[0];
   const initialValues = {
-    workoutLogs: todaysWorkout
-      ? todaysWorkout.map((workoutLine) => {
-          return {
-            // weight: 0,
-            // reps: 0,
-            // workoutLineId: workoutLine.id,
-            // userId: '1'
-            weight: Array.from(Array(workoutLine.recSets)), 
-            reps: Array.from(Array(workoutLine.recSets)),
-            workoutLineId: workoutLine.id,
-            userId: '1'
-          };
-        })
-      : {
-          workoutLogs: {
-            weight: [0, 0, 0],
-            reps: [0, 0, 0],
-            workoutLineId: '0',
-            userId: '1'
-          }
-        }
+    workoutLogs: todaysWorkout?.map((workoutLine) => {
+      return {
+        // weight: 0,
+        // reps: 0,
+        // workoutLineId: workoutLine.id,
+        // userId: '1'
+        weight: Array.from(Array(workoutLine.recSets)),
+        reps: Array.from(Array(workoutLine.recSets)),
+        workoutLineId: workoutLine.id,
+        userId: '1'
+      };
+    })
   };
 
   const formik = useFormik({
@@ -82,9 +73,9 @@ const dashboard = () => {
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
-      // const res = axios.put("/api/user", values);
-      // const data = await res;
-      // console.log("data", data);
+      const res = axios.put("/api/userLogs", values);
+      const data = await res;
+      console.log("userLogs", data);
     }
   });
 
@@ -184,21 +175,11 @@ const dashboard = () => {
                           name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
                           placeholder={`${workout.recWeight}`}
                           onChange={formik.handleChange}
-                          value={
-                      
-                            formik.values.workoutLogs
-                            
-                          }
                         ></input>
                         <input
-                          name="reps[0]"
+                          name={`workoutLogs[${workoutIndex}].exercise[${exerciseSetIndex}]`}
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
-                          // value={
-                          //   formik.values.workoutLogs[workoutIndex].reps[
-                          //     exerciseSetIndex
-                          //   ]
-                          // }
                         ></input>
                         <input type="checkbox"></input>
                       </div>

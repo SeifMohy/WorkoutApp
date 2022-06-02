@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { Excercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
 import _ from 'lodash';
 import { ProgressAPIResponseType } from 'types';
+import {prisma} from "../prismaClient"
 
 
 type UserLogEnhanced = UserLog & {
@@ -18,7 +19,7 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ProgressAPIResponseType | Error>
 ) {
-  const prisma = new PrismaClient();
+   prisma 
   const { userId } = req.query;
 
   const userLogs = await prisma.userLog.findMany({
