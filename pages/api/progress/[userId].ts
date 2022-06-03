@@ -32,17 +32,17 @@ export default async function handler(
     (x: UserLogEnhanced) => x.workoutLine.exerciseId
   );
 
-  const groupedDataClean = groupedData.map((value, key) => {
+  const groupedDataClean = groupedData.map((value) => {
     return {
       name: value[0].workoutLine.excercise.name,
       exercise: value[0].workoutLine.excercise,
       max: Math.max(
         ...value.map((x) => {
-          return x.weight * x.reps;
+          return x.weight;
         })
       ),
       data: value.map((x) => {
-        return x.weight * x.reps;
+        return x.weight;
       }),
       labels: value.map((x) => {
         return new Date(x.date);
@@ -50,6 +50,7 @@ export default async function handler(
     };
   });
 
+  
   //console.log(groupedDataClean);
 
   res.status(200).json(groupedDataClean);

@@ -10,6 +10,7 @@ import {
 } from 'types';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import Link from 'next/link';
 
 function choosingColor(name: string) {
   switch (name) {
@@ -69,12 +70,12 @@ const dashboard = () => {
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
-      const res = axios.put("/api/userLogs", values);
+      const res = axios.put('/api/userLogs', values);
       const data = await res;
-      console.log("userLogs", data); //TODO: Reset Form
+      console.log('userLogs', data); //TODO: Reset Form
     }
   });
-
+console.log(todaysWorkout)
   if (!logsByExercise || !workout || !todaysWorkout) {
     return <div>loading...</div>;
   }
@@ -103,12 +104,16 @@ const dashboard = () => {
           </div>
           <div className="flex m-3 justify-between">
             {/* TODO: add white below buttons on small screen */}
-            <button className="md:mx-4 px-2 text-sm border border-gray-600 rounded-md h-10 self-center">
-              Browse Workouts
-            </button>
-            <button className="px-2 text-sm rounded-md text-white bg-black h-10 self-center">
-              Start Todays Workout
-            </button>
+            <Link href="/browseWorkouts" className="flex items-stretch">
+              <a className="md:mx-4 px-2 text-sm border border-gray-600 rounded-md p-2 self-center">
+                Browse Workouts
+              </a>
+            </Link>
+            <Link href="#workoutTitle">
+              <a className="px-2 text-sm rounded-md text-white bg-black p-2 self-center">
+                Start Todays Workout
+              </a>
+            </Link>
           </div>
         </div>
         {/* Personal Records */}
@@ -132,7 +137,9 @@ const dashboard = () => {
             </>
           </div>
         </div>
-        <div className="text-lg m-3">Today's Workout (Workout Name)</div>
+        <div id="workoutTitle" className="text-lg m-3">
+          Today's Workout ({todaysWorkout[0].workoutId})
+        </div>
         <div>
           <>
             {todaysWorkout.map((workout, workoutIndex) => {
@@ -163,7 +170,10 @@ const dashboard = () => {
                   </div>
                   {Array.from(Array(workout.recSets)).map(
                     (_, exerciseSetIndex) => (
-                      <div key={exerciseSetIndex} className="grid grid-cols-4 gap-5">
+                      <div
+                        key={exerciseSetIndex}
+                        className="grid grid-cols-4 gap-5"
+                      >
                         <div className="text-center">
                           {exerciseSetIndex + 1}
                         </div>
@@ -177,8 +187,8 @@ const dashboard = () => {
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
                         ></input>
-                        <input type="checkbox"></input> 
-                      </div>//TODO: make check button work and filter if not checked
+                        <input type="checkbox"></input>
+                      </div> //TODO: make check button work and filter if not checked
                     )
                   )}
                   <button
@@ -189,9 +199,9 @@ const dashboard = () => {
                       formik.handleSubmit();
                     }}
                   >
-                    Submit 
+                    Submit
                   </button>
-                </div>//TODO: make 1 submit button
+                </div> //TODO: make 1 submit button
               );
             })}
           </>

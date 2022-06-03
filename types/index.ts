@@ -12,6 +12,7 @@ export type ProgressAPIResponseType = Collection<{
   export type WorkoutLineData = {
     data: _.Object<_.Dictionary<(WorkoutLine & {
       excercise: Excercise;
+      workout: Workout;
   })[]>>
   };
 
