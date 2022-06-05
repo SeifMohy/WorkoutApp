@@ -30,7 +30,7 @@ type WorkoutLine = {
   workoutLineId: String;
   userId: String;
 };
-const userId = '1'; //TODO: Get user from session data
+
 const todaysWorkoutId = '1'; //TODO: have something that determines which workout is todays workout
 
 const fetchExercisesById = (url: string) =>
@@ -39,17 +39,17 @@ const fetchExercisesById = (url: string) =>
 const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
 
 const dashboard = () => {
+  const session = useSession();
+  const userEmail = session.data?.user?.email;
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(
-      `/api/progress/${userId}`,
+      `/api/progress/${userEmail}`,
       fetchExercisesById
     );
   const { data: workout, error: workoutError } = useSWR<WorkoutLineData>(
     `/api/workoutLines/${todaysWorkoutId}`,
     fetchWorkout
   );
-  const session = useSession();
-
   //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
@@ -61,7 +61,7 @@ const dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
-        userId: '1'
+        userId: '1' //TODO: Get user from session data
       };
     })
   };
@@ -80,7 +80,7 @@ const dashboard = () => {
   if (!logsByExercise || !workout || !todaysWorkout) {
     return <div>loading...</div>;
   }
-  //console.log({ initialValues });
+  console.log({ logsByExercise });
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen p-5 pt-8">
@@ -149,7 +149,7 @@ const dashboard = () => {
                   <div className="flex items-stretch">
                     <img
                       className="w-14 h-14 rounded-full m-2"
-                      src={workout.exercise.videoUrl} //TODO: Add a picture
+                      src={workout.exercise.imageUrl} //TODO: Add a picture
                       alt="Rounded avatar"
                     />
                     <div className="self-center">
@@ -192,19 +192,19 @@ const dashboard = () => {
                       </div> //TODO: make check button work and filter if not checked
                     )
                   )}
-                  <button
-                    type="submit"
-                    className="text-white  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-gray-700"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      formik.handleSubmit();
-                    }}
-                  >
-                    Submit
-                  </button>
                 </div> //TODO: make 1 submit button
               );
             })}
+            <button
+              type="submit"
+              className="text-white  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-gray-700"
+              onClick={(e) => {
+                e.preventDefault();
+                formik.handleSubmit();
+              }}
+            >
+              Submit
+            </button>
           </>
         </div>
       </div>

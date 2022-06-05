@@ -1,9 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Exercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
+import { Exercise, User, UserLog, WorkoutLine } from '@prisma/client';
 import _ from 'lodash';
 import { ProgressAPIResponseType } from 'types';
-import {prisma} from "../prismaClient"
-
+import { prisma } from '../prismaClient';
 
 type UserLogEnhanced = UserLog & {
   workoutLine: WorkoutLine & {
@@ -19,11 +18,16 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ProgressAPIResponseType | Error>
 ) {
-   prisma 
-  const { userId } = req.query;
+  prisma;
+  const { userEmail } = req.query;
+
+  const user = await prisma.user.findMany({
+    where: { email: userEmail as string }
+  });
+  console.log(user);
 
   const userLogs = await prisma.userLog.findMany({
-    where: { userId: userId as string },
+    where: { userId: user.id as string },
     include: { workoutLine: { include: { exercise: true } } }
   });
   const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
@@ -49,9 +53,6 @@ export default async function handler(
       })
     };
   });
-
-  
-  //console.log(groupedDataClean);
 
   res.status(200).json(groupedDataClean);
 }
