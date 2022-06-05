@@ -1,0 +1,105 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum Gender {
+  male
+  female
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+  gender        Gender?
+  age           Int?
+  weight        Int?
+  height        Int? //user steak
+  accounts      Account[]
+  sessions      Session[]
+  userLogs      UserLog[]
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Workout {
+  id          String        @id @default(cuid())
+  name        String        @db.VarChar(25)
+  imgUrl      String
+  description String       @db.VarChar(100) //TODO: Add description to schema
+  exercises  WorkoutLine[]
+}
+
+model Exercise { //TODO: Change Name  
+  id          String        @id @default(cuid())
+  name        String        @db.VarChar(25)
+  videoUrl    String        @db.VarChar(25)
+  imageUrl    String //TODO: Add a picture section
+  description String        @db.VarChar(250)
+  workouts    WorkoutLine[]
+}
+
+model WorkoutLine {
+  id         String    @id @default(cuid())
+  recWeight  Int
+  recSets    Int
+  recReps    Int
+  steps      Int
+  exerciseId String
+  workoutId  String
+  exercise  Exercise @relation(fields: [exerciseId], references: [id])
+  workout    Workout   @relation(fields: [workoutId], references: [id])
+  userLogs   UserLog[] //one workout to many user logs
+}
+
+model UserLog {
+  id            String      @id @default(cuid())
+  weight        Int
+  reps          Int
+  setNumber     Int
+  date          DateTime    @default(now())
+  userId        String
+  workoutLineId String
+  user          User        @relation(fields: [userId], references: [id])
+  workoutLine   WorkoutLine @relation(fields: [workoutLineId], references: [id])
+}
