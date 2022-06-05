@@ -54,6 +54,7 @@ const dashboard = () => {
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
   )[0];
+
   const initialValues = {
     workoutLogs: todaysWorkout?.map((workoutLine) => {
       return {
@@ -75,7 +76,7 @@ const dashboard = () => {
       console.log('userLogs', data); //TODO: Reset Form
     }
   });
-console.log(todaysWorkout)
+  console.log(todaysWorkout);
   if (!logsByExercise || !workout || !todaysWorkout) {
     return <div>loading...</div>;
   }
@@ -138,7 +139,7 @@ console.log(todaysWorkout)
           </div>
         </div>
         <div id="workoutTitle" className="text-lg m-3">
-          Today's Workout ({todaysWorkout[0].workoutId})
+          Today's Workout ()
         </div>
         <div>
           <>

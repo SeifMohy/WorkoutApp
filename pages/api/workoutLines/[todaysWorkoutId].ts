@@ -4,12 +4,10 @@ import _ from 'lodash';
 import { WorkoutLineData } from "types";
 import {prisma} from "../prismaClient"
 
-
 type Error = {
   message: string;
 };
 
-  
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<WorkoutLineData | Error>
@@ -19,7 +17,7 @@ export default async function handler(
 
   const workoutLine = await prisma.workoutLine.findMany(
     {where: { workoutId: todaysWorkoutId as string },
-  include: {excercise: true, workout: true}}
+  include: {excercise: true}}
   )
 
   const workout = _(workoutLine).groupBy(
