@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { Excercise, PrismaClient } from "@prisma/client";
+import { Exercise, PrismaClient } from "@prisma/client";
 import {prisma} from "../prismaClient"
 
 type Data = {
-  data: Excercise[] 
+  data: Exercise[] 
   //| WorkoutDelegate<RejectOnNotFound | RejectPerOperation | undefined>;
 };
 
@@ -17,7 +17,7 @@ export default async function handler(
   
   prisma 
 
-  const exercise = await prisma.excercise.findMany()
+  const exercise = await prisma.exercise.findMany()
 
   console.log(exercise)
 
