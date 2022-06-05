@@ -26,8 +26,9 @@ export default async (
        prisma 
       const userEmail = session?.user?.email;
       const user = await prisma.user.findUnique({
-        where: { email: userEmail! }
+        where: { email: userEmail! },
       });
+      console.log(user)
       if (!user) {
         return res.status(400).json({ msg: 'no user' });
       }
