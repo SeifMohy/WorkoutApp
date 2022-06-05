@@ -11,6 +11,7 @@ import {
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
+import { CircularProgress } from '@mui/material';
 
 function choosingColor(name: string) {
   switch (name) {
@@ -78,7 +79,11 @@ const dashboard = () => {
   });
   console.log(todaysWorkout);
   if (!logsByExercise || !workout || !todaysWorkout) {
-    return <div>loading...</div>;
+    return (
+      <div className='flex justify-center items-center w-full h-[100vh]'>
+          <CircularProgress color="inherit" className='w-[12rem]'/>
+    </div> 
+  ) 
   }
   console.log({ logsByExercise });
   return (
