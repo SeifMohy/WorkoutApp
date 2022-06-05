@@ -1,95 +1,25 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { StaticDatePicker } from '@mui/x-date-pickers/StaticDatePicker';
-import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import endOfWeek from 'date-fns/endOfWeek';
-import isSameDay from 'date-fns/isSameDay';
-import isWithinInterval from 'date-fns/isWithinInterval';
-import startOfWeek from 'date-fns/startOfWeek';
-import moment from 'moment';
+import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
 
-type CustomPickerDayProps = PickersDayProps<Date> & {
-  dayIsBetween: boolean;
-  isFirstDay: boolean;
-  isLastDay: boolean;
-};
+import Grid from '@mui/material/Grid';
 
-const CustomPickersDay = styled(PickersDay, {
-  shouldForwardProp: (prop) =>
-    prop !== 'dayIsBetween' && prop !== 'isFirstDay' && prop !== 'isLastDay',
-})<CustomPickerDayProps>(({ theme, dayIsBetween, isFirstDay, isLastDay }) => ({
-  ...(dayIsBetween && {
-    borderRadius: 0,
-    backgroundColor: theme.palette.primary.main,
-    color: theme.palette.common.white,
-    '&:hover, &:focus': {
-      backgroundColor: theme.palette.primary.dark,
-    },
-  }),
-  ...(isFirstDay && {
-    borderTopLeftRadius: '50%',
-    borderBottomLeftRadius: '50%',
-  }),
-  ...(isLastDay && {
-    borderTopRightRadius: '50%',
-    borderBottomRightRadius: '50%',
-  }),
-})) as React.ComponentType<CustomPickerDayProps>;
+const minDate = new Date('2020-01-01T00:00:00.000');
+const maxDate = new Date('2034-01-01T00:00:00.000');
 
-export default function CustomDay( {getMyDate}) {
-  const [value, setValue] = React.useState<Date | null>(new Date());
-
-  let myDate = moment(value).format("MMM D YYYY");
-
-  React.useEffect(() => {
-    getMyDate(myDate)
-  },[value])
-
-  // console.log(myDate)
-
-  const renderWeekPickerDay = (
-    date: Date,
-    selectedDates: Array<Date | null>,
-    pickersDayProps: PickersDayProps<Date>,
-  ) => {
-    if (!value) {
-      return <PickersDay {...pickersDayProps} />;
-    }
-
-    const start = startOfWeek(value);
-    const end = endOfWeek(value);
-
-    const dayIsBetween = isWithinInterval(date, { start, end });
-    const isFirstDay = isSameDay(date, start);
-    const isLastDay = isSameDay(date, end);
-
-    return (
-      <CustomPickersDay
-        {...pickersDayProps}
-        disableMargin
-        dayIsBetween={dayIsBetween}
-        isFirstDay={isFirstDay}
-        isLastDay={isLastDay}
-      />
-    );
-  };
+export default function CalenderComp() {
+  const [date, setDate] = React.useState<Date | null>(new Date());
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <StaticDatePicker
-        displayStaticWrapperAs="desktop"
-        label="Week picker"
-        value={value}
-        onChange={(newValue) => {
-          setValue(newValue);
-        }}
-        renderDay={renderWeekPickerDay}
-        renderInput={(params) => <TextField {...params} />}
-        inputFormat="'Week of' MMM d"
-      />
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={6}>
+          <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)}  />
+        </Grid>
+       
+       
+      </Grid>
     </LocalizationProvider>
   );
 }

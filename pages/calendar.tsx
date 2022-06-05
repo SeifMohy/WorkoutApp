@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout";
-import CustomDay from "../components/calendarComponent";
+import CalenderComp from "../components/calendarComponent";
 import Image from "next/image";
 import axios from "axios";
 
 const calendar = () => {
   const [myDate, setMyDate] = useState("");
 
-  const getMyDate = (myDate: string) => {
-    setMyDate(myDate);
-  };
+
 
   const workOutData = async () => {
     const res = await axios.get('/api/workouthistory/1')
@@ -66,7 +64,7 @@ const calendar = () => {
             </div>
           </div>
           <div className="">
-            <CustomDay getMyDate={getMyDate} />
+          <CalenderComp  />
           </div>
         </div>
       </div>
