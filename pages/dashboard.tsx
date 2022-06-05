@@ -149,12 +149,12 @@ const dashboard = () => {
                   <div className="flex items-stretch">
                     <img
                       className="w-14 h-14 rounded-full m-2"
-                      src={workout.excercise.videoUrl} //TODO: Add a picture
+                      src={workout.exercise.videoUrl} //TODO: Add a picture
                       alt="Rounded avatar"
                     />
                     <div className="self-center">
                       <div className="text-xl font-bold">
-                        {workout.excercise.name}
+                        {workout.exercise.name}
                       </div>
                       {/* TODO: Fire Emoji */}
                       <div className="text-xs font-light text-gray-600">

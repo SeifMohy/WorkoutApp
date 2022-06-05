@@ -48,7 +48,7 @@ type Data = {
 //   res: NextApiResponse<Data>
 // ) {
 //   const prisma = new PrismaClient();
-//   await prisma.excercise.create({
+//   await prisma.exercise.create({
 //     data:{
 //       name: "Squat",
 //       videoUrl: "Video of Squats",

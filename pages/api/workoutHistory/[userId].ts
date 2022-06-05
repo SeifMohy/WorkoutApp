@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Excercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
+import { Exercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
 import _ from 'lodash';
 import { ProgressAPIResponseType } from 'types';
 import { Collection } from "lodash";
@@ -9,7 +9,7 @@ import {prisma} from "../prismaClient"
 type Data = {
   data:  _.Object<_.Dictionary<(UserLog & {
     workoutLine: WorkoutLine & {
-        excercise: Excercise;
+        exercise: Exercise;
     };
 })[]>>
 };
@@ -29,7 +29,7 @@ export default async function handler(
 
   const userLogs = await prisma.userLog.findMany({
     where: { userId: userId as string },
-    include: { workoutLine: { include: { excercise: true } } }
+    include: { workoutLine: { include: { exercise: true } } }
   });
   const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
 

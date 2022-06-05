@@ -48,7 +48,7 @@ model User {
   gender        Gender?
   age           Int?
   weight        Int?
-  height        Int?
+  height        Int? //user steak
   accounts      Account[]
   sessions      Session[]
   userLogs      UserLog[]
@@ -67,7 +67,7 @@ model Workout {
   name        String        @db.VarChar(25)
   imgUrl      String
   description String       @db.VarChar(100) //TODO: Add description to schema
-  excercises  WorkoutLine[]
+  exercises  WorkoutLine[]
 }
 
 model Exercise { //TODO: Change Name  
@@ -87,7 +87,7 @@ model WorkoutLine {
   steps      Int
   exerciseId String
   workoutId  String
-  excercise  Exercise @relation(fields: [exerciseId], references: [id])
+  exercise  Exercise @relation(fields: [exerciseId], references: [id])
   workout    Workout   @relation(fields: [workoutId], references: [id])
   userLogs   UserLog[] //one workout to many user logs
 }
