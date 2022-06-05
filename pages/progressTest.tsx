@@ -18,6 +18,7 @@ import axios from 'axios';
 import useSWR from 'swr';
 import { Exercise } from '@prisma/client';
 import { ProgressAPIResponseType } from 'types';
+import { CircularProgress } from '@mui/material';
 
 ChartJS.register(
   CategoryScale,
@@ -111,7 +112,11 @@ const progressTest = () => {
 
   console.log(logsByExercise);
   if (!logsByExercise) {
-    return <div>loading...</div>;
+    return (
+      <div className='flex justify-center items-center w-full h-[100vh]'>
+          <CircularProgress color="inherit" className='w-[12rem]'/>
+    </div> 
+  ) 
   }
 
   return (
