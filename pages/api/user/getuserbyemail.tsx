@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { PrismaClient, User } from '@prisma/client';
 import { getSession } from 'next-auth/react';
+import {prisma} from "../prismaClient"
 
 type Data = {
   user: User;
@@ -22,7 +23,7 @@ export default async (
   if (session) {
     // Signed in
     try {
-      const prisma = new PrismaClient();
+       prisma 
       const userEmail = session?.user?.email;
       const user = await prisma.user.findUnique({
         where: { email: userEmail! }

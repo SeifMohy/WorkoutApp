@@ -3,13 +3,15 @@ import { Excercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
 import _ from 'lodash';
 import { ProgressAPIResponseType } from 'types';
 import { Collection } from "lodash";
+import {prisma} from "../prismaClient"
 
 
-
-type UserLogEnhanced = UserLog & {
-  workoutLine: WorkoutLine & {
-    excercise: Excercise;
-  };
+type Data = {
+  data:  _.Object<_.Dictionary<(UserLog & {
+    workoutLine: WorkoutLine & {
+        excercise: Excercise;
+    };
+})[]>>
 };
 
 type Error = {
@@ -20,9 +22,9 @@ type Error = {
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ProgressAPIResponseType | Error>
+  res: NextApiResponse<Data | Error>
 ) {
-  const prisma = new PrismaClient();
+  prisma 
   const { userId } = req.query;
 
   const userLogs = await prisma.userLog.findMany({
@@ -34,8 +36,8 @@ export default async function handler(
   console.log(sortedUserLogs)
 
   const groupedData = _(sortedUserLogs).groupBy(
-    (x: UserLogEnhanced) => x.date
+    (x) => x.date
   );
 
-  res.status(200).json(groupedData);
+  res.status(200).json({data: groupedData});
 }

@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Excercise, PrismaClient } from "@prisma/client";
+import {prisma} from "../prismaClient"
 
 type Data = {
   data: Excercise[] 
@@ -13,7 +14,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data | Error>
 ) {
-  const prisma = new PrismaClient();
+  
+  prisma 
 
   const exercise = await prisma.excercise.findMany()
 

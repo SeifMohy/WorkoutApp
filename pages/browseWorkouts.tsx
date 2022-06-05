@@ -26,7 +26,7 @@ const browseWorkouts = () => {
         <div className="grid lg:grid-cols-3 gap-5 mt-10 relative">
           {data.data.map((workout: Workout) => {
             return (
-              <div className="lg:h-96">
+              <div key={workout.id} className="lg:h-96">
                 <img
                   object-fit="contain"
                   src="/images/signin.jpg"

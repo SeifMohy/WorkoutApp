@@ -2,6 +2,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
 import { getSession } from "next-auth/react";
+import {prisma} from "../prismaClient"
+
 
 type Data = {
   name: string;
@@ -13,7 +15,7 @@ export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     // Signed in
 
     try {
-      const prisma = new PrismaClient();
+      prisma 
       const userEmail = session?.user?.email;
       const { weight, height, age, gender } = req.body;
       const updateUserInfo = await prisma.user.updateMany({
