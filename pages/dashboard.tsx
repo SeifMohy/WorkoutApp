@@ -97,8 +97,11 @@ const dashboard = () => {
                 Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, '')}
               </div>
               {/* TODO: Fire Emoji */}
+              <div className="flex">
+                <p className="text-xs font-light mx-1">&#128293;</p>
               <div className="text-xs font-light text-gray-600">
                 10 Day Streak
+              </div>
               </div>
               {/* TODO: Endpoint for streaks */}
             </div>
@@ -118,7 +121,10 @@ const dashboard = () => {
           </div>
         </div>
         {/* Personal Records */}
-        <div className="text-lg m-3">Personal Records</div>
+        <div className="flex">
+          <p className="text-lg my-3">&#127942;</p>
+        <div className="text-lg my-3 mx-1">Personal Records</div>
+        </div>
         <div className="">
           <div className="lg:grid lg:grid-cols-3 lg:gap-5 grid justify-items-stretch">
             <>
