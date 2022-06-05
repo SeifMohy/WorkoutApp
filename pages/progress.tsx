@@ -16,7 +16,7 @@ import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-moment';
 import axios from 'axios';
 import useSWR from 'swr';
-import { Exercise } from '@prisma/client';
+import { Excercise } from '@prisma/client';
 import { ProgressAPIResponseType } from 'types';
 
 ChartJS.register(

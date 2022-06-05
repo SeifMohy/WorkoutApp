@@ -21,13 +21,13 @@ export default async function handler(
   prisma;
   const { userEmail } = req.query;
 
-  const user = await prisma.user.findMany({
+  const user = await prisma.user.findUnique({
     where: { email: userEmail as string }
   });
   console.log(user);
 
   const userLogs = await prisma.userLog.findMany({
-    where: { userId: user.id as string },
+    where: { userId: user?.id as string },
     include: { workoutLine: { include: { exercise: true } } }
   });
   const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
