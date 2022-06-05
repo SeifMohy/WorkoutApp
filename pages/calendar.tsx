@@ -1,10 +1,77 @@
-import React from 'react'
-import Layout from '../components/layout'
+import React, { useEffect, useState } from "react";
+import Layout from "../components/layout";
+import CustomDay from "../components/calendarComponent";
+import Image from "next/image";
+import axios from "axios";
 
 const calendar = () => {
-  return (
-    <Layout><div className="bg-gray-100 min-h-screen">calendar</div></Layout>
-  )
-}
+  const [myDate, setMyDate] = useState("");
 
-export default calendar
+  const getMyDate = (myDate: string) => {
+    setMyDate(myDate);
+  };
+
+  const workOutData = async () => {
+    const res = await axios.get('/api/workouthistory/1')
+    const data = await res.data
+    console.log(data["Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)"])
+  }
+
+  useEffect(() => {
+    workOutData()
+  },[])
+
+  return (
+    <Layout>
+      <div className="bg-gray-100 min-h-screen">
+        <div className="grid gap-20 py-16 sm:grid-cols-1 lg:grid-cols-2 md:px-32 px-0">
+          <div>
+            <div className="grid sm:grid-cols-1 lg:grid-cols-2 py-8 md:px-8 px-0 bg-white rounded-md">
+              <div>
+                <h1>Workout history</h1>
+                <span className="block text-xs text-gray-400">Cardio Day</span>
+              </div>
+              <div>
+                <h1>Date</h1>
+                <span className="block text-xs text-gray-400">{myDate}</span>
+              </div>
+            </div>
+            <div className="bg-white my-8 flex rounded-l-3xl">
+              <div className="rounded-l-3xl cardImage">
+                <Image
+                  className="rounded-l-3xl"
+                  src="/images/signin.jpg"
+                  alt="Picture of the author"
+                  width={150}
+                  height={200}
+                  objectFit="cover"
+                />
+              </div>
+              <div className="pt-4 pl-8">
+                <p>jumping jacks</p>
+                <span className="block text-xs text-gray-400">
+                  10 reps . 20kg
+                </span>
+                <span className="block text-xs text-gray-400">
+                  10 reps . 20kg
+                </span>
+                <span className="block text-xs text-gray-400">
+                  10 reps . 20kg
+                </span>
+                <span className="block text-xs text-gray-400">
+                  10 reps . 20kg
+                </span>
+                <p>View Exercise</p>
+              </div>
+            </div>
+          </div>
+          <div className="">
+            <CustomDay getMyDate={getMyDate} />
+          </div>
+        </div>
+      </div>
+    </Layout>
+  );
+};
+
+export default calendar;
