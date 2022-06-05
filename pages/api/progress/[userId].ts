@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Excercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
+import { Exercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
 import _ from 'lodash';
 import { ProgressAPIResponseType } from 'types';
 import {prisma} from "../prismaClient"
@@ -7,7 +7,7 @@ import {prisma} from "../prismaClient"
 
 type UserLogEnhanced = UserLog & {
   workoutLine: WorkoutLine & {
-    excercise: Excercise;
+    exercise: Exercise;
   };
 };
 
@@ -24,7 +24,7 @@ export default async function handler(
 
   const userLogs = await prisma.userLog.findMany({
     where: { userId: userId as string },
-    include: { workoutLine: { include: { excercise: true } } }
+    include: { workoutLine: { include: { exercise: true } } }
   });
   const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
 
@@ -34,8 +34,8 @@ export default async function handler(
 
   const groupedDataClean = groupedData.map((value) => {
     return {
-      name: value[0].workoutLine.excercise.name,
-      exercise: value[0].workoutLine.excercise,
+      name: value[0].workoutLine.exercise.name,
+      exercise: value[0].workoutLine.exercise,
       max: Math.max(
         ...value.map((x) => {
           return x.weight;

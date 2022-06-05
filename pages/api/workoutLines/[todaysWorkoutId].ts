@@ -17,7 +17,7 @@ export default async function handler(
 
   const workoutLine = await prisma.workoutLine.findMany(
     {where: { workoutId: todaysWorkoutId as string },
-  include: {excercise: true}}
+  include: {exercise: true}}
   )
 
   const workout = _(workoutLine).groupBy(
