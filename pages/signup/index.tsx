@@ -40,11 +40,12 @@ const Signup = () => {
       const res = axios.put("/api/user", values);
       const data = await res;
       console.log("data", data);
+      router.push("/dashboard")
       // const res = await fetch("/api/user", {
       //   method: "POST",
       //   body:  JSON.stringify(values),
       // });
-      // resetForm();
+      resetForm();
     },
     validationSchema: Yup.object({
       age: Yup.number().required("this input is required"),
