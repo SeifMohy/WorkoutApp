@@ -5,26 +5,27 @@ import * as Yup from "yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { User } from "@prisma/client";
 
 const Signup = () => {
   const router = useRouter();
 
-  const [userAge, setUserAge] = useState({});
+  const [fullUser, setFullUser] = useState<User | null>();
   const session = useSession();
 
   const email = session?.data?.user?.email;
 
   const getUser = async () => {
-    const res = await axios.get("/api/user/getuserbyemail", { email: email });
+    const res = await axios.get("/api/user/getUserByemail");
     const data = res.data.user;
-    setUserAge(data);
+    setFullUser(data);
   };
 
   useEffect(() => {
     getUser();
   }, []);
 
-  if (userAge.age) {
+  if (fullUser?.age) {
     router.push("/dashboard");
   }
 
@@ -40,7 +41,7 @@ const Signup = () => {
       const res = axios.put("/api/user", values);
       const data = await res;
       console.log("data", data);
-      router.push("/dashboard")
+      router.push("/dashboard");
       // const res = await fetch("/api/user", {
       //   method: "POST",
       //   body:  JSON.stringify(values),

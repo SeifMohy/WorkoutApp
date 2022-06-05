@@ -9,7 +9,7 @@ type Data = {
   name: string;
 };
 
-export default async (req: NextApiRequest, res: NextApiResponse<Data>) => {
+export default async (req: NextApiRequest, res: NextApiResponse) => {
   const session = await getSession({ req });
   if (session) {
     // Signed in

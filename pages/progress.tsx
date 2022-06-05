@@ -105,21 +105,21 @@ const fetchExercisesById = (url: string) =>
 const progressTest = () => {
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(
-      `/api/progress/${userId}`,
+      `/api/progress`,
       fetchExercisesById
     );
 
   console.log(logsByExercise);
-  if (!logsByExercise) {
-    return <div>loading...</div>;
-  }
+  // if (!logsByExercise) {
+  //   return <div>loading...</div>;
+  // }
 
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen p-5 pt-8">
         <div className="text-2xl font-extrabold">Progress</div>
         <>
-          {logsByExercise.map((log) => {
+          {logsByExercise?.map((log) => {
             const data = createChartData(log.data, log.labels);
             return (
               <div key={log.exercise.id}>

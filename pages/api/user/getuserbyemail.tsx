@@ -23,7 +23,6 @@ export default async (
   if (session) {
     // Signed in
     try {
-       prisma 
       const userEmail = session?.user?.email;
       const user = await prisma.user.findUnique({
         where: { email: userEmail! },
