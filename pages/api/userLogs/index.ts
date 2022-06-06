@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from '../prismaClient';
-
+import { getSession } from "next-auth/react";
 type Error = {
   message: string;
 };
@@ -15,12 +15,20 @@ export default async function handler(
 ) {
   prisma;
   const { workoutLogs } = req.body;
+  const session= await getSession({req})
+  const userEmail = session?.user?.email
+  const user = await prisma.user.findUnique({
+    where: { email: userEmail as string },
+  });
 
+  if (!user) {
+    res.status(400);
+  }
   const userLogs = workoutLogs.map((log: any,idx:number) => {
       return{
           reps: +log.reps[idx],
           weight: +log.weight[idx],
-          userId: log.userId, //TODO: set User ID from session
+          userId: user?.id,
           workoutLineId: log.workoutLineId,
           setNumber: +idx+1
       }
