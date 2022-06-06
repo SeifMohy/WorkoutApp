@@ -46,7 +46,7 @@ function ActiveExcercise({exercise}:props) {
 
   return (
     <Fragment>
-      <iframe src={exercise?.exercise.videoUrl} title={exercise?.exercise.name} allow='autoPlay'className='w-full'/>
+      <iframe src={exercise?.exercise.videoUrl} title={exercise?.exercise.name} allow='autoPlay'className='w-full min-h-[12rem]'/>
       <h2 className={excerciseName}>{exercise?.exercise.name}</h2>
       <p className={excerciseDescription}>{exercise?.exercise.description}</p>
     </Fragment>
