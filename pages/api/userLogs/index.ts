@@ -20,7 +20,7 @@ export default async function handler(
       return{
           reps: +log.reps[idx],
           weight: +log.weight[idx],
-          userId: log.userId,
+          userId: log.userId, //TODO: set User ID from session
           workoutLineId: log.workoutLineId,
           setNumber: +idx+1
       }
