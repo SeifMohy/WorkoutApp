@@ -6,6 +6,7 @@ import useSWR from 'swr';
 import {
   ProgressAPIResponseType,
   todaysWorkoutData,
+  WorkoutInfo,
   WorkoutLineData
 } from 'types';
 import { useFormik } from 'formik';
@@ -39,6 +40,9 @@ const fetchExercisesById = (url: string) =>
 
 const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
 
+const fetchWorkoutName = (url: string) =>
+  axios.get(url).then((res) => res.data);
+
 const Dashboard = () => {
   const session = useSession();
   const userEmail = session.data?.user?.email;
@@ -51,6 +55,12 @@ const Dashboard = () => {
     `/api/workoutLines/${todaysWorkoutId}`,
     fetchWorkout
   );
+
+  const { data: workoutInfo, error: workoutInfoError } = useSWR<WorkoutInfo>(
+    `/api/workout/${todaysWorkoutId}`,
+    fetchWorkoutName
+  );
+
   //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
@@ -62,6 +72,7 @@ const Dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
+        complete: false,
         userId: '1' //TODO: Get user from session data
       };
     })
@@ -72,13 +83,14 @@ const Dashboard = () => {
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
-      const res = axios.put('/api/userLogs', values);
-      const data = await res;
-      console.log('userLogs', data); //TODO: Reset Form
+      // const res = axios.put('/api/userLogs', values);
+      // const data = await res;
+      // console.log('userLogs', data); //TODO: Reset Form
     }
   });
   console.log(todaysWorkout);
-  if (!logsByExercise || !workout || !todaysWorkout) {
+  
+  if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
     return (
       <div className='flex justify-center items-center w-full h-[100vh]'>
           <CircularProgress color="inherit" className='w-[12rem]'/>
@@ -101,9 +113,11 @@ const Dashboard = () => {
               <div className="text-xl font-bold">
                 Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, '')}
               </div>
-              {/* TODO: Fire Emoji */}
-              <div className="text-xs font-light text-gray-600">
-                10 Day Streak
+              <div className="flex">
+                <p className="text-xs font-light mx-1">&#128293;</p>
+                <div className="text-xs font-light text-gray-600">
+                  10 Day Streak
+                </div>
               </div>
               {/* TODO: Endpoint for streaks */}
             </div>
@@ -123,7 +137,10 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Personal Records */}
-        <div className="text-lg m-3">Personal Records</div>
+        <div className="flex">
+          <p className="text-lg my-3">&#127942;</p>
+          <div className="text-lg my-3 mx-1">Personal Records</div>
+        </div>
         <div className="">
           <div className="lg:grid lg:grid-cols-3 lg:gap-5 grid justify-items-stretch">
             <>
@@ -144,7 +161,9 @@ const Dashboard = () => {
           </div>
         </div>
         <div id="workoutTitle" className="text-lg m-3">
-          {`Today's Workout`}
+
+          Today's Workout ({workoutInfo.name} Workout)
+
         </div>
         <div>
           <>
@@ -154,14 +173,13 @@ const Dashboard = () => {
                   <div className="flex items-stretch">
                     <img
                       className="w-14 h-14 rounded-full m-2"
-                      src={workout.exercise.imageUrl} //TODO: Add a picture
+                      src={workout.exercise.imageUrl}
                       alt="Rounded avatar"
                     />
                     <div className="self-center">
                       <div className="text-xl font-bold">
                         {workout.exercise.name}
                       </div>
-                      {/* TODO: Fire Emoji */}
                       <div className="text-xs font-light text-gray-600">
                         {workout.recSets} Sets x {workout.recReps} Reps
                       </div>
@@ -197,7 +215,7 @@ const Dashboard = () => {
                       </div> //TODO: make check button work and filter if not checked
                     )
                   )}
-                </div> //TODO: make 1 submit button
+                </div>
               );
             })}
             <button
