@@ -43,7 +43,7 @@ const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
 const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
-const dashboard = () => {
+const Dashboard = () => {
   const session = useSession();
   const userEmail = session.data?.user?.email;
   const { data: logsByExercise, error: logsByExerciseError } =
@@ -96,7 +96,6 @@ const dashboard = () => {
           <CircularProgress color="inherit" className='w-[12rem]'/>
     </div> 
   ) 
-
   }
   console.log({ logsByExercise });
   return (
