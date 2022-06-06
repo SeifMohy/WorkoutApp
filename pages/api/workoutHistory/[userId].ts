@@ -34,9 +34,9 @@ export default async function handler(
       res.status(400);
     }
 
-  const groupedData = _(sortedUserLogs).groupBy(
-    (x) => x.date
-  );
+  // const groupedData = _(sortedUserLogs).groupBy(
+  //   (x) => x.date
+  // );
   //cl417pgv20010jo80qzrall78
     const userEmail = session?.user?.email;
     console.log({ userEmail, session });
