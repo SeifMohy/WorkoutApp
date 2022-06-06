@@ -96,7 +96,6 @@ const Dashboard = () => {
           <CircularProgress color="inherit" className='w-[12rem]'/>
     </div> 
   ) 
-
   }
   console.log({ logsByExercise });
   return (
