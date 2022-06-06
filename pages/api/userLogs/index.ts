@@ -24,18 +24,21 @@ export default async function handler(
   if (!user) {
     res.status(400);
   }
-  const filteredWorkoutLogs = workoutLogs.filter((x: any)=> x.complete === true)
-  const userLogs = filteredWorkoutLogs.map((log: any, idx: number) => {
+  //TODO: New intermediate array with an object of reps and weights, then filter if any of them is undefined 
+  // const filteredWorkoutLogs = workoutLogs.map((x: any) => x.complete.findIndex((x:any)=> x===true))
+  // console.log(filteredWorkoutLogs)
+  const userLogs = workoutLogs.map((workoutLine: any, idx: number) => {
+    
     return {
-      reps: +log.reps[idx],
-      weight: +log.weight[idx],
+      reps: +workoutLine?.reps[idx],
+      weight: +workoutLine.weight[idx],
       userId: user?.id,
-      workoutLineId: log.workoutLineId,
+      workoutLineId: workoutLine.workoutLineId,
       setNumber: +idx + 1,
     };
   });
 
-  console.log(userLogs);
+  //console.log(userLogs);
 
   const userLog = await prisma.userLog.createMany({ data: userLogs });
 

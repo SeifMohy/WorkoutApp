@@ -80,8 +80,8 @@ const Dashboard = () => {
     onSubmit: async (values: any, resetForm: any) => {
       // formik.resetForm();
       console.log(values)
-      // const res = await axios.put("/api/userLogs", values);
-      // console.log("userLogs", res);
+      const res = await axios.put("/api/userLogs", values);
+      console.log("userLogs", res);
     },
   });
   // console.log(logsByExercise);

@@ -51,6 +51,7 @@ export default async function handler(
     );
 
     const groupedDataClean = groupedData.map((value) => {
+      //TODO: get max for weight for workout
       return {
         name: value[0].workoutLine.exercise.name,
         exercise: value[0].workoutLine.exercise,
