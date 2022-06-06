@@ -1,29 +1,29 @@
-import React from 'react';
-import Layout from '../components/layout';
-import { useSession } from 'next-auth/react';
-import axios from 'axios';
-import useSWR from 'swr';
+import React from "react";
+import Layout from "../components/layout";
+import { useSession } from "next-auth/react";
+import axios from "axios";
+import useSWR from "swr";
 import {
   ProgressAPIResponseType,
   todaysWorkoutData,
   WorkoutInfo,
-  WorkoutLineData
-} from 'types';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import Link from 'next/link';
-import { CircularProgress } from '@mui/material';
+  WorkoutLineData,
+} from "types";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Link from "next/link";
+import { CircularProgress } from "@mui/material";
 
 function choosingColor(name: string) {
   switch (name) {
-    case 'Squat':
-      return 'bg-red-700';
-    case 'Lunges':
-      return 'bg-green-700';
-    case 'Jumping Jacks':
-      return 'bg-blue-700';
+    case "Squat":
+      return "bg-red-700";
+    case "Lunges":
+      return "bg-green-700";
+    case "Jumping Jacks":
+      return "bg-blue-700";
     default:
-      return 'bg-red-700';
+      return "bg-red-700";
   }
 }
 type WorkoutLine = {
@@ -33,7 +33,7 @@ type WorkoutLine = {
   userId: String;
 };
 
-const todaysWorkoutId = '1'; //TODO: have something that determines which workout is todays workout
+const todaysWorkoutId = "1"; //TODO: have something that determines which workout is todays workout
 
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
@@ -43,7 +43,7 @@ const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
 const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
-const dashboard = () => {
+const Dashboard = () => {
   const session = useSession();
   const userEmail = session.data?.user?.email;
   const { data: logsByExercise, error: logsByExerciseError } =
@@ -73,9 +73,9 @@ const dashboard = () => {
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
         complete: false,
-        userId: '1' //TODO: Get user from session data
+        userId: "1", //TODO: Get user from session data
       };
-    })
+    }),
   };
 
   const formik = useFormik({
@@ -86,17 +86,16 @@ const dashboard = () => {
       // const res = axios.put('/api/userLogs', values);
       // const data = await res;
       // console.log('userLogs', data); //TODO: Reset Form
-    }
+    },
   });
   console.log(todaysWorkout);
-  
+
   if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
     return (
-      <div className='flex justify-center items-center w-full h-[100vh]'>
-          <CircularProgress color="inherit" className='w-[12rem]'/>
-    </div> 
-  ) 
-
+      <div className="flex justify-center items-center w-full h-[100vh]">
+        <CircularProgress color="inherit" className="w-[12rem]" />
+      </div>
+    );
   }
   console.log({ logsByExercise });
   return (
@@ -107,12 +106,12 @@ const dashboard = () => {
           <div className="flex items-stretch">
             <img
               className="w-14 h-14 rounded-full m-2"
-              src={session?.data?.user?.image || '/icon.png'}
+              src={session?.data?.user?.image || "/icon.png"}
               alt="Rounded avatar"
             />
             <div className="self-center">
               <div className="text-xl font-bold">
-                Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, '')}
+                Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, "")}
               </div>
               <div className="flex">
                 <p className="text-xs font-light mx-1">&#128293;</p>
@@ -162,9 +161,7 @@ const dashboard = () => {
           </div>
         </div>
         <div id="workoutTitle" className="text-lg m-3">
-
           Today's Workout ({workoutInfo.name} Workout)
-
         </div>
         <div>
           <>
