@@ -22,11 +22,13 @@ const calendar = () => {
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen">
-        <div className="grid gap-20 py-16 sm:grid-cols-1 lg:grid-cols-2 md:px-32 px-0">
+      <div className="md:px-32 px-0 pt-8 text-2xl font-bold	">Workout history</div>
+        <div className="grid gap-20 py-8 sm:grid-cols-1 lg:grid-cols-2 md:px-32 px-0">
+          
           <div>
             <div className="grid sm:grid-cols-1 lg:grid-cols-2 py-8 md:px-8 px-0 bg-white rounded-md">
               <div>
-                <h1>Workout history</h1>
+                <h1>Workout</h1>
                 <span className="block text-xs text-gray-400">Cardio Day</span>
               </div>
               <div>

@@ -102,7 +102,7 @@ const userId = '1';
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
 
-const progressTest = () => {
+const ProgressTest = () => {
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(
       `/api/progress`,
@@ -143,4 +143,4 @@ const progressTest = () => {
   );
 };
 
-export default progressTest;
+export default ProgressTest;
