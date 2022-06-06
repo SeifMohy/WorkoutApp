@@ -83,9 +83,9 @@ const Dashboard = () => {
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
-      // const res = axios.put('/api/userLogs', values);
-      // const data = await res;
-      // console.log('userLogs', data); //TODO: Reset Form
+      const res = axios.put('/api/userLogs', values);
+      const data = await res;
+      console.log('userLogs', data); //TODO: Reset Form
     }
   });
   console.log(todaysWorkout);
