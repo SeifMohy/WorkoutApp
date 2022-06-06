@@ -73,7 +73,7 @@ const Dashboard = () => {
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
         complete: false,
-        userId: '1' //TODO: Get user from session data
+      
       };
     })
   };
