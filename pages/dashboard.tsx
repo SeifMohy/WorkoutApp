@@ -1,29 +1,29 @@
-import React from 'react';
-import Layout from '../components/layout';
-import { useSession } from 'next-auth/react';
-import axios from 'axios';
-import useSWR from 'swr';
+import React from "react";
+import Layout from "../components/layout";
+import { useSession } from "next-auth/react";
+import axios from "axios";
+import useSWR from "swr";
 import {
   ProgressAPIResponseType,
   todaysWorkoutData,
   WorkoutInfo,
-  WorkoutLineData
-} from 'types';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import Link from 'next/link';
-import { CircularProgress } from '@mui/material';
+  WorkoutLineData,
+} from "types";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Link from "next/link";
+import { CircularProgress } from "@mui/material";
 
 function choosingColor(name: string) {
   switch (name) {
-    case 'Squat':
-      return 'bg-red-700';
-    case 'Lunges':
-      return 'bg-green-700';
-    case 'Jumping Jacks':
-      return 'bg-blue-700';
+    case "Squat":
+      return "bg-red-700";
+    case "Lunges":
+      return "bg-green-700";
+    case "Jumping Jacks":
+      return "bg-blue-700";
     default:
-      return 'bg-red-700';
+      return "bg-red-700";
   }
 }
 type WorkoutLine = {
@@ -33,7 +33,7 @@ type WorkoutLine = {
   userId: String;
 };
 
-const todaysWorkoutId = '1'; //TODO: have something that determines which workout is todays workout
+const todaysWorkoutId = "1"; //TODO: have something that determines which workout is todays workout
 
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
@@ -47,10 +47,7 @@ const Dashboard = () => {
   const session = useSession();
   const userEmail = session.data?.user?.email;
   const { data: logsByExercise, error: logsByExerciseError } =
-    useSWR<ProgressAPIResponseType>(
-      `/api/progress/${userEmail}`,
-      fetchExercisesById
-    );
+    useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
   const { data: workout, error: workoutError } = useSWR<WorkoutLineData>(
     `/api/workoutLines/${todaysWorkoutId}`,
     fetchWorkout
@@ -72,32 +69,31 @@ const Dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
-        complete: false,
-      
+        complete: Array.from(Array(workoutLine.recSets), (x)=>false) ,
       };
-    })
+    }),
   };
 
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-      console.log(values);
-      // const res = axios.put('/api/userLogs', values);
-      // const data = await res;
-      // console.log('userLogs', data); //TODO: Reset Form
-    }
+      // formik.resetForm();
+      console.log(values)
+      // const res = await axios.put("/api/userLogs", values);
+      // console.log("userLogs", res);
+    },
   });
-  console.log(todaysWorkout);
-  
+  // console.log(logsByExercise);
+
   if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
     return (
-      <div className='flex justify-center items-center w-full h-[100vh]'>
-          <CircularProgress color="inherit" className='w-[12rem]'/>
-    </div> 
-  ) 
+      <div className="flex justify-center items-center w-full h-[100vh]">
+        <CircularProgress color="inherit" className="w-[12rem]" />
+      </div>
+    );
   }
-  console.log({ logsByExercise });
+
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen p-5 pt-8">
@@ -106,12 +102,12 @@ const Dashboard = () => {
           <div className="flex items-stretch">
             <img
               className="w-14 h-14 rounded-full m-2"
-              src={session?.data?.user?.image || '/icon.png'}
+              src={session?.data?.user?.image || "/icon.png"}
               alt="Rounded avatar"
             />
             <div className="self-center">
               <div className="text-xl font-bold">
-                Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, '')}
+                Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, "")}
               </div>
               <div className="flex">
                 <p className="text-xs font-light mx-1">&#128293;</p>
@@ -161,9 +157,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div id="workoutTitle" className="text-lg m-3">
-
           Today's Workout ({workoutInfo.name} Workout)
-
         </div>
         <div>
           <>
@@ -211,7 +205,11 @@ const Dashboard = () => {
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
                         ></input>
-                        <input type="checkbox"></input>
+                        <input
+                          type="checkbox"
+                          name={`workoutLogs[${workoutIndex}].complete[${exerciseSetIndex}]`}
+                          onChange={formik.handleChange}
+                        ></input>
                       </div> //TODO: make check button work and filter if not checked
                     )
                   )}

@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
-import { prisma } from '../prismaClient';
+import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "../prismaClient";
 import { getSession } from "next-auth/react";
 type Error = {
   message: string;
@@ -15,8 +15,8 @@ export default async function handler(
 ) {
   prisma;
   const { workoutLogs } = req.body;
-  const session= await getSession({req})
-  const userEmail = session?.user?.email
+  const session = await getSession({ req });
+  const userEmail = session?.user?.email;
   const user = await prisma.user.findUnique({
     where: { email: userEmail as string },
   });
@@ -24,21 +24,20 @@ export default async function handler(
   if (!user) {
     res.status(400);
   }
-  const userLogs = workoutLogs.map((log: any,idx:number) => {
-      return{
-          reps: +log.reps[idx],
-          weight: +log.weight[idx],
-          userId: user?.id,
-          workoutLineId: log.workoutLineId,
-          setNumber: +idx+1
-      }
-  })
+  const filteredWorkoutLogs = workoutLogs.filter((x: any)=> x.complete === true)
+  const userLogs = filteredWorkoutLogs.map((log: any, idx: number) => {
+    return {
+      reps: +log.reps[idx],
+      weight: +log.weight[idx],
+      userId: user?.id,
+      workoutLineId: log.workoutLineId,
+      setNumber: +idx + 1,
+    };
+  });
 
   console.log(userLogs);
 
-  const userLog = await prisma.userLog.createMany(
-    {data: userLogs}
-  )
+  const userLog = await prisma.userLog.createMany({ data: userLogs });
 
   res.status(200).json({ data: userLog });
 }
