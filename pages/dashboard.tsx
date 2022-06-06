@@ -39,7 +39,7 @@ const fetchExercisesById = (url: string) =>
 
 const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
 
-const dashboard = () => {
+const Dashboard = () => {
   const session = useSession();
   const userEmail = session.data?.user?.email;
   const { data: logsByExercise, error: logsByExerciseError } =
@@ -144,7 +144,7 @@ const dashboard = () => {
           </div>
         </div>
         <div id="workoutTitle" className="text-lg m-3">
-          Today's Workout ()
+          {`Today's Workout`}
         </div>
         <div>
           <>
@@ -217,4 +217,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;
