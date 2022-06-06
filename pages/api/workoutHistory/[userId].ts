@@ -38,6 +38,7 @@ export default async function handler(
   const groupedData = _(sortedUserLogs).groupBy(
     (x) => x.date
   );
+  //cl417pgv20010jo80qzrall78
 
   res.status(200).json({data: groupedData});
 }
