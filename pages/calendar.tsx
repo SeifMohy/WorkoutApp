@@ -65,7 +65,7 @@ const calendar = () => {
               </div>
             </div>
           </div>
-          <div className="">
+          <div className="flex justify-center items-center	">
           <CalenderComp  />
           </div>
         </div>
