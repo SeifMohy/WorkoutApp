@@ -47,10 +47,7 @@ const Dashboard = () => {
   const session = useSession();
   const userEmail = session.data?.user?.email;
   const { data: logsByExercise, error: logsByExerciseError } =
-    useSWR<ProgressAPIResponseType>(
-      `/api/progress/${userEmail}`,
-      fetchExercisesById
-    );
+    useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
   const { data: workout, error: workoutError } = useSWR<WorkoutLineData>(
     `/api/workoutLines/${todaysWorkoutId}`,
     fetchWorkout
@@ -72,8 +69,7 @@ const Dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
-        complete: false,
-      
+        complete: Array.from(Array(workoutLine.recSets), (x)=>false) ,
       };
     }),
   };
@@ -82,14 +78,14 @@ const Dashboard = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-      console.log(values);
 
-      // const res = axios.put('/api/userLogs', values);
-      // const data = await res;
-      // console.log('userLogs', data); //TODO: Reset Form
+      // formik.resetForm();
+      console.log(values)
+      const res = await axios.put("/api/userLogs", values);
+      console.log("userLogs", res);
     },
   });
-  console.log(todaysWorkout);
+  // console.log(logsByExercise);
 
   if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
     return (
@@ -98,7 +94,7 @@ const Dashboard = () => {
       </div>
     );
   }
-  console.log({ logsByExercise });
+
   return (
     <Layout>
       <div className="bg-gray-100 min-h-screen p-5 pt-8">
@@ -210,7 +206,11 @@ const Dashboard = () => {
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
                         ></input>
-                        <input type="checkbox"></input>
+                        <input
+                          type="checkbox"
+                          name={`workoutLogs[${workoutIndex}].complete[${exerciseSetIndex}]`}
+                          onChange={formik.handleChange}
+                        ></input>
                       </div> //TODO: make check button work and filter if not checked
                     )
                   )}
