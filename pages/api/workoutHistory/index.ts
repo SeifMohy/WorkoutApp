@@ -30,6 +30,7 @@ export default async function handler(
 
     if (!session) {
       res.status(400);
+
     } else {
       const userEmail = session?.user?.email;
       console.log({ userEmail, session });

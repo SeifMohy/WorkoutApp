@@ -1,25 +1,35 @@
-import * as React from 'react';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { CalendarPicker } from '@mui/x-date-pickers/CalendarPicker';
+// import {useState} from "react";
+// import DatePicker from "react-multi-date-picker";
 
-import Grid from '@mui/material/Grid';
+// function calendarComponent() {
+//   const [value, setValue] = useState(['2022-6-8','2022-6-9','2022-6-10'])
 
-const minDate = new Date('2020-01-01T00:00:00.000');
-const maxDate = new Date('2034-01-01T00:00:00.000');
+//   function handleChange(value){
+//     console.log(value)
+//   }
+  
 
-export default function CalenderComp() {
-  const [date, setDate] = React.useState<Date | null>(new Date());
+//   return (
+//     <div>
+//       <DatePicker value={value}   onChange={handleChange}  />
+//     </div>
+//   );
+// }
+
+// export default calendarComponent;
+
+import React, { useState } from "react"
+import { Calendar } from "react-multi-date-picker"
+
+export default function Example() {
+  const [value, setValue] = useState(['2022-6-8','2022-6-9','2022-6-10'])
+
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Grid container spacing={3}>
-        <Grid item xs={12} md={6}>
-          <CalendarPicker date={date} onChange={(newDate) => setDate(newDate)}  />
-        </Grid>
-       
-       
-      </Grid>
-    </LocalizationProvider>
-  );
+    <Calendar 
+      value={value}
+      disabled
+      
+    />
+  )
 }
