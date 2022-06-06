@@ -16,7 +16,7 @@ const Signup = () => {
   const email = session?.data?.user?.email;
 
   const getUser = async () => {
-    const res = await axios.get("/api/user/getUserByemail");
+    const res = await axios.get("/api/user");
     const data = res.data.user;
     setFullUser(data);
   };

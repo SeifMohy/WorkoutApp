@@ -1,41 +1,70 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
-import { getSession } from "next-auth/react";
-import {prisma} from "../prismaClient"
+import { PrismaClient, User } from '@prisma/client'
+import { NextApiRequest, NextApiResponse } from 'next'
+import { getSession } from 'next-auth/react'
+const prisma = new PrismaClient()
+
+export default async function handle(req:NextApiRequest, res:NextApiResponse) {
+
+  //todo: add auth support
+
+  switch (req.method) {
+    case 'PUT':
+      updateUserInfo(req, res)
+      break
+      case 'GET':
+        getUserByEmail(req, res)
+        break
+  }
+}
 
 
-type Data = {
-  name: string;
-};
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const session = await getSession({ req });
-  if (session) {
-    // Signed in
-
+async function updateUserInfo(req: NextApiRequest, res:NextApiResponse) {
     try {
-      prisma 
-      const userEmail = session?.user?.email;
-      const { weight, height, age, gender } = req.body;
+        const session= await getSession({req})
+      const userEmail = session?.user?.email
+      const { weight, height, age, gender } =req.body
+      console.log(req.body)
+
       const updateUserInfo = await prisma.user.updateMany({
-        where: { email: userEmail },
+
+        where: { email: userEmail},
         data: {
-          weight: +weight,
-          age: +age,
-          height: +height,
+          weight:+weight,
+          age:+age,
+          height:+height,
           gender,
         },
-      });
-      res.status(200).json({ msg: "user info updated", updateUserInfo });
-
+      })
+        
+      res.status(200).json({ msg: 'user info updated', updateUserInfo })
     } catch (err) {
-      console.log(err);
-      res.status(400).json({ msg: "something went wrong", details: err });
+        console.log(err)
+      res.status(400).json({ msg: 'something went wrong', details: err })
     }
-  } else {
-    // Not Signed in
-    res.status(401);
+}
+  
+async function getUserByEmail(req: NextApiRequest, res: NextApiResponse) {
+  
+    const session = await getSession({ req });
+    if (session) {
+      // Signed in
+      try {
+        const userEmail = session?.user?.email;
+        const user = await prisma.user.findUnique({
+          where: { email: userEmail! },
+        });
+        console.log(user)
+        if (!user) {
+          return res.status(400).json({ msg: 'no user' });
+        }
+        res.status(200).json({ msg: 'user info', user: user });
+      } catch (err: any) {
+        console.log(err);
+        res.status(400).json({ msg: 'something went wrong', err });
+      }
+    } else {
+      // Not Signed in
+      res.status(401);
+    }
+    res.end();
   }
-  res.end();
-};
