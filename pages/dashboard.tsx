@@ -69,7 +69,7 @@ const Dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
-        complete: Array.from(Array(workoutLine.recSets), (x)=>false) ,
+        // complete: Array.from(Array(workoutLine.recSets), (x)=>false) ,
       };
     }),
   };
@@ -78,10 +78,9 @@ const Dashboard = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-
       // formik.resetForm();
       console.log(values)
-      const res = await axios.put("/api/userLogs", values);
+      const res = await axios.put("/api/userLogs/test", values); //This is on userLogs/test to avoid session errors
       console.log("userLogs", res);
     },
   });
