@@ -18,6 +18,9 @@ export type ProgressAPIResponseType = Collection<{
   export interface todaysWorkoutData extends WorkoutLine {
     exercise: Exercise
   }
+  export type StreakInfo = {
+    streak: number;
+  }
 
   export type WorkoutInfo =
   | Workout & {
