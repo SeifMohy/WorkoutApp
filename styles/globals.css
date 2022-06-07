@@ -10,3 +10,7 @@
 .MuiPickerStaticWrapper-root {
     border-radius: 8px;
 }
+
+.rmdp-wrapper {
+    box-shadow: none !important;
+}

@@ -1,3 +1,4 @@
+
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import AuthWrapper from "../components/AuthWrapper";
@@ -13,6 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </AuthWrapper>
       </SessionProvider>
     </WorkoutProvider>
+
   );
 }
 

@@ -1,7 +1,7 @@
 import React from "react";
 import Footer from "./footer";
 import Header from "./header";
-import { useState } from "react";
+import { useState, createContext } from "react";
 import SidebarXl from "./sidebarXl";
 import {WorkoutProvider} from './WorkoutProvider'
 type props = {
@@ -12,7 +12,6 @@ function Layout({ children }: props) {
   const [openAccount, setOpenAccount] = useState(false);
   const [open, setOpen] = useState(false);
 
-  
   function handleClose() {
     if (openAccount === true) {
       setOpenAccount(false);

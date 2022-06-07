@@ -6,6 +6,9 @@ import useSWR from "swr";
 import {
   ProgressAPIResponseType,
   todaysWorkoutData,
+
+  WorkoutInfo,
+
   WorkoutLineData,
 } from "types";
 import { useFormik } from "formik";
@@ -13,6 +16,7 @@ import * as Yup from "yup";
 import Link from "next/link";
 import { CircularProgress } from "@mui/material";
 import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
+
 
 function choosingColor(name: string) {
   switch (name) {
@@ -37,18 +41,31 @@ const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
+
+
+const fetchWorkoutName = (url: string) =>
+  axios.get(url).then((res) => res.data);
+
+
 const Dashboard = () => {
   const session = useSession();
   const { daysWorkout } = useWorkout();
   const todaysWorkoutId = daysWorkout; //TODO: have something that determines which workout is todays workout
   const userEmail = session.data?.user?.email;
-  const { data: logsByExercise, error: logsByExerciseError } = useSWR<
-    ProgressAPIResponseType
-  >(`/api/progress/${userEmail}`, fetchExercisesById);
+
+  const { data: logsByExercise, error: logsByExerciseError } =
+    useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
+
   const { data: workout, error: workoutError } = useSWR<WorkoutLineData>(
     `/api/workoutLines/${todaysWorkoutId}`,
     fetchWorkout
   );
+
+  const { data: workoutInfo, error: workoutInfoError } = useSWR<WorkoutInfo>(
+    `/api/workout/${todaysWorkoutId}`,
+    fetchWorkoutName
+  );
+
   //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
@@ -60,7 +77,7 @@ const Dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
-        userId: "1", //TODO: Get user from session data
+
       };
     }),
   };
@@ -69,22 +86,27 @@ const Dashboard = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-      console.log(values);
-      const res = axios.put("/api/userLogs", values);
-      const data = await res;
-      console.log("userLogs", data); //TODO: Reset Form
+
+      // formik.resetForm();
+      console.log(values)
+      const res = await axios.put("/api/userLogs/test", values); //This is on userLogs/test to avoid session errors
+      console.log("userLogs", res);
     },
   });
-  console.log({ todaysWorkout });
-  if (!logsByExercise || !workout || !todaysWorkout) {
+  // console.log(logsByExercise);
+
+  if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
+
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
       </div>
     );
   }
+
   console.log({ logsByExercise });
   console.log({ daysWorkout });
+
   return (
     <Layout>
       <div className="min-h-screen p-5 pt-8 bg-gray-100">
@@ -92,7 +114,8 @@ const Dashboard = () => {
         <div className="content-center justify-between m-3 bg-white md:flex">
           <div className="flex items-stretch">
             <img
-              className="m-2 rounded-full w-14 h-14"
+
+              className="w-14 h-14 rounded-full m-2"
               src={session?.data?.user?.image || "/icon.png"}
               alt="Rounded avatar"
             />
@@ -100,9 +123,11 @@ const Dashboard = () => {
               <div className="text-xl font-bold">
                 Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, "")}
               </div>
-              {/* TODO: Fire Emoji */}
-              <div className="text-xs font-light text-gray-600">
-                10 Day Streak
+              <div className="flex">
+                <p className="text-xs font-light mx-1">&#128293;</p>
+                <div className="text-xs font-light text-gray-600">
+                  10 Day Streak
+                </div>
               </div>
               {/* TODO: Endpoint for streaks */}
             </div>
@@ -122,7 +147,12 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Personal Records */}
-        <div className="m-3 text-lg">Personal Records</div>
+
+        <div className="flex">
+          <p className="text-lg my-3">&#127942;</p>
+          <div className="text-lg my-3 mx-1">Personal Records</div>
+        </div>
+
         <div className="">
           <div className="grid lg:grid lg:grid-cols-3 lg:gap-5 justify-items-stretch">
             <>
@@ -142,8 +172,10 @@ const Dashboard = () => {
             </>
           </div>
         </div>
-        <div id="workoutTitle" className="m-3 text-lg">
-          {`Today's Workout`}
+
+        <div id="workoutTitle" className="text-lg m-3">
+          Today's Workout ({workoutInfo.name} Workout)
+
         </div>
         <div>
           <>
@@ -152,32 +184,32 @@ const Dashboard = () => {
                 <div key={workoutIndex}>
                   <div className="flex items-stretch">
                     <img
-                      className="m-2 rounded-full w-14 h-14"
-                      src={workout.exercise.imageUrl} //TODO: Add a picture
+
+                      className="w-14 h-14 rounded-full m-2"
+                      src={workout.exercise.imageUrl}
+
                       alt="Rounded avatar"
                     />
                     <div className="self-center">
                       <div className="text-xl font-bold">
                         {workout.exercise.name}
                       </div>
-                      {/* TODO: Fire Emoji */}
                       <div className="text-xs font-light text-gray-600">
                         {workout.recSets} Sets x {workout.recReps} Reps
                       </div>
                       {/* TODO: Endpoint for streaks */}
                     </div>
                   </div>
-                  <div className="grid grid-cols-4">
+                  <div className="grid grid-cols-3">
                     <div className="text-center">#</div>
                     <div className="text-center">Weight</div>
                     <div className="text-center">Reps</div>
-                    <div className="text-center accent-white">check</div>
                   </div>
                   {Array.from(Array(workout.recSets)).map(
                     (_, exerciseSetIndex) => (
                       <div
                         key={exerciseSetIndex}
-                        className="grid grid-cols-4 gap-5"
+                        className="grid grid-cols-3 gap-5"
                       >
                         <div className="text-center">
                           {exerciseSetIndex + 1}
@@ -192,11 +224,10 @@ const Dashboard = () => {
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
                         ></input>
-                        <input type="checkbox"></input>
                       </div> //TODO: make check button work and filter if not checked
                     )
                   )}
-                </div> //TODO: make 1 submit button
+                </div>
               );
             })}
             <button
@@ -217,6 +248,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-// function WContext(WorkoutContext: any): [any, any] {
-//   throw new Error('Function not implemented.');
-// }
+

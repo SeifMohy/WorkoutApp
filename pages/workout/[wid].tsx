@@ -34,6 +34,7 @@ export default function Workout() {
   // const userEmail = session.user.email
   // const payload = { userEmail }
 
+
   const fetcher = (url: string) => axios.get(url).then((res) => res.data);
   const { data, error } = useSWR("/api/workout/" + wid, fetcher);
   console.log({ data });
@@ -42,6 +43,7 @@ export default function Workout() {
     setWorkoutForTheDay(wid!.toString());
     router.push("/dashboard");
   };
+
 
   console.log(daysWorkout);
   if (!data) {
@@ -54,6 +56,7 @@ export default function Workout() {
 
   return (
     <Layout>
+
       <div className="flex flex-col justify-start min-h-screen bg-gray-100 align-center">
         <div className="relative w-full h-[20rem] mb-[0.75rem] bg-black">
           <Image
@@ -72,6 +75,7 @@ export default function Workout() {
             {data.description} Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Doloremque, aliquam placeat officiis odit.
           </h2>
+
         </div>
         {data.exercises.length == 0 ? (
           <h1>no exercise</h1>
@@ -84,12 +88,14 @@ export default function Workout() {
             ))}
           </ul>
         )}
+
         <button
           className="self-center mx-[0.5rem] my-[1.2rem] bg-black text-white border rounded-2xl p-[0.6rem] transition ease-in-out delay-150 hover:bg-gray-700 font-bold text-[1.5rem] w-4/5 hover:scale-105 duration-300 ..."
           onClick={startWorkout}
         >
           start the workout
         </button>
+
       </div>
     </Layout>
   );
