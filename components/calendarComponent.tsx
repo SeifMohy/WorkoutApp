@@ -1,35 +1,24 @@
-// import {useState} from "react";
-// import DatePicker from "react-multi-date-picker";
-
-// function calendarComponent() {
-//   const [value, setValue] = useState(['2022-6-8','2022-6-9','2022-6-10'])
-
-//   function handleChange(value){
-//     console.log(value)
-//   }
-  
-
-//   return (
-//     <div>
-//       <DatePicker value={value}   onChange={handleChange}  />
-//     </div>
-//   );
-// }
-
-// export default calendarComponent;
-
-import React, { useState } from "react"
-import { Calendar } from "react-multi-date-picker"
+import axios from "axios";
+import moment from "moment";
+import React, { useEffect, useState } from "react";
+import { Calendar } from "react-multi-date-picker";
 
 export default function Example() {
-  const [value, setValue] = useState(['2022-6-8','2022-6-9','2022-6-10'])
+  const [value, setValue] = useState<string[]>([]);
+  useEffect(() => {
+    const workOutData = async () => {
+      const res = await axios.get("/api/workouthistory");
+      const data = await res.data.data;
+      const dates = Object.keys(data).map((date) => {
+        return moment(date).format("YYYY-M-D");
+      });
+      setValue(dates);
+      console.log(dates);
+    };
+    workOutData();
+  }, []);
 
+  console.log("value", value);
 
-  return (
-    <Calendar 
-      value={value}
-      disabled
-      
-    />
-  )
+  return <Calendar readOnly={true} value={value} onChange={() => {}} />;
 }
