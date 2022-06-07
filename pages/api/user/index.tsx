@@ -5,7 +5,7 @@ import {
   UserLog,
   WorkoutLine,
 } from "@prisma/client";
-import _ from "lodash";
+import _, { values } from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSession } from "next-auth/react";
 const prisma = new PrismaClient();
@@ -68,73 +68,50 @@ async function getUserByEmail(req: NextApiRequest, res: NextApiResponse) {
     // Signed in
     try {
       // const userEmail = session?.user?.email;
-      const userEmail = "mahmoudezz878@gmail.com";
+      const userEmail1 = "mahmoudezz878@gmail.com";
+      const userEmail = "seifmohy@gmail.com";
+      const userEmail3 = "nac9cm@gmail.com";
 
       let user = await prisma.user.findUnique({
         where: { email: userEmail! },
       });
-      // console.log(user);
       if (!user) {
         return res.status(400).json({ msg: "no user" });
       }
-      //--------streaks counter ------------
+
+      //--------streak counter ------------
 
       const userLogs = await prisma.userLog.findMany({
         where: { userId: user?.id as string },
         include: { workoutLine: { include: { exercise: true } } },
       });
+      const amendDate = userLogs.map((x) => x.date.setUTCHours(0, 0, 0, 0));
       const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
 
-      // console.log(sortedUserLogs);
-
-      const groupedData = _(sortedUserLogs).groupBy((x) => x.date);
-
-      // const days = Object.keys(groupedData);
-      // console.log(days);
-      // console.log(arr);
-      const arr = [
-        {
-          date: "2019-09-18",
-        },
-        {
-          date: "2019-09-19",
-        },
-        {
-          date: "2019-09-21",
-        },
-        {
-          date: "2019-09-22",
-        },
-        {
-          date: "2019-09-23",
-        },
-      ];
-
-      // let arr= groupedData.map((x) => date)
-      // let streaks = 0;
-      console.log("hi")
-     const streaks =  (arr)=> {
-       console.log("first")
-        let count = 0;
-        let streakDatePoint = new Date();
-        arr.reverse().forEach((el, i) => {
-          if (
-            new Date().setUTCHours(0, 0, 0, 0) -
-              new Date(el.date).setUTCHours(0, 0, 0, 0) ===
-            i * 86400000
-          )
-            count++;
-            console.log("count")
+      const groupedData = _(sortedUserLogs)
+        .groupBy((x) => x.date)
+        .entries()
+        .map((date) => {
+          return { date: new Date(date[0]) };
         });
-        console.log(count);
-        return count;
-      };
-console.log(streaks);
+   
+      
+      let count = 0;
+      let startDate = new Date();
+      groupedData.reverse().forEach((el, i) => {
+         const days =
+          startDate.setUTCHours(0, 0, 0, 0) -
+            new Date(el.date).setUTCHours(0, 0, 0, 0) ===
+          i * 86400000;
+        console.log(days);
+        if (days) count++;
+      });
+      console.log(count);
       //---------- end streak counter
 
       res.status(200).json({
         msg: "user info",
-        streaks: streaks,
+        streak: count,
         user: user,
         data: groupedData,
       });
