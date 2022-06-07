@@ -7,7 +7,7 @@ import { useSession } from 'next-auth/react'
 import { useFormik } from 'formik'
 import Checkbox from '@mui/material/Checkbox'
 import { Exercise } from '@prisma/client'
-
+import Video from './Video'
 
 type props = {
   exercise:Exercise
@@ -46,7 +46,10 @@ function ActiveExcercise({exercise}:props) {
 
   return (
     <Fragment>
-      <iframe src={exercise?.exercise.videoUrl} title={exercise?.exercise.name} allow='autoPlay'className='w-full min-h-[12rem]'/>
+
+      <iframe src={exercise?.exercise.videoUrl} title={exercise?.exercise.name} allow='autoPlay'className='w-full min-h-[20rem]'/>
+      {/* <Video/> */}
+
       <h2 className={excerciseName}>{exercise?.exercise.name}</h2>
       <p className={excerciseDescription}>{exercise?.exercise.description}</p>
     </Fragment>

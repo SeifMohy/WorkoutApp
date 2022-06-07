@@ -25,11 +25,11 @@ const BrowseWorkouts = () => {
   console.log(data)
   return (
     <Layout>
-      <div className='flex flex-col justify-center align-center bg-gray-100  min-h-screen p-5 pt-8'>
-            <h1 className='text-2xl text-center font-extrabold'>
+      <div className='flex flex-col justify-center min-h-screen p-5 pt-8 bg-gray-100 align-center'>
+            <h1 className='text-2xl font-extrabold text-center'>
                 Browse our carefully curated workouts
             </h1>
-            <p className='text-md text-center font-light m-2'>Thoughtfully designed workouts meant to push you to the absolute
+            <p className='m-2 font-light text-center text-md'>Thoughtfully designed workouts meant to push you to the absolute
           limits</p>
             <ul className='grid self-center gap-4 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 grid-flow-rows'>
                 {
