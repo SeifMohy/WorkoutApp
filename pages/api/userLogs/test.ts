@@ -25,8 +25,6 @@ export default async function handler(
 
   if (!user) res.status(400);
 
-  //TODO: New intermediate array with an object of reps and weights, then filter if any of them is undefined
-
   const reps = workoutLogs.map((workoutLine: any) => {
     return workoutLine.reps;
   });
@@ -45,7 +43,6 @@ export default async function handler(
           reps: +reps[i],
           weight: +weight[i],
           userId: user,
-          //?.id,
           workoutLineId: workoutLine.workoutLineId,
           setNumber: i + 1
         });
