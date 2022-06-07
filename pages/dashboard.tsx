@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Layout from "../components/layout";
 import { useSession } from "next-auth/react";
 import axios from "axios";
@@ -6,6 +6,7 @@ import useSWR from "swr";
 import {
   ProgressAPIResponseType,
   todaysWorkoutData,
+
   WorkoutInfo,
   WorkoutLineData,
 } from "types";
@@ -13,6 +14,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import { CircularProgress } from "@mui/material";
+import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
+
 
 function choosingColor(name: string) {
   switch (name) {
@@ -33,24 +36,24 @@ type WorkoutLine = {
   userId: String;
 };
 
-const todaysWorkoutId = "1"; //TODO: have something that determines which workout is todays workout
-
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
+
 
 const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const Dashboard = () => {
   const session = useSession();
+  const { daysWorkout } = useWorkout();
+  const todaysWorkoutId = daysWorkout; //TODO: have something that determines which workout is todays workout
   const userEmail = session.data?.user?.email;
+
   const { data: logsByExercise, error: logsByExerciseError } =
-    useSWR<ProgressAPIResponseType>(
-      `/api/progress/${userEmail}`,
-      fetchExercisesById
-    );
+    useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
+
   const { data: workout, error: workoutError } = useSWR<WorkoutLineData>(
     `/api/workoutLines/${todaysWorkoutId}`,
     fetchWorkout
@@ -72,8 +75,6 @@ const Dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
-        complete: false,
-        userId: "1", //TODO: Get user from session data
       };
     }),
   };
@@ -82,29 +83,35 @@ const Dashboard = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-      console.log(values);
-      // const res = axios.put('/api/userLogs', values);
-      // const data = await res;
-      // console.log('userLogs', data); //TODO: Reset Form
+
+      // formik.resetForm();
+      console.log(values)
+      const res = await axios.put("/api/userLogs/test", values); //This is on userLogs/test to avoid session errors
+      console.log("userLogs", res);
     },
   });
-  console.log(todaysWorkout);
+  // console.log(logsByExercise);
 
   if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
+
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
       </div>
     );
   }
+
   console.log({ logsByExercise });
+  console.log({ daysWorkout });
+
   return (
     <Layout>
-      <div className="bg-gray-100 min-h-screen p-5 pt-8">
+      <div className="min-h-screen p-5 pt-8 bg-gray-100">
         {/* welcome div */}
-        <div className="bg-white md:flex justify-between content-center m-3">
+        <div className="content-center justify-between m-3 bg-white md:flex">
           <div className="flex items-stretch">
             <img
+
               className="w-14 h-14 rounded-full m-2"
               src={session?.data?.user?.image || "/icon.png"}
               alt="Rounded avatar"
@@ -122,27 +129,29 @@ const Dashboard = () => {
               {/* TODO: Endpoint for streaks */}
             </div>
           </div>
-          <div className="flex m-3 justify-between">
+          <div className="flex justify-between m-3">
             {/* TODO: add white below buttons on small screen */}
             <Link href="/browseWorkouts" className="flex items-stretch">
-              <a className="md:mx-4 px-2 text-sm border border-gray-600 rounded-md p-2 self-center">
+              <a className="self-center p-2 px-2 text-sm border border-gray-600 rounded-md md:mx-4">
                 Browse Workouts
               </a>
             </Link>
             <Link href="#workoutTitle">
-              <a className="px-2 text-sm rounded-md text-white bg-black p-2 self-center">
+              <a className="self-center p-2 px-2 text-sm text-white bg-black rounded-md">
                 Start Todays Workout
               </a>
             </Link>
           </div>
         </div>
         {/* Personal Records */}
+
         <div className="flex">
           <p className="text-lg my-3">&#127942;</p>
           <div className="text-lg my-3 mx-1">Personal Records</div>
         </div>
+
         <div className="">
-          <div className="lg:grid lg:grid-cols-3 lg:gap-5 grid justify-items-stretch">
+          <div className="grid lg:grid lg:grid-cols-3 lg:gap-5 justify-items-stretch">
             <>
               {logsByExercise.map((exercise) => {
                 return (
@@ -152,8 +161,8 @@ const Dashboard = () => {
                       exercise.name
                     )} rounded-md p-5 w-3/4 lg:w-full my-3 justify-self-center`}
                   >
-                    <div className="text-white text-base">{exercise.name}</div>
-                    <div className="text-white text-sm">{exercise.max} KG</div>
+                    <div className="text-base text-white">{exercise.name}</div>
+                    <div className="text-sm text-white">{exercise.max} KG</div>
                   </div>
                 );
               })}
@@ -170,8 +179,10 @@ const Dashboard = () => {
                 <div key={workoutIndex}>
                   <div className="flex items-stretch">
                     <img
+
                       className="w-14 h-14 rounded-full m-2"
                       src={workout.exercise.imageUrl}
+
                       alt="Rounded avatar"
                     />
                     <div className="self-center">
@@ -184,17 +195,16 @@ const Dashboard = () => {
                       {/* TODO: Endpoint for streaks */}
                     </div>
                   </div>
-                  <div className="grid grid-cols-4">
+                  <div className="grid grid-cols-3">
                     <div className="text-center">#</div>
                     <div className="text-center">Weight</div>
                     <div className="text-center">Reps</div>
-                    <div className="text-center accent-white">check</div>
                   </div>
                   {Array.from(Array(workout.recSets)).map(
                     (_, exerciseSetIndex) => (
                       <div
                         key={exerciseSetIndex}
-                        className="grid grid-cols-4 gap-5"
+                        className="grid grid-cols-3 gap-5"
                       >
                         <div className="text-center">
                           {exerciseSetIndex + 1}
@@ -209,7 +219,6 @@ const Dashboard = () => {
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
                         ></input>
-                        <input type="checkbox"></input>
                       </div> //TODO: make check button work and filter if not checked
                     )
                   )}
@@ -234,3 +243,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

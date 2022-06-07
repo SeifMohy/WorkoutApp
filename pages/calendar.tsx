@@ -3,11 +3,19 @@ import Layout from "../components/layout";
 import CalenderComp from "../components/calendarComponent";
 import Image from "next/image";
 import axios from "axios";
+import useSWR from "swr";
+
+const fetchWorkoutHistory = (url: string) =>
+  axios.get(url).then((res) => res.data);
 
 const calendar = () => {
+  const { data, error } =
+  useSWR(
+    `/api/progress`,
+    fetchWorkoutHistory
+    );
+  console.log(data)
   const [myDate, setMyDate] = useState("");
-
-
 
   const workOutData = async () => {
     const res = await axios.get('/api/workouthistory')
