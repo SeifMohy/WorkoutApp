@@ -50,7 +50,7 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
             <div className="h-full bg-white w-80">
               {/* close button */}
               <div className="flex justify-between px-4 pt-5 pb-2 ">
-                <img className="m-2 bg-auto w-18 h-14" src="./logo.png" />
+                <img className="m-2 bg-auto w-[85%] h-[25%]" src="./logo.png" />
                 <button
                   type="button"
                   className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 rounded-md"
