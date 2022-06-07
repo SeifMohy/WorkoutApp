@@ -179,17 +179,16 @@ const Dashboard = () => {
                       {/* TODO: Endpoint for streaks */}
                     </div>
                   </div>
-                  <div className="grid grid-cols-4">
+                  <div className="grid grid-cols-3">
                     <div className="text-center">#</div>
                     <div className="text-center">Weight</div>
                     <div className="text-center">Reps</div>
-                    <div className="text-center accent-white">check</div>
                   </div>
                   {Array.from(Array(workout.recSets)).map(
                     (_, exerciseSetIndex) => (
                       <div
                         key={exerciseSetIndex}
-                        className="grid grid-cols-4 gap-5"
+                        className="grid grid-cols-3 gap-5"
                       >
                         <div className="text-center">
                           {exerciseSetIndex + 1}
