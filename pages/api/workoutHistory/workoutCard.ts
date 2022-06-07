@@ -8,12 +8,7 @@ import { getSession } from "next-auth/react";
 
 
 type Data = {
-  data:  _.Object<_.Dictionary<(UserLog & {
-    workoutLine: WorkoutLine & {
-        exercise: Exercise;
-    };
-})[]>>
-};
+  data:  _.Collection<Date>}
 
 type Error = {
   message: string;
@@ -48,10 +43,14 @@ export default async function handler(
   
       console.log(sortedUserLogs)
   
-      const groupedData = _(sortedUserLogs).groupBy(
-        (x) => x.date
-      );
-  
+      const groupedData = _(sortedUserLogs)
+      .groupBy((x) => x.date)
+      .entries()
+      .map((arr) => {
+          console.log({arr})
+          return new Date(arr[0])
+      });
+
       res.status(200).json({ data: groupedData });}
 
     }

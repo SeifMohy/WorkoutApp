@@ -9,9 +9,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WorkoutProvider>
       <SessionProvider session={pageProps.session}>
-        <AuthWrapper>
+        {/* <AuthWrapper> */}
           <Component {...pageProps} />
-        </AuthWrapper>
+        {/* </AuthWrapper> */}
       </SessionProvider>
     </WorkoutProvider>
 

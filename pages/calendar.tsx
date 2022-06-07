@@ -14,11 +14,11 @@ const calendar = () => {
     `/api/progress`,
     fetchWorkoutHistory
     );
-  console.log(data)
+  console.log(data) //why do you need this here?
   const [myDate, setMyDate] = useState("");
 
   const workOutData = async () => {
-    const res = await axios.get('/api/workouthistory/1')
+    const res = await axios.get('/api/workouthistory')
     const data = await res.data
     console.log(data["Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)"])
   }

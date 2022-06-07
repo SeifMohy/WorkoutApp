@@ -36,6 +36,15 @@ type WorkoutLine = {
   userId: String;
 };
 
+type StreakInfo = {
+  userStreak: number;
+};
+
+const fetchUserStreak = (url: string) => axios.get(url).then((res) => res.data);
+
+
+
+
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
 
@@ -64,6 +73,12 @@ const Dashboard = () => {
     fetchWorkoutName
   );
 
+  const { data: userStreak, error: userStreakError } = useSWR<StreakInfo>(
+    `/api/streak`,
+    fetchUserStreak
+  );
+  console.log(userStreak);
+
   //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
@@ -91,7 +106,15 @@ const Dashboard = () => {
   });
   // console.log(logsByExercise);
 
-  if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
+
+  if (
+    !logsByExercise ||
+    !workout ||
+    !todaysWorkout ||
+    !workoutInfo ||
+    !userStreak
+  ) {
+
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
@@ -106,7 +129,9 @@ const Dashboard = () => {
     <Layout>
       <div className="min-h-screen p-5 pt-8 bg-gray-100">
         {/* welcome div */}
+
         <DashboardHeadTab/>
+
         {/* Personal Records */}
         <div className="flex">
           <p className="my-3 text-lg">&#127942;</p>
@@ -133,8 +158,9 @@ const Dashboard = () => {
           </div>
         </div>
 
-        <div id="workoutTitle" className="m-3 text-lg">
-          {`Today's Workout`} ({workoutInfo.name} Workout)
+        <div id="workoutTitle" className="text-lg m-3">
+          Today's Workout ({workoutInfo.name} Workout)
+
         </div>
         <div>
           <>
@@ -146,7 +172,9 @@ const Dashboard = () => {
                 >
                   <div className="flex items-stretch">
                     <img
-                      className="m-2 rounded-full w-14 h-14"
+
+                      className="w-14 h-14 rounded-full m-2"
+
                       src={workout.exercise.imageUrl}
                       alt="Rounded avatar"
                     />
