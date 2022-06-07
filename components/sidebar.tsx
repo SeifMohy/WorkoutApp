@@ -47,55 +47,63 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
             leaveTo="-translate-x-full"
           >
             {/* sidebar */}
-            <div className="w-80 bg-white h-full">
+            <div className="h-full bg-white w-80">
               {/* close button */}
               <div className="flex justify-between px-4 pt-5 pb-2 ">
-                <img className="w-18 h-14 bg-auto m-2" src="./logo.png" />
+                <img className="m-2 bg-auto w-18 h-14" src="./logo.png" />
                 <button
                   type="button"
-                  className="-m-2 inline-flex items-center justify-center rounded-md p-2 text-gray-400"
+                  className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 rounded-md"
                   onClick={() => setOpen(false)}
                 >
-                  <XIcon className="h-6 w-6" />
+                  <XIcon className="w-6 h-6" />
                 </button>
               </div>
 
               {/* pages list */}
-              <div className="space-y-6 border-t border-gray-200 py-6 px-6">
+              <div className="px-6 py-6 space-y-6 border-t border-gray-200">
                 <div className="flow-root">
+                  <Link href="/dashboard" >
                   <a
-                    href="/dashboard"
-                    className="-m-2 flex p-2 font-medium text-gray-900"
+                    
+                    className="flex p-2 -m-2 font-medium text-gray-900"
                   >
-                    <HomeIcon className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-900 mx-2 xl: display" />
+                    <HomeIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900 xl: display" />
                     Dashboard
                   </a>
+                  </Link>
                   <div>
-                    <a
-                      href="/browseWorkouts"
-                      className="-m-2 flex p-2 font-medium text-gray-900"
-                    >
-                      <LightningBoltIcon className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-900 mx-2" />
+                    <Link href="/browseWorkouts">
+                      <a
+                        className="flex p-2 -m-2 font-medium text-gray-900"
+                      >  
+                    
+                      <LightningBoltIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900" />
                       Browse Workouts
                     </a>
+                    </Link>
                   </div>
                   <div>
-                    <a
-                      href="/calendar"
-                      className="-m-2 flex p-2 font-medium text-gray-900"
-                    >
-                      <CalendarIcon className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-900 mx-2" />
-                      Calender
-                    </a>
+                    <Link href="/calendar">
+                      <a
+                        
+                        className="flex p-2 -m-2 font-medium text-gray-900"
+                      >
+                        <CalendarIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900" />
+                        Calender
+                      </a>
+                    </Link>
                   </div>
                   <div>
-                    <a
-                      href="/progress"
-                      className="-m-2 flex p-2 font-medium text-gray-900"
-                    >
-                      <ChartBarIcon className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-900 mx-2" />
-                      Progress
-                    </a>
+                    <Link href="/progress">
+                      <a
+                        
+                        className="flex p-2 -m-2 font-medium text-gray-900"
+                      >
+                        <ChartBarIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900" />
+                        Progress
+                      </a> 
+                    </Link>
                   </div>
                 </div>
               </div>

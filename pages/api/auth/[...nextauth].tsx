@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 
 export default (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, {
+    secret: process.env.NEXTAUTH_SECRET,
     adapter: PrismaAdapter(prisma),
     providers: [
       GoogleProvider({
