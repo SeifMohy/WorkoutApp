@@ -163,7 +163,10 @@ const Dashboard = () => {
           <>
             {todaysWorkout.map((workout, workoutIndex) => {
               return (
-                <div key={workoutIndex}>
+                <div
+                  key={workoutIndex}
+                  className="flex-col items-start p-2 mb-1 transition duration-300 ease-in-out delay-150 bg-white rounded-2xl hover:bg-gray-200"
+                >
                   <div className="flex items-stretch">
                     <img
                       className="m-2 rounded-full w-14 h-14"
@@ -180,29 +183,39 @@ const Dashboard = () => {
                       {/* TODO: Endpoint for streaks */}
                     </div>
                   </div>
-                  <div className="grid grid-cols-3">
-                    <div className="text-center">#</div>
-                    <div className="text-center">Weight</div>
-                    <div className="text-center">Reps</div>
+                  <div className="grid grid-cols-3 gap-x-13">
+                    <div className="px-2 border">
+                      <span className="text-center">#</span>
+                    </div>
+                    <div className="px-2 border">
+                      <span className="text-center">Weight</span>
+                    </div>
+                    <div className="px-2 border">
+                      <span className="text-center">Reps</span>
+                    </div>
                   </div>
+
                   {Array.from(Array(workout.recSets)).map(
                     (_, exerciseSetIndex) => (
                       <div
                         key={exerciseSetIndex}
-                        className="grid grid-cols-3 gap-5"
+                        className="flex justify-around pb-3"
                       >
                         <div className="text-center">
                           {exerciseSetIndex + 1}
                         </div>
+
                         <input
                           name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
                           placeholder={`${workout.recWeight}`}
                           onChange={formik.handleChange}
+                          className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
                         ></input>
                         <input
                           name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
+                          className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
                         ></input>
                       </div> //TODO: make check button work and filter if not checked
                     )
@@ -218,7 +231,7 @@ const Dashboard = () => {
                 formik.handleSubmit();
               }}
             >
-              Submit
+              Finish
             </button>
           </>
         </div>
