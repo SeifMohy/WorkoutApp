@@ -64,7 +64,7 @@ const Dashboard = () => {
     fetchWorkoutName
   );
   const { data: userStreak, error: userStreakError } = useSWR<StreakInfo>(
-    `/api/streak/`,
+    `/api/streak`,
     fetchUserStreak
   );
   console.log(userStreak);
@@ -98,8 +98,7 @@ const Dashboard = () => {
     !logsByExercise ||
     !workout ||
     !todaysWorkout ||
-    !workoutInfo ||
-    !userStreak
+    !workoutInfo 
   ) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
