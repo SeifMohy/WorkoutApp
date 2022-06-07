@@ -36,6 +36,15 @@ type WorkoutLine = {
   userId: String;
 };
 
+type StreakInfo = {
+  userStreak: number;
+};
+
+const fetchUserStreak = (url: string) => axios.get(url).then((res) => res.data);
+
+
+
+
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
 
@@ -63,6 +72,12 @@ const Dashboard = () => {
     `/api/workout/${todaysWorkoutId}`,
     fetchWorkoutName
   );
+
+  const { data: userStreak, error: userStreakError } = useSWR<StreakInfo>(
+    `/api/streak`,
+    fetchUserStreak
+  );
+  console.log(userStreak);
 
   //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
@@ -92,8 +107,13 @@ const Dashboard = () => {
   });
   // console.log(logsByExercise);
 
-  if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
-
+  if (
+    !logsByExercise ||
+    !workout ||
+    !todaysWorkout ||
+    !workoutInfo ||
+    !userStreak
+  ) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
@@ -111,7 +131,6 @@ const Dashboard = () => {
         <div className="content-center justify-between m-3 bg-white md:flex">
           <div className="flex items-stretch">
             <img
-
               className="w-14 h-14 rounded-full m-2"
               src={session?.data?.user?.image || "/icon.png"}
               alt="Rounded avatar"
@@ -123,7 +142,7 @@ const Dashboard = () => {
               <div className="flex">
                 <p className="text-xs font-light mx-1">&#128293;</p>
                 <div className="text-xs font-light text-gray-600">
-                  10 Day Streak
+                  {""} {`${userStreak}`} Day Streak
                 </div>
               </div>
               {/* TODO: Endpoint for streaks */}
@@ -179,10 +198,8 @@ const Dashboard = () => {
                 <div key={workoutIndex}>
                   <div className="flex items-stretch">
                     <img
-
                       className="w-14 h-14 rounded-full m-2"
                       src={workout.exercise.imageUrl}
-
                       alt="Rounded avatar"
                     />
                     <div className="self-center">
