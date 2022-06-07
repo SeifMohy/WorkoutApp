@@ -69,7 +69,6 @@ const Dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
-        // complete: Array.from(Array(workoutLine.recSets), (x)=>false) ,
       };
     }),
   };
@@ -203,11 +202,6 @@ const Dashboard = () => {
                         <input
                           name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
                           placeholder={`${workout.recReps}`}
-                          onChange={formik.handleChange}
-                        ></input>
-                        <input
-                          type="checkbox"
-                          name={`workoutLogs[${workoutIndex}].complete[${exerciseSetIndex}]`}
                           onChange={formik.handleChange}
                         ></input>
                       </div> //TODO: make check button work and filter if not checked
