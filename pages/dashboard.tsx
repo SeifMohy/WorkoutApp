@@ -69,7 +69,6 @@ const Dashboard = () => {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
         workoutLineId: workoutLine.id,
-        complete: Array.from(Array(workoutLine.recSets), (x)=>false) ,
       };
     }),
   };
@@ -78,10 +77,9 @@ const Dashboard = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-
       // formik.resetForm();
       console.log(values)
-      const res = await axios.put("/api/userLogs", values);
+      const res = await axios.put("/api/userLogs/test", values); //This is on userLogs/test to avoid session errors
       console.log("userLogs", res);
     },
   });
@@ -181,17 +179,16 @@ const Dashboard = () => {
                       {/* TODO: Endpoint for streaks */}
                     </div>
                   </div>
-                  <div className="grid grid-cols-4">
+                  <div className="grid grid-cols-3">
                     <div className="text-center">#</div>
                     <div className="text-center">Weight</div>
                     <div className="text-center">Reps</div>
-                    <div className="text-center accent-white">check</div>
                   </div>
                   {Array.from(Array(workout.recSets)).map(
                     (_, exerciseSetIndex) => (
                       <div
                         key={exerciseSetIndex}
-                        className="grid grid-cols-4 gap-5"
+                        className="grid grid-cols-3 gap-5"
                       >
                         <div className="text-center">
                           {exerciseSetIndex + 1}
@@ -204,11 +201,6 @@ const Dashboard = () => {
                         <input
                           name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
                           placeholder={`${workout.recReps}`}
-                          onChange={formik.handleChange}
-                        ></input>
-                        <input
-                          type="checkbox"
-                          name={`workoutLogs[${workoutIndex}].complete[${exerciseSetIndex}]`}
                           onChange={formik.handleChange}
                         ></input>
                       </div> //TODO: make check button work and filter if not checked
