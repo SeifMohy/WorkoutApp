@@ -14,7 +14,7 @@ const calendar = () => {
     `/api/progress`,
     fetchWorkoutHistory
     );
-  console.log(data)
+  console.log(data) //why do you need this here?
   const [myDate, setMyDate] = useState("");
 
   const workOutData = async () => {
