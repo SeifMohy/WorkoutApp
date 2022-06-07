@@ -4,6 +4,7 @@ import _ from 'lodash';
 import { ProgressAPIResponseType } from 'types';
 import { Collection } from "lodash";
 import {prisma} from "../prismaClient"
+import { getSession } from 'next-auth/react';
 
 
 type Data = {
@@ -25,10 +26,18 @@ export default async function handler(
   res: NextApiResponse<Data | Error>
 ) {
   prisma 
-  const { userId } = req.query;
+  // const { userId } = req.query;
+
+  const session = await getSession({ req });
+  const userEmail = session?.user?.email;
+
+  const user = await prisma.user.findUnique({
+    where: { email: userEmail as string }
+  });
+  console.log(user);
 
   const userLogs = await prisma.userLog.findMany({
-    where: { userId: userId as string },
+    where: { userId: user?.id as string },
     include: { workoutLine: { include: { exercise: true } } }
   });
   const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
