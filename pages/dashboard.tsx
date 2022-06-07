@@ -83,19 +83,11 @@ const Dashboard = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-<<<<<<< HEAD
 
       // formik.resetForm();
       console.log(values)
       const res = await axios.put("/api/userLogs/test", values); //This is on userLogs/test to avoid session errors
       console.log("userLogs", res);
-=======
-      console.log(values);
-
-      // const res = axios.put('/api/userLogs', values);
-      // const data = await res;
-      // console.log('userLogs', data); //TODO: Reset Form
->>>>>>> e58f19796ecbf50dc29d443dc68f4c8b0174ff75
     },
   });
   // console.log(logsByExercise);
