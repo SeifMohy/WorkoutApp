@@ -35,15 +35,13 @@ const BrowseWorkouts = () => {
                 {
                     data.data.map((workout: Workout) => (
                         <li key={workout.id} className='flex-col justify-center border transition ease-in-out delay-150 p-[1rem] rounded-2xl my-[1rem] hover:-translate-y-1 hover:bg-white duration-300'>
-                            <div className = "relative w-80 h-[27rem] mb-[0.75rem] rounded-2xl">
+                            <div className = "relative w-40 h-40 mb-[0.75rem] rounded-2xl">
                                 <Image
                                     src={workout.imgUrl}
                                     alt={workout.name}
                                     layout="fill"
-                                    objectFit="cover"
-
                                     
-
+                                    objectFit="cover"
                                     className='object-fill w-full'
                                 />
                             </div>
