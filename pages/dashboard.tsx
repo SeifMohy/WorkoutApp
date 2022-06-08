@@ -104,7 +104,9 @@ const Dashboard = () => {
   });
   // console.log(logsByExercise);
 
+
   if (!logsByExercise || !workout || !workoutInfo) {
+
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />

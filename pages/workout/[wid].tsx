@@ -16,8 +16,7 @@ export default function Workout() {
     "relative w-80 h-[27rem] rounded-2xl mb-[0.75rem] rounded-2xl";
   const caption =
     "transition duration-150 ease-out hover:ease-in my-4 text-gray-600";
-  const card =
-    "flex-col justify-center border transition ease-in-out delay-150 p-[1rem] rounded-2xl my-[1rem] hover:-translate-y-1 hover:bg-white duration-300";
+    
   const browserWrapper = "flex flex-col justify-center align-center p-[1rem]";
   const cardTextContainer = "";
   const workoutName = "font-bold";
@@ -68,7 +67,7 @@ export default function Workout() {
           />
         </div>
         <div className="absolute flex-col justify-start items-start pt-[5.5rem]">
-          <h1 className="mt-[3rem] mb-[0.5rem] self-start p-[1rem] text-[2rem] font-bold text-left text-gray-100">
+          <h1 className="mt-[1.5rem] lg:mt-[3rem] mb-[0.5rem] self-start p-[1rem] text-[3rem] font-bold text-left text-gray-100">
             {data.name}
           </h1>
           <h2 className="ml-[1rem] w-full text-gray-100 text-[1.2rem]">
@@ -82,7 +81,7 @@ export default function Workout() {
         ) : (
           <ul className="flex flex-col items-center justify-center">
             {data?.exercises?.map((exercise: Exercise) => (
-              <li key={exercise.id} className={card}>
+              <li key={exercise.id} className="flex-col justify-center border transition ease-in-out delay-150 p-[1rem] rounded-2xl my-[2rem] hover:-translate-y-1 hover:bg-white duration-300">
                 <ActiveExcercise exercise={exercise} />
               </li>
             ))}
@@ -90,7 +89,7 @@ export default function Workout() {
         )}
 
         <button
-          className="self-center mx-[0.5rem] my-[1.2rem] bg-black text-white border rounded-2xl p-[0.6rem] transition ease-in-out delay-150 hover:bg-gray-700 font-bold text-[1.5rem] w-4/5 hover:scale-105 duration-300 ..."
+          className="self-center mx-[0.5rem] mt-[1.7rem] mb-[2.5rem] bg-black text-white border rounded-2xl p-[0.6rem] transition ease-in-out delay-150 hover:bg-gray-700 font-bold text-[1.5rem] w-4/5 lg:w-3/5 hover:scale-105 duration-300 ..."
           onClick={startWorkout}
         >
           start the workout
