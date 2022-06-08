@@ -43,14 +43,10 @@ export type StreakInfo = {
 
 const fetchUserStreak = (url: string) => axios.get(url).then((res) => res.data);
 
-
-
-
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
-
 
 const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
@@ -80,7 +76,6 @@ const Dashboard = () => {
   );
   console.log(userStreak);
 
-  //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
   )[0];
@@ -112,8 +107,7 @@ const Dashboard = () => {
     !logsByExercise ||
     !workout ||
     !todaysWorkout ||
-    !workoutInfo ||
-    !userStreak
+    !workoutInfo
   ) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">

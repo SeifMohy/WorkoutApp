@@ -2,11 +2,11 @@ import Link from 'next/link'
 import React from 'react'
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import {StreakInfo} from '../pages/dashboard'
-type props = {
-  userStreak:StreakInfo
-}
+import {StreakInfo} from '../pages/dashboard';
 
+type props = {
+  userStreak : StreakInfo;
+}
 function DashboardHeadTab({userStreak}:props) {
 
     const session = useSession();
@@ -29,9 +29,9 @@ function DashboardHeadTab({userStreak}:props) {
                 )}.`}</h3>
                 <div className="flex">
                   <p className="mx-1 text-xs font-light">&#128293;</p>
-                  <div className="text-xs font-light text-gray-600">
-                    {""} {`${userStreak}`} Day Streak
-                  </div>
+                  <p className="text-xs font-light text-gray-600">
+                    {userStreak} streaks
+                  </p>
                 </div>
               </div>
             </div>
