@@ -15,6 +15,7 @@ import * as Yup from "yup";
 import Link from "next/link";
 import { CircularProgress } from "@mui/material";
 import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
+import DashboardHeadTab from "components/DashboardHeadTab";
 
 
 function choosingColor(name: string) {
@@ -35,6 +36,15 @@ type WorkoutLine = {
   workoutLineId: String;
   userId: String;
 };
+
+export type StreakInfo = {
+  userStreak: number;
+};
+
+const fetchUserStreak = (url: string) => axios.get(url).then((res) => res.data);
+
+
+
 
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
@@ -64,6 +74,12 @@ const Dashboard = () => {
     fetchWorkoutName
   );
 
+  const { data: userStreak, error: userStreakError } = useSWR<StreakInfo>(
+    `/api/streak`,
+    fetchUserStreak
+  );
+  console.log(userStreak);
+
   //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
@@ -92,8 +108,13 @@ const Dashboard = () => {
   });
   // console.log(logsByExercise);
 
-  if (!logsByExercise || !workout || !todaysWorkout || !workoutInfo) {
-
+  if (
+    !logsByExercise ||
+    !workout ||
+    !todaysWorkout ||
+    !workoutInfo ||
+    !userStreak
+  ) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
@@ -108,46 +129,12 @@ const Dashboard = () => {
     <Layout>
       <div className="min-h-screen p-5 pt-8 bg-gray-100">
         {/* welcome div */}
-        <div className="content-center justify-between m-3 bg-white md:flex">
-          <div className="flex items-stretch">
-            <img
-
-              className="w-14 h-14 rounded-full m-2"
-              src={session?.data?.user?.image || "/icon.png"}
-              alt="Rounded avatar"
-            />
-            <div className="self-center">
-              <div className="text-xl font-bold">
-                Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, "")}
-              </div>
-              <div className="flex">
-                <p className="text-xs font-light mx-1">&#128293;</p>
-                <div className="text-xs font-light text-gray-600">
-                  10 Day Streak
-                </div>
-              </div>
-              {/* TODO: Endpoint for streaks */}
-            </div>
-          </div>
-          <div className="flex justify-between m-3">
-            {/* TODO: add white below buttons on small screen */}
-            <Link href="/browseWorkouts" className="flex items-stretch">
-              <a className="self-center p-2 px-2 text-sm border border-gray-600 rounded-md md:mx-4">
-                Browse Workouts
-              </a>
-            </Link>
-            <Link href="#workoutTitle">
-              <a className="self-center p-2 px-2 text-sm text-white bg-black rounded-md">
-                Start Todays Workout
-              </a>
-            </Link>
-          </div>
-        </div>
+        <DashboardHeadTab userStreak={userStreak}/>
         {/* Personal Records */}
 
         <div className="flex">
-          <p className="text-lg my-3">&#127942;</p>
-          <div className="text-lg my-3 mx-1">Personal Records</div>
+          <p className="my-3 text-lg">&#127942;</p>
+          <div className="mx-1 my-3 text-lg">Personal Records</div>
         </div>
 
         <div className="">
@@ -169,20 +156,21 @@ const Dashboard = () => {
             </>
           </div>
         </div>
-        <div id="workoutTitle" className="text-lg m-3">
-          Today's Workout ({workoutInfo.name} Workout)
+        <div id="workoutTitle" className="m-3 text-lg">
+         {` Today's`} Workout ({workoutInfo.name} Workout)
         </div>
         <div>
           <>
             {todaysWorkout.map((workout, workoutIndex) => {
               return (
-                <div key={workoutIndex}>
+                <div
+                  key={workoutIndex}
+                  className="flex-col items-start p-2 mb-1 transition duration-300 ease-in-out delay-150 bg-white rounded-2xl hover:bg-gray-200"
+                >
                   <div className="flex items-stretch">
                     <img
-
-                      className="w-14 h-14 rounded-full m-2"
+                      className="m-2 rounded-full w-14 h-14"
                       src={workout.exercise.imageUrl}
-
                       alt="Rounded avatar"
                     />
                     <div className="self-center">
@@ -195,29 +183,39 @@ const Dashboard = () => {
                       {/* TODO: Endpoint for streaks */}
                     </div>
                   </div>
-                  <div className="grid grid-cols-3">
-                    <div className="text-center">#</div>
-                    <div className="text-center">Weight</div>
-                    <div className="text-center">Reps</div>
+                  <div className="grid grid-cols-3 gap-x-13">
+                    <div className="px-2 border">
+                      <span className="text-center">#</span>
+                    </div>
+                    <div className="px-2 border">
+                      <span className="text-center">Weight</span>
+                    </div>
+                    <div className="px-2 border">
+                      <span className="text-center">Reps</span>
+                    </div>
                   </div>
+
                   {Array.from(Array(workout.recSets)).map(
                     (_, exerciseSetIndex) => (
                       <div
                         key={exerciseSetIndex}
-                        className="grid grid-cols-3 gap-5"
+                        className="flex justify-around pb-3"
                       >
                         <div className="text-center">
                           {exerciseSetIndex + 1}
                         </div>
+
                         <input
                           name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
                           placeholder={`${workout.recWeight}`}
                           onChange={formik.handleChange}
+                          className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
                         ></input>
                         <input
                           name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
                           placeholder={`${workout.recReps}`}
                           onChange={formik.handleChange}
+                          className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
                         ></input>
                       </div> //TODO: make check button work and filter if not checked
                     )
@@ -233,7 +231,7 @@ const Dashboard = () => {
                 formik.handleSubmit();
               }}
             >
-              Submit
+              Finish
             </button>
           </>
         </div>
