@@ -130,7 +130,7 @@ const ProgressTest = () => {
                 </div>
                 <div className="flex justify-between m-4 px-4">
                   <div>{log.name}</div>
-                  <div>{log.max}</div>
+                  <div>Max {log.max}KG</div>
                 </div>
               </div>
             );

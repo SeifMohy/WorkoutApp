@@ -1,4 +1,4 @@
-import { Exercise, Workout, WorkoutLine } from "@prisma/client";
+import { Exercise, UserLog, Workout, WorkoutLine } from "@prisma/client";
 import { Collection } from "lodash";
 
 export type ProgressAPIResponseType = Collection<{
@@ -25,3 +25,13 @@ export type ProgressAPIResponseType = Collection<{
         exercise: Exercise;
       })[];
     };
+  
+    export type GroupedData = {
+      data: _.Collection<Date>}
+    
+export type WorkoutHistoryCard = _.Collection<[string, (UserLog & {
+  workoutLine: WorkoutLine & {
+      exercise: Exercise;
+      workout: Workout;
+  };
+})[]]>
