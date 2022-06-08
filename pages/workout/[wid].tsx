@@ -70,7 +70,7 @@ export default function Workout() {
         )}
 
         <button
-          className="self-center mx-[0.5rem] mt-[1.7rem] mb-[2.5rem] bg-black text-white border rounded-2xl p-[0.6rem] transition ease-in-out delay-150 hover:bg-gray-700 font-bold text-[1.5rem] w-4/5 lg:w-3/5 hover:scale-105 duration-300 ..."
+          className="self-center mx-[0.5rem] mt-[1.7rem] mb-[2.5rem] bg-black text-white border rounded-2xl p-[0.6rem] transition ease-in-out delay-150 hover:bg-gray-700 font-bold text-[1.5rem]	 md:w-4/5 sm:max-w-sm hover:scale-105 duration-300 ..."
           onClick={startWorkout}
         >
           start the workout
