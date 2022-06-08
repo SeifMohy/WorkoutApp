@@ -30,16 +30,14 @@ const calendar = () => {
         </div>
         <div>
           <>
-            {data.map((x) => {
+            {data.workouts.map((x, idx:number) => {
               return (
                 <div className="grid sm:grid-cols-1 lg:grid-cols-2 py-8 md:px-8 px-0 bg-white rounded-md">
                   <div>
                     <h1>Workout</h1>
                     <span className="block text-xs text-gray-400">
                       {
-                        x[1].map((x: any) => {
-                          return x.workoutLine.workout.name;
-                        })[0]
+                        x.workoutName
                       }{' '}
                       Day
                     </span>
@@ -47,10 +45,15 @@ const calendar = () => {
                   <div>
                     <h1>Date</h1>
                     <span className="block text-xs text-gray-400">
-                      {moment(x[0]).format('MMM Do YY')}
+                      {moment(data.workoutDates[idx]).format('MMM Do YY')}
                     </span>
                   </div>
                   <div className="bg-white my-8 flex rounded-l-3xl">
+
+                    <>
+                    {x.exercises.map((x)=>x[1].name)}
+                    </>
+{/*
                   <img
                               className="rounded-l-3xl"
                               src="/images/signin.jpg"
@@ -58,7 +61,7 @@ const calendar = () => {
                               width={150}
                               height={200}
                             />
-                    <>
+                     <>
                       {x[1].map((x) => {
                         return (
                             <span className="block text-xs text-gray-400">
@@ -66,7 +69,7 @@ const calendar = () => {
                           </span>
                         );
                       })}
-                    </>
+                    </> */}
                   </div>
                 </div>
               );

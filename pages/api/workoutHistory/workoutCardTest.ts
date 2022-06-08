@@ -1,14 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Exercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
-import _, { keys } from 'lodash';
-import {
-  GroupedData,
-  ProgressAPIResponseType,
-  WorkoutHistoryCard
-} from 'types';
-import { Collection } from 'lodash';
+import _ from 'lodash';
+import { WorkoutHistoryCard } from 'types';
 import { prisma } from '../prismaClient';
-import { getSession } from 'next-auth/react';
 
 type Error = {
   message: string;
@@ -18,7 +11,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<WorkoutHistoryCard | Error>
 ) {
-  prisma;
   const user = 'cl41ad4cw0080jep1zcb9ddxg';
   if (!user) {
     res.status(400);
@@ -28,24 +20,35 @@ export default async function handler(
       include: { workoutLine: { include: { exercise: true, workout: true } } }
     });
 
-    const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
+    const sortedUserLogs = userLogs.sort(
+      (a, b) => a.date.getTime() - b.date.getTime()
+    );
 
     //console.log(sortedUserLogs);
 
-    const groupedData = _(sortedUserLogs)
-      .groupBy((x) => x.date)
+    const logsGroupedByDate = _(sortedUserLogs)
+      .groupBy((log) => log.date)
       .entries();
 
     //console.log(groupedData);
 
-    const exercises = groupedData.map((x) => x[1]);
+    const logsForTheSession = logsGroupedByDate.map((logArr) => logArr[1]);
 
     const calendarData = {
-      workoutDates: groupedData.map((x) => x[0]),
-      workouts: exercises.map((x, idx) => {
+      workoutDates: logsGroupedByDate.map((x) => x[0]),
+      workouts: logsForTheSession.map((sessionLog,idx) => {
         return {
-          workoutName: x[0].workoutLine.workout.name,
-          exercises: _(x).groupBy((x) => x.workoutLine.exerciseId).entries()
+          date: sessionLog[0].date,
+          workoutName: sessionLog[0].workoutLine.workout.name,
+          workoutLines: _(sessionLog)
+            .groupBy((sessionLog) => sessionLog.workoutLine.id)
+            .entries()
+            .map(workoutLine=>{
+              return {
+                exercise: workoutLine[1][0].workoutLine.exercise,
+                logs: workoutLine[1]
+              }
+            })
         };
       })
     };
