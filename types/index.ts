@@ -29,9 +29,15 @@ export type ProgressAPIResponseType = Collection<{
     export type GroupedData = {
       data: _.Collection<Date>}
     
-export type WorkoutHistoryCard = _.Collection<[string, (UserLog & {
-  workoutLine: WorkoutLine & {
-      exercise: Exercise;
-      workout: Workout;
-  };
-})[]]>
+export type WorkoutHistoryCard = {
+  workoutDates: _.Collection<string>;
+  workouts: _.Collection<{
+      workoutName: string;
+      exercises: _.Collection<[string, (UserLog & {
+          workoutLine: WorkoutLine & {
+              exercise: Exercise;
+              workout: Workout;
+          };
+      })[]]>;
+  }>;
+}

@@ -1,7 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Exercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
 import _, { keys } from 'lodash';
-import { GroupedData, ProgressAPIResponseType, WorkoutHistoryCard } from 'types';
+import {
+  GroupedData,
+  ProgressAPIResponseType,
+  WorkoutHistoryCard
+} from 'types';
 import { Collection } from 'lodash';
 import { prisma } from '../prismaClient';
 import { getSession } from 'next-auth/react';
@@ -26,16 +30,26 @@ export default async function handler(
 
     const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);
 
-    console.log(sortedUserLogs);
+    //console.log(sortedUserLogs);
 
     const groupedData = _(sortedUserLogs)
       .groupBy((x) => x.date)
       .entries();
 
-      const groupedData2 = _(sortedUserLogs)
-      .groupBy((x) => x.date)
-      .entries();
+    //console.log(groupedData);
 
-    res.status(200).json(groupedData);
+    const exercises = groupedData.map((x) => x[1]);
+
+    const calendarData = {
+      workoutDates: groupedData.map((x) => x[0]),
+      workouts: exercises.map((x, idx) => {
+        return {
+          workoutName: x[0].workoutLine.workout.name,
+          exercises: _(x).groupBy((x) => x.workoutLine.exerciseId).entries()
+        };
+      })
+    };
+
+    res.status(200).json(calendarData);
   }
 }
