@@ -1,33 +1,31 @@
-import React, { useContext, useEffect } from "react";
-import Layout from "../components/layout";
-import { useSession } from "next-auth/react";
-import axios from "axios";
-import useSWR from "swr";
+import React, { useContext, useEffect } from 'react';
+import Layout from '../components/layout';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import useSWR from 'swr';
 import {
   ProgressAPIResponseType,
   todaysWorkoutData,
-
   WorkoutInfo,
-  WorkoutLineData,
-} from "types";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import Link from "next/link";
-import { CircularProgress } from "@mui/material";
-import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
-import DashboardHeadTab from "components/DashboardHeadTab";
-
+  WorkoutLineData
+} from 'types';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import Link from 'next/link';
+import { CircularProgress } from '@mui/material';
+import { useWorkout, WorkoutContext } from 'components/WorkoutProvider';
+import DashboardHeadTab from 'components/DashboardHeadTab';
 
 function choosingColor(name: string) {
   switch (name) {
-    case "Squat":
-      return "bg-red-700";
-    case "Lunges":
-      return "bg-green-700";
-    case "Jumping Jacks":
-      return "bg-blue-700";
+    case 'Squat':
+      return 'bg-red-700';
+    case 'Lunges':
+      return 'bg-green-700';
+    case 'Jumping Jacks':
+      return 'bg-blue-700';
     default:
-      return "bg-red-700";
+      return 'bg-red-700';
   }
 }
 type WorkoutLine = {
@@ -43,14 +41,10 @@ export type StreakInfo = {
 
 const fetchUserStreak = (url: string) => axios.get(url).then((res) => res.data);
 
-
-
-
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
-
 
 const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
@@ -78,9 +72,12 @@ const Dashboard = () => {
     `/api/streak`,
     fetchUserStreak
   );
+
+  console.log(logsByExercise);
+  console.log(workout);
+  console.log(workoutInfo);
   console.log(userStreak);
 
-  //console.log(workout);
   const todaysWorkout: todaysWorkoutData[] = Object.values(
     workout?.data || []
   )[0];
@@ -90,46 +87,36 @@ const Dashboard = () => {
       return {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
-        workoutLineId: workoutLine.id,
+        workoutLineId: workoutLine.id
       };
-    }),
+    })
   };
 
   const formik = useFormik({
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-
       // formik.resetForm();
-      console.log(values)
-      const res = await axios.put("/api/userLogs/test", values); //This is on userLogs/test to avoid session errors
-      console.log("userLogs", res);
-    },
+      console.log(values);
+      const res = await axios.put('/api/userLogs/test', values); //This is on userLogs/test to avoid session errors
+      console.log('userLogs', res);
+    }
   });
   // console.log(logsByExercise);
 
-  if (
-    !logsByExercise ||
-    !workout ||
-    !todaysWorkout ||
-    !workoutInfo ||
-    !userStreak
-  ) {
+  if (!logsByExercise || !workout || !workoutInfo) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
       </div>
     );
-  }
-
-  console.log({ logsByExercise });
-  console.log({ daysWorkout });
-
+  }else{}
   return (
     <Layout>
       <div className="min-h-screen p-5 pt-8 bg-gray-100">
         {/* welcome div */}
-        <DashboardHeadTab userStreak={userStreak}/>
+        <DashboardHeadTab userStreak={userStreak || 0? userStreak : 0} /> 
+        {/* TODO: fix error */}
         {/* Personal Records */}
 
         <div className="flex">
@@ -157,7 +144,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div id="workoutTitle" className="m-3 text-lg">
-         {` Today's`} Workout ({workoutInfo.name} Workout)
+          {` Today's`} Workout ({workoutInfo.name} Workout)
         </div>
         <div>
           <>
@@ -241,4 +228,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-
