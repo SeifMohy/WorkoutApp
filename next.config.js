@@ -8,7 +8,8 @@ const nextConfig = {
       'lh3.googleusercontent.com',
       'picsum.photos',
       'www.youtube.com',
-      "artimg.gympik.com"
+      "artimg.gympik.com",
+      "media.istockphoto.com"
     ],
   },
 }

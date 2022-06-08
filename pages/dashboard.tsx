@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { CircularProgress } from '@mui/material';
 import { useWorkout, WorkoutContext } from 'components/WorkoutProvider';
 import DashboardHeadTab from 'components/DashboardHeadTab';
+import ExerciseIndex from 'components/ExerciseIndex';
 
 function choosingColor(name: string) {
   switch (name) {
@@ -154,61 +155,49 @@ const Dashboard = () => {
               return (
                 <div
                   key={workoutIndex}
-                  className="flex-col items-start p-2 mb-1 transition duration-300 ease-in-out delay-150 bg-white rounded-2xl hover:bg-gray-200"
+                  className="flex-col items-center p-2 mb-1"
                 >
-                  <div className="flex items-stretch">
-                    <img
-                      className="m-2 rounded-full w-14 h-14"
-                      src={workout.exercise.imageUrl}
-                      alt="Rounded avatar"
-                    />
-                    <div className="self-center">
-                      <div className="text-xl font-bold">
-                        {workout.exercise.name}
+                  <ExerciseIndex workout={workout}/>
+                  
+                  <div className="flex-col justify-end bg-white">
+                    <div className='flex justify-center p-3 bg-gray-200 border'>
+                      <div className="flex justify-start px-1">
+                        <span className="text-center">#</span>
                       </div>
-                      <div className="text-xs font-light text-gray-600">
-                        {workout.recSets} Sets x {workout.recReps} Reps
+                      <div className="flex justify-start px-1">
+                        <span className="text-center">Weight</span>
                       </div>
-                      {/* TODO: Endpoint for streaks */}
+                      <div className="flex justify-start px-1">
+                        <span className="text-center">Reps</span>
+                      </div>  
                     </div>
-                  </div>
-                  <div className="grid grid-cols-3 gap-x-13">
-                    <div className="px-2 border">
-                      <span className="text-center">#</span>
-                    </div>
-                    <div className="px-2 border">
-                      <span className="text-center">Weight</span>
-                    </div>
-                    <div className="px-2 border">
-                      <span className="text-center">Reps</span>
-                    </div>
+                    {Array.from(Array(workout.recSets)).map(
+                      (_, exerciseSetIndex) => (
+                        <div
+                          key={exerciseSetIndex}
+                          className="flex justify-around pb-3"
+                        >
+                          <div className="text-center">
+                            {exerciseSetIndex + 1}
+                          </div>
+
+                          <input
+                            name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
+                            placeholder={`${workout.recWeight}`}
+                            onChange={formik.handleChange}
+                            className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
+                          ></input>
+                          <input
+                            name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
+                            placeholder={`${workout.recReps}`}
+                            onChange={formik.handleChange}
+                            className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
+                          ></input>
+                        </div> //TODO: make check button work and filter if not checked
+                      )
+                    )}
                   </div>
 
-                  {Array.from(Array(workout.recSets)).map(
-                    (_, exerciseSetIndex) => (
-                      <div
-                        key={exerciseSetIndex}
-                        className="flex justify-around pb-3"
-                      >
-                        <div className="text-center">
-                          {exerciseSetIndex + 1}
-                        </div>
-
-                        <input
-                          name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
-                          placeholder={`${workout.recWeight}`}
-                          onChange={formik.handleChange}
-                          className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
-                        ></input>
-                        <input
-                          name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
-                          placeholder={`${workout.recReps}`}
-                          onChange={formik.handleChange}
-                          className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
-                        ></input>
-                      </div> //TODO: make check button work and filter if not checked
-                    )
-                  )}
                 </div>
               );
             })}
