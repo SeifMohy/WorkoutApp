@@ -30,7 +30,7 @@ function DashboardHeadTab({userStreak}:props) {
                 <div className="flex">
                   <p className="mx-1 text-xs font-light">&#128293;</p>
                   <p className="text-xs font-light text-gray-600">
-                    {userStreak} streaks
+                    {`${userStreak} streaks`}
                   </p>
                 </div>
               </div>

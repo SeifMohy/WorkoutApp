@@ -12,33 +12,14 @@ import Layout from "components/layout";
 import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
 
 export default function Workout() {
-  const imageContainer =
-    "relative w-80 h-[27rem] rounded-2xl mb-[0.75rem] rounded-2xl";
-  const caption =
-    "transition duration-150 ease-out hover:ease-in my-4 text-gray-600";
-    
-  const browserWrapper = "flex flex-col justify-center align-center p-[1rem]";
-  const cardTextContainer = "";
-  const workoutName = "font-bold";
-  const workoutPic =
-    "relative w-80 h-[27rem] rounded-2xl mb-[0.75rem] rounded-2xl border";
 
   const router = useRouter();
   const { wid } = router.query;
   const { daysWorkout, setWorkoutForTheDay } = useWorkout();
-
-  // console.log(daysWorkout, getTodaysWorkout);
-  // const { data: session } = useSession()
-
-  // const userEmail = session.user.email
-  // const payload = { userEmail }
-
-
   const fetcher = (url: string) => axios.get(url).then((res) => res.data);
   const { data, error } = useSWR("/api/workout/" + wid, fetcher);
-  console.log({ data });
+  
   const startWorkout = () => {
-    //the ! confirms thatthe req. is there
     setWorkoutForTheDay(wid!.toString());
     router.push("/dashboard");
   };
