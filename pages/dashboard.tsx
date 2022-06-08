@@ -115,7 +115,7 @@ const Dashboard = () => {
   }else{}
   return (
     <Layout>
-      <div className="min-h-screen p-5 pt-8 bg-gray-100">
+      <div className="min-h-screen p-5 bg-gray-100">
         {/* welcome div */}
         <DashboardHeadTab userStreak={userStreak || 0? userStreak : 0} /> 
         {/* TODO: fix error */}
