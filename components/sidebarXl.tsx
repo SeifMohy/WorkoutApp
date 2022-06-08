@@ -16,7 +16,7 @@ const SidebarXl = () => {
     <div className="min-h-screen bg-white border-r border-gray-200 ">
       <div>
 
-        <img className="w-64 h-[5.5rem] m-3 bg-auto" src="./logo.png" />
+        <img className="w-64 h-[5.5rem] m-3 bg-auto" src="/logo.png" />
 
       </div>
       {/* pages list */}
