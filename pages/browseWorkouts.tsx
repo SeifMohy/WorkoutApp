@@ -1,30 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import Layout from '../components/layout';
-import Image from 'next/image';
-import axios from 'axios';
-import useSWR from 'swr';
-import { Workout } from '@prisma/client';
-import Link from 'next/link';
-import { CircularProgress } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import Layout from "../components/layout";
+import Image from "next/image";
+import axios from "axios";
+import useSWR from "swr";
+import { Workout } from "@prisma/client";
+import Link from "next/link";
+import { CircularProgress } from "@mui/material";
 
 const fetchWorkouts = (url: string) => axios.get(url).then((res) => res.data);
-// const {data, error} = useSWR(`api/workouts`, fetchWorkouts )
 
 const BrowseWorkouts = () => {
   const { data, error } = useSWR(`/api/workouts`, fetchWorkouts);
 
-  if(!data) {
-
+  if (!data) {
     return (
-        <div className='flex justify-center items-center w-full h-[100vh]'>
-            <CircularProgress color="inherit" className='w-[12rem]'/>
-      </div> 
-    )  
+      <div className="flex justify-center items-center w-full h-[100vh]">
+        <CircularProgress color="inherit" className="w-[12rem]" />
+      </div>
+    );
   }
 
-  console.log(data)
   return (
     <Layout>
+
       <div className='flex flex-col justify-center min-h-screen p-5 pt-8 bg-gray-100 align-center'>
             <h1 className='text-2xl font-extrabold text-center'>
                 Browse our carefully curated workouts
@@ -60,8 +58,9 @@ const BrowseWorkouts = () => {
                 }
             </ul>
         </div>
+
     </Layout>
   );
 };
 
-export default BrowseWorkouts
+export default BrowseWorkouts;

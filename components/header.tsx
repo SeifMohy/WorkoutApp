@@ -39,7 +39,7 @@ const header = ({
                 onClick={() => setOpenAccount(!openAccount)}
               >
                 <img
-                  className="w-14 h-14 rounded-full m-2"
+                  className="w-10 h-10 rounded-full m-2"
                   src={session?.data?.user?.image || "/icon.png"}
                   alt="Rounded avatar"
                 />
