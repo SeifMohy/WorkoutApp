@@ -1,16 +1,51 @@
 import React from "react";
 import Footer from "./footer";
 import Header from "./header";
-import { useState, createContext } from "react";
+import { useState } from "react";
 import SidebarXl from "./sidebarXl";
-
+import { User } from "@prisma/client";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { useUser } from "@supabase/supabase-auth-helpers/react";
 type props = {
   children: React.ReactNode;
 };
 
 function Layout({ children }: props) {
+  const { user, isLoading,error, accessToken,checkSession } = useUser();
   const [openAccount, setOpenAccount] = useState(false);
   const [open, setOpen] = useState(false);
+  const [fullUser, setFullUser] = useState<User | null>();
+
+  const router = useRouter();
+
+  const getFullUser = async () => {
+    try {
+      const res = await axios.get("/api/user");
+      if (res.status !== 200) {
+        console.log("there is an error");
+      }
+      setFullUser(res.data.user);
+    } catch (error) {
+      router.push("/signup");
+    }
+  };
+
+  useEffect(() => {
+    getFullUser();
+  }, []);
+
+  useEffect(() => {
+    console.log("sup dude", { user, isLoading })
+    if (!isLoading && !user) {
+    router.push("/signin");
+      
+    }
+  },[user, accessToken, isLoading])
+
+
+  console.log(fullUser);
   // const workoutToday = createContext()
   function handleClose() {
     if (openAccount === true) {
@@ -18,6 +53,13 @@ function Layout({ children }: props) {
     }
   }
 
+  if (isLoading)
+    return (
+      <>
+      loading...
+      </>
+    )
+  if (user)
   return (
     <div className="min-h-screen" onClick={() => handleClose()}>
       <div className="grid grid-cols-4 bg-white ">
@@ -36,6 +78,11 @@ function Layout({ children }: props) {
       </div>
     </div>
   );
+
+  return (
+    <>
+    redirecting....</>
+  )
 }
 
 export default Layout;

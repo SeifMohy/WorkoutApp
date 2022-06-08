@@ -1,6 +1,6 @@
 import React from "react";
 import Layout from "../components/layout";
-import { useSession } from "next-auth/react";
+
 import axios from "axios";
 import useSWR from "swr";
 import {
@@ -8,7 +8,7 @@ import {
   todaysWorkoutData,
   WorkoutInfo,
   WorkoutLineData,
-} from "types";
+} from "types/index";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
@@ -44,8 +44,7 @@ const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const Dashboard = () => {
-  const session = useSession();
-  const userEmail = session.data?.user?.email;
+
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
   const { data: workout, error: workoutError } = useSWR<WorkoutLineData>(
@@ -66,10 +65,10 @@ const Dashboard = () => {
   const initialValues = {
     workoutLogs: todaysWorkout?.map((workoutLine) => {
       return {
-        weight: Array.from(Array(workoutLine.recSets)),
-        reps: Array.from(Array(workoutLine.recSets)),
+        weight: Array.from(Array(workoutLine.sugSets)),
+        reps: Array.from(Array(workoutLine.sugSets)),
         workoutLineId: workoutLine.id,
-        complete: Array.from(Array(workoutLine.recSets), (x)=>false) ,
+        complete: Array.from(Array(workoutLine.sugSets), (x)=>false) ,
       };
     }),
   };
@@ -103,12 +102,12 @@ const Dashboard = () => {
           <div className="flex items-stretch">
             <img
               className="w-14 h-14 rounded-full m-2"
-              src={session?.data?.user?.image || "/icon.png"}
+              src="/icon.png"
               alt="Rounded avatar"
             />
             <div className="self-center">
               <div className="text-xl font-bold">
-                Good Morning, {session?.data?.user?.name?.replace(/[0-9]/g, "")}
+                Good Morning, 
               </div>
               <div className="flex">
                 <p className="text-xs font-light mx-1">&#128293;</p>
@@ -168,7 +167,7 @@ const Dashboard = () => {
                   <div className="flex items-stretch">
                     <img
                       className="w-14 h-14 rounded-full m-2"
-                      src={workout.exercise.imageUrl}
+                      src={workout.exercise.imageURl}
                       alt="Rounded avatar"
                     />
                     <div className="self-center">
@@ -176,7 +175,7 @@ const Dashboard = () => {
                         {workout.exercise.name}
                       </div>
                       <div className="text-xs font-light text-gray-600">
-                        {workout.recSets} Sets x {workout.recReps} Reps
+                        {workout.sugSets} Sets x {workout.sugReps} Reps
                       </div>
                       {/* TODO: Endpoint for streaks */}
                     </div>
@@ -187,7 +186,7 @@ const Dashboard = () => {
                     <div className="text-center">Reps</div>
                     <div className="text-center accent-white">check</div>
                   </div>
-                  {Array.from(Array(workout.recSets)).map(
+                  {Array.from(Array(workout.sugSets)).map(
                     (_, exerciseSetIndex) => (
                       <div
                         key={exerciseSetIndex}
@@ -198,12 +197,12 @@ const Dashboard = () => {
                         </div>
                         <input
                           name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
-                          placeholder={`${workout.recWeight}`}
+                          placeholder={`${workout.sugWeight}`}
                           onChange={formik.handleChange}
                         ></input>
                         <input
                           name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
-                          placeholder={`${workout.recReps}`}
+                          placeholder={`${workout.sugReps}`}
                           onChange={formik.handleChange}
                         ></input>
                         <input

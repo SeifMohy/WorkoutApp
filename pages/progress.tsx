@@ -17,7 +17,7 @@ import 'chartjs-adapter-moment';
 import axios from 'axios';
 import useSWR from 'swr';
 import { Exercise } from '@prisma/client';
-import { ProgressAPIResponseType } from 'types';
+import { ProgressAPIResponseType } from 'types/index';
 
 ChartJS.register(
   CategoryScale,

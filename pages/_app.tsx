@@ -1,15 +1,18 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import AuthWrapper from "../components/AuthWrapper";
-import { SessionProvider } from "next-auth/react";
 
-function MyApp({ Component, pageProps }:AppProps) {
+import { UserProvider } from "@supabase/supabase-auth-helpers/react";
+import { supabaseClient } from "@supabase/supabase-auth-helpers/nextjs";
+
+
+function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <SessionProvider session={pageProps.session}>
-      <AuthWrapper>
+
+      <UserProvider supabaseClient={supabaseClient}>
         <Component {...pageProps} />
-      </AuthWrapper>
-    </SessionProvider>
+      </UserProvider>
+
   );
 }
 

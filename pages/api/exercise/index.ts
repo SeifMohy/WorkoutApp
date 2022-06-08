@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { Exercise, PrismaClient } from "@prisma/client";
-import {prisma} from "../prismaClient"
+import prisma from "prismaClient"
 
 type Data = {
   data: Exercise[] 

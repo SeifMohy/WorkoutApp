@@ -7,96 +7,73 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-   @@unique([provider, providerAccountId], name: "provider_providerAccountId")
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-enum Gender {
-  male
-  female
-}
-
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  gender        Gender?
-  age           Int?
-  weight        Int?
-  height        Int? //user steak
-  accounts      Account[]
-  sessions      Session[]
-  userLogs      UserLog[]
-}
+  id    String  @id
+  email String? @unique
 
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-  @@unique([identifier, token])
+  image       String?
+  name        String?
+  age         Int?
+  gender      String?
+  height      Int?
+  streakCount Int?
+  weight      Int?
+  GymDay      GymDay[]
+  userLogs    UserLog[]
 }
 
 model Workout {
-  id          String        @id @default(cuid())
-  name        String        @db.VarChar(25)
-  imgUrl      String
-  description String       
-  exercises  WorkoutLine[]
+  id        Int           @id @default(autoincrement())
+  name      String
+  imgUrl    String
+  GymDay    GymDay[]
+  exercises WorkoutLine[]
 }
 
-model Exercise { //TODO: Change Name  
-  id          String        @id @default(cuid())
-  name        String        @db.VarChar(25)
-  videoUrl    String        
-  imageUrl    String //TODO: Add a picture section
-  description String        @db.VarChar(250)
+model Exercise {
+  id          Int           @id @default(autoincrement())
+  videoUrl    String
+  description String
+  name        String
   workouts    WorkoutLine[]
 }
 
 model WorkoutLine {
-  id         String    @id @default(cuid())
-  recWeight  Int
-  recSets    Int
-  recReps    Int
+  id         Int       @id @default(autoincrement())
+  sugWeight  Int
+  sugSets    Int
+  sugReps    Int
   steps      Int
-  exerciseId String
-  workoutId  String
-  exercise  Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
+  workoutId  Int
+  exercise   Exercise  @relation(fields: [exerciseId], references: [id])
   workout    Workout   @relation(fields: [workoutId], references: [id])
-  userLogs   UserLog[] //one workout to many user logs
+  userLogs   UserLog[]
 }
 
 model UserLog {
-  id            String      @id @default(cuid())
+  id            Int         @id @default(autoincrement())
   weight        Int
   reps          Int
   setNumber     Int
   date          DateTime    @default(now())
+  workoutLineId Int
   userId        String
-  workoutLineId String
+  gymdayId      String
+  GymDay        GymDay      @relation(fields: [gymdayId], references: [id])
   user          User        @relation(fields: [userId], references: [id])
   workoutLine   WorkoutLine @relation(fields: [workoutLineId], references: [id])
+}
+
+model GymDay {
+  id            String    @id
+  dateCreated   DateTime  @default(now())
+  activeWorkout Boolean
+  workoutStart  DateTime  @default(now())
+  workoutFinish DateTime?
+  workoutId     Int
+  userId        String
+  User          User      @relation(fields: [userId], references: [id])
+  Workout       Workout   @relation(fields: [workoutId], references: [id])
+  UserLog       UserLog[]
 }

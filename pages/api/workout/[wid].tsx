@@ -1,27 +1,29 @@
-import { Exercise, PrismaClient, Workout, WorkoutLine } from '@prisma/client';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { WorkoutInfo } from 'types';
+import { Exercise, PrismaClient, Workout, WorkoutLine } from "@prisma/client";
+import { NextApiRequest, NextApiResponse } from "next";
 
 const prisma = new PrismaClient();
-
 
 type Response = { msg: string };
 
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse<WorkoutInfo | Response>
+  res: NextApiResponse
 ) {
-  if (req.method === 'GET') {
-    const { wid } = req.query;
+  if (req.method === "GET") {
+    try {
+      const { wid } = req.query;
 
-    const workout = await prisma.workout.findFirst({
-      where: { id: wid as string },
-      include: { exercises: { include: { exercise: true } } }
-    });
-    if (!workout) {
-      res.status(400).json({ msg: 'no workout found' });
-    } else {
-      res.status(200).json(workout);
+      const workout = await prisma.workout.findFirst({
+        where: { id: +(wid as string) },
+        include: { exercises: { include: { exercise: true } } },
+      });
+      if (!workout) {
+        res.status(400).json({ msg: "no workout found" });
+      } else {
+        res.status(200).json(workout);
+      }
+    } catch (error) {
+      res.status(500).json({ msg: "no workout found" });
     }
   }
   // else if (req.method === 'POST') {

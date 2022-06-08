@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../prismaClient";
-import { getSession } from "next-auth/react";
+import prisma from "prismaClient"
+import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
 type Error = {
   message: string;
 };
@@ -15,10 +15,10 @@ export default async function handler(
 ) {
   prisma;
   const { workoutLogs } = req.body;
-  const session = await getSession({ req });
-  const userEmail = session?.user?.email;
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail as string },
+  const {user}= await getUser({ req, res });
+  const userId = user?.id;
+  const pUser = await prisma.user.findUnique({
+    where: { id: userId },
   });
 
   if (!user) {
@@ -26,14 +26,14 @@ export default async function handler(
   }
 
   //TODO: New intermediate array with an object of reps and weights, then filter if any of them is undefined 
-  // const filteredWorkoutLogs = workoutLogs.map((x: any) => x.complete.findIndex((x:any)=> x===true))
-  // console.log(filteredWorkoutLogs)
+  const filteredWorkoutLogs = workoutLogs.map((x: any) => x.complete.findIndex((x:any)=> x===true))
+  console.log(filteredWorkoutLogs)
   const userLogs = workoutLogs.map((workoutLine: any, idx: number) => {
     
     return {
       reps: +workoutLine?.reps[idx],
       weight: +workoutLine.weight[idx],
-      userId: user?.id,
+      userId ,
       workoutLineId: workoutLine.workoutLineId,
       setNumber: +idx + 1,
     };

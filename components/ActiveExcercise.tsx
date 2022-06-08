@@ -1,11 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import useSWR from 'swr'
-import axios from 'axios'
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { useSession } from 'next-auth/react'
-import { useFormik } from 'formik'
-import Checkbox from '@mui/material/Checkbox'
+import React, { Fragment } from 'react'
 import { Exercise } from '@prisma/client'
 
 

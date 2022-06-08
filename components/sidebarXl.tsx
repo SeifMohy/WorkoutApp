@@ -15,7 +15,7 @@ const sidebarXl = () => {
   return (
     <div className="border-r border-gray-200 bg-white min-h-screen ">
       <div>
-        <img className="w-18 h-14 bg-auto m-3" src="./logo.png" />
+        <img className="w-18 h-14 bg-auto m-3" src="/images/logo.png" />
       </div>
       {/* pages list */}
       <div className="space-y-6 py-6 px-6">

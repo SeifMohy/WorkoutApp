@@ -1,28 +1,17 @@
-import {
-  signIn,
-  getProviders,
-  ClientSafeProvider,
-} from "next-auth/react";
+
+import { createClient } from '@supabase/supabase-js'
 import { useEffect, useState } from "react";
 import Image from "next/image";
-
+import { useRouter } from "next/router";
 const SignIn = () => {
-  const [authProviders, setAuthProviders] = useState<ClientSafeProvider[]>([]);
-
-  const gitProviderList = async () => {
-    const res = await getProviders();
-
-    const data = res && Object.values(res).map((x) => x);
-    console.log({ data });
-
-    if (data) setAuthProviders(data);
-  };
-
-  console.log({ authProviders });
-
-  useEffect(() => {
-    gitProviderList();
-  }, []);
+  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+  const router = useRouter();
+  const loginWithGoogle = async () => {
+    const { user, session, error } = await supabase.auth.signIn({
+      provider: 'google'
+    })
+    router.push("/dashboard");
+}
 
   return (
     <div className="grid sm:grid-cols-1 lg:grid-cols-3 ">
@@ -44,22 +33,18 @@ const SignIn = () => {
             <span className="">Or create a new acount</span>
           </div>
           <div className="w-full mt-6">
-            {authProviders &&
-              authProviders.map((authProvider: any) => {
-                return (
+           
+               
                   <button
-                    key={authProvider.id}
+                  
                     onClick={() =>
-                      signIn(authProvider.id, {
-                        callbackUrl: "http://localhost:3000/dashboard",
-                      })
+                      loginWithGoogle()
                     }
                     className="bg-black w-full mb-2 text-white py-3 rounded-md"
                   >
-                    {authProvider.name}
+                  
                   </button>
-                );
-              })}
+             
           </div>
         </div>
       </div>
