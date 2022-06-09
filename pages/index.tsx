@@ -10,7 +10,7 @@ import {
 } from 'types/index';
 import { useFormik } from 'formik';
 import { CircularProgress } from '@mui/material';
-import { useWorkout } from 'components/WorkoutProvider';
+import { useWorkout } from 'context/WorkoutProvider';
 import DashboardHeadTab from 'components/DashboardHeadTab';
 import ExerciseIndex from 'components/ExerciseIndex';
 import ExerciseInput from 'components/ExerciseInput';

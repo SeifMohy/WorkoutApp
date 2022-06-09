@@ -20,7 +20,7 @@ const Header:React.FC<Props>= ({
   openAccount,
   setOpenAccount,
 }) => {
-  const { user, isLoading, error, accessToken, checkSession } = useUser();
+  const { user } = useUser();
   const data = user?.user_metadata;
   return (
     <div>

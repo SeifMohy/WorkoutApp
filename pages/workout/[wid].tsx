@@ -1,14 +1,13 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import useSWR from "swr";
 import axios from "axios";
-import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import ActiveExcercise from "components/ActiveExcercise";
 import { CircularProgress } from "@mui/material";
 import { Exercise } from "@prisma/client";
 import Layout from "components/layout";
-import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
+import { useWorkout } from "context/WorkoutProvider";
 
 export default function Workout() {
 

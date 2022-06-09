@@ -10,7 +10,9 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import LogoPic from 'assets/images/logo.png';
 
-const SidebarXl = () => {
+interface Props { }
+
+const SidebarXl:React.FC<Props> = () => {
   const router = useRouter();
   return (
     <div className="min-h-screen bg-white border-r border-gray-200 ">
