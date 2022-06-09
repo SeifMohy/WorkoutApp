@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/layout';
-import CalenderComp from '../components/calendarComponent';
-import Image from 'next/image';
 import axios from 'axios';
 import useSWR from 'swr';
-import { WorkoutHistoryCard } from 'types';
+import { WorkoutHistoryCard } from 'types/index';
 import moment from 'moment';
 
 
