@@ -14,6 +14,7 @@ import { useWorkout } from 'context/WorkoutProvider';
 import DashboardHeadTab from 'components/DashboardHeadTab';
 import ExerciseIndex from 'components/ExerciseIndex';
 import ExerciseInput from 'components/ExerciseInput';
+import {useRouter} from 'next/router';
 
 function choosingColor(name: string) {
   switch (name) {
@@ -49,11 +50,15 @@ const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const Dashboard = () => {
-
+  const router = useRouter();
   const { daysWorkout } = useWorkout();
   const todaysWorkoutId = daysWorkout; //TODO: have something that determines which workout is todays workout
 
-
+//   useEffect(() => {
+//     if(router.pathname === '/') {
+//     router.push('/signin');
+//   }
+// }, [])
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
 
@@ -102,7 +107,7 @@ const Dashboard = () => {
     }
   });
 
-
+  
   if (!logsByExercise || !workout || !workoutInfo) {
 
 
