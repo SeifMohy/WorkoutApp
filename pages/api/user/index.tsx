@@ -20,7 +20,7 @@ export default async function handle(
 }
 
 async function createUser(req: NextApiRequest, res: NextApiResponse) {
-  console.log(req, res);
+ // console.log(req, res);
   try {
     const { user } = await getUser({ req, res });
     const { weight, height, age, gender } = req.body;

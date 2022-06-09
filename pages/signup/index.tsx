@@ -12,9 +12,6 @@ const Signup = () => {
 
   const [fullUser, setFullUser] = useState<User | null>();
 
-
-
-
   const getUser = async () => {
     const res = await axios.get("/api/user");
     const data = res.data.user;
@@ -38,7 +35,7 @@ const Signup = () => {
     },
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
-      const res = axios.put("/api/user", values);
+      const res = axios.post("/api/user", values);
       const data = await res;
       console.log("data", data);
       router.push("/dashboard");
