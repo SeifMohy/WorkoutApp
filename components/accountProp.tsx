@@ -1,6 +1,5 @@
 import React from "react";
 import { Menu, Transition } from "@headlessui/react";
-
 import { createClient } from '@supabase/supabase-js'
 import { useRouter } from "next/router";
 type accountProps = {
@@ -34,7 +33,7 @@ const AccountProp:React.FC<accountProps> = ({ openAccount, setOpenAccount }) => 
         </div>
         <div>
           
-          <button className="p-2 text-gray-500" onClick={()=>signoutWithGoogle()}>Sign Out</button>
+          <button className="p-2 text-gray-500" onClick={() => signoutWithGoogle()}>Sign Out</button>
         </div>
       </Menu.Items>
     </Transition>

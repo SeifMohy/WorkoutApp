@@ -6,20 +6,21 @@ import { Menu } from "@headlessui/react";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
 import Image from "next/image";
 
-type headerProps = {
+
+
+interface Props {
   open: boolean;
   setOpen: (open: boolean) => void;
   openAccount: boolean;
   setOpenAccount: (open: boolean) => void;
-};
-
-const Header:React.FC<headerProps> = ({
+}
+const Header:React.FC<Props>= ({
   open,
   setOpen,
   openAccount,
   setOpenAccount,
 }) => {
-  const { user, isLoading, error, accessToken, checkSession } = useUser();
+  const { user } = useUser();
   const data = user?.user_metadata;
   return (
     <div>
@@ -40,12 +41,14 @@ const Header:React.FC<headerProps> = ({
                 type="button"
                 onClick={() => setOpenAccount(!openAccount)}
               >
-                <Image
-                  className="w-10 h-10 m-2 rounded-full"
-                  src={data?.avatar || "/icon.png"}
-                  alt="Rounded avatar"
-                  layout='fill'
-                />
+                <div className="relative w-10 h-10 m-2 overflow-hidden rounded-full">
+                  <Image
+                    objectFit="cover"
+                    src={data?.avatar_url}
+                    alt="Rounded avatar"
+                    layout='fill'
+                  />
+                </div>
               </Menu.Button>
               <AccountProp
                 openAccount={openAccount}

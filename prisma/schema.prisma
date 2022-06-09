@@ -7,43 +7,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-
-
-enum Gender {
-  male
-  female
-}
-
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-
-  image         String?
-  gender        Gender?
-  age           Int?
-  weight        Int?
-  height        Int? //user steak
-  
-  userLogs      UserLog[]
+  id       String    @id @default(cuid())
+  name     String?
+  email    String?   @unique
+  image    String?
+  gender   Gender?
+  age      Int?
+  weight   Int?
+  height   Int?
+  userLogs UserLog[]
 }
-
-
 
 model Workout {
   id          String        @id @default(cuid())
   name        String        @db.VarChar(25)
   imgUrl      String
-  description String       
-  exercises  WorkoutLine[]
+  description String
+  exercises   WorkoutLine[]
 }
 
-model Exercise { //TODO: Change Name  
+model Exercise {
   id          String        @id @default(cuid())
   name        String        @db.VarChar(25)
-  videoUrl    String        
-  imageUrl    String //TODO: Add a picture section
+  videoUrl    String
+  imageUrl    String
   description String        @db.VarChar(250)
   workouts    WorkoutLine[]
 }
@@ -56,9 +44,9 @@ model WorkoutLine {
   steps      Int
   exerciseId String
   workoutId  String
-  exercise  Exercise @relation(fields: [exerciseId], references: [id])
+  exercise   Exercise  @relation(fields: [exerciseId], references: [id])
   workout    Workout   @relation(fields: [workoutId], references: [id])
-  userLogs   UserLog[] //one workout to many user logs
+  userLogs   UserLog[]
 }
 
 model UserLog {
@@ -71,4 +59,9 @@ model UserLog {
   workoutLineId String
   user          User        @relation(fields: [userId], references: [id])
   workoutLine   WorkoutLine @relation(fields: [workoutLineId], references: [id])
+}
+
+enum Gender {
+  male
+  female
 }

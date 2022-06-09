@@ -67,7 +67,7 @@ const Sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
               {/* pages list */}
               <div className="px-6 py-6 space-y-6 border-t border-gray-200">
                 <div className="flow-root">
-                  <Link href="/dashboard">
+                  <Link href="/">
                     <a className="flex p-2 -m-2 font-medium text-gray-900">
                       <HomeIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900 xl: display" />
                       Dashboard

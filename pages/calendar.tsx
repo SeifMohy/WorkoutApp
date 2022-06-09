@@ -38,7 +38,7 @@ const Calendar:React.FC<Props> = () => {
           <>
             {data?.workouts.map((workout, idx: number) => {
               return (
-                <div className="grid px-0 py-8 bg-white rounded-md sm:grid-cols-1 lg:grid-cols-2 md:px-8" key={idx}>
+                <div key={workout.workoutName} className="grid px-0 py-8 bg-white rounded-md sm:grid-cols-1 lg:grid-cols-2 md:px-8">
                   <div>
                     <h1>Workout</h1>
                     <span className="block text-xs text-gray-400">
@@ -55,7 +55,7 @@ const Calendar:React.FC<Props> = () => {
                     <>
                       {workout.workoutLines.map((exercise, idx:number) => {
                         return (
-                          <div key={idx}>
+                          <div key={exercise.exercise.id}>
                             <Image
                               className="rounded-l-3xl"
                               src={`${exercise.exercise.imageUrl}`}
@@ -66,7 +66,7 @@ const Calendar:React.FC<Props> = () => {
                               <>
                                 {exercise.logs.map((logs, idx:number) => {
                                   return (
-                                    <span key={idx} className="block text-xs text-gray-400">
+                                    <span key={logs.id} className="block text-xs text-gray-400">
                                       {logs.reps} reps . {logs.weight}kg
                                     </span>
                                   );

@@ -10,7 +10,9 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import LogoPic from 'assets/images/logo.png';
 
-const SidebarXl:React.FC = () => {
+interface Props { }
+
+const SidebarXl:React.FC<Props> = () => {
   const router = useRouter();
   return (
     <div className="min-h-screen bg-white border-r border-gray-200 ">
@@ -24,12 +26,12 @@ const SidebarXl:React.FC = () => {
       <div className="px-6 py-6 space-y-6">
         <div className="flow-root">
           <Link
-            href="/dashboard"
+            href="/"
             className="flex p-2 -m-2 font-medium text-gray-900 "
           >
             <a
               className={
-                router.pathname === "/dashboard"
+                router.pathname === "/"
                   ? "bg-gray-100 flex m-2 rounded-md py-2"
                   : "flex m-2 rounded-md py-2"
               }
