@@ -1,15 +1,23 @@
 import React from "react";
 import { Menu, Transition } from "@headlessui/react";
-import { signOut } from "next-auth/react";
 
+import { createClient } from '@supabase/supabase-js'
+import { useRouter } from "next/router";
 type accountProps = {
   openAccount: boolean;
   setOpenAccount: (open: boolean) => void;
 };
 
 const accountProp = ({ openAccount, setOpenAccount }: accountProps) => {
-
+  const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
+  const router = useRouter();
+  const signoutWithGoogle = async () => {
+    const { error } = await supabase.auth.signOut();
+    router.push("/signin");
+}
+ 
   return (
+ 
     <Transition
       as="div"
       show={openAccount}
@@ -25,7 +33,8 @@ const accountProp = ({ openAccount, setOpenAccount }: accountProps) => {
           <a className="p-2 text-gray-500">Your Profile</a>
         </div>
         <div>
-          <a onClick={() => signOut()} className="p-2 text-gray-500">Sign Out</a>
+          
+          <button className="p-2 text-gray-500" onClick={()=>signoutWithGoogle()}>Sign Out</button>
         </div>
       </Menu.Items>
     </Transition>

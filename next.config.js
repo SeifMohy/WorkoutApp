@@ -9,7 +9,8 @@ const nextConfig = {
       'picsum.photos',
       'www.youtube.com',
       "artimg.gympik.com",
-      "media.istockphoto.com"
+      "media.istockphoto.com",
+      "img.freepik.com"
     ],
   },
 }

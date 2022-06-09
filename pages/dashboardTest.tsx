@@ -1,8 +1,8 @@
-import React, { useContext, useEffect } from "react";
-import Layout from "../components/layout";
-import { useSession } from "next-auth/react";
-import axios from "axios";
-import useSWR from "swr";
+import React, { useContext, useEffect } from 'react';
+import Layout from '../components/layout';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import useSWR from 'swr';
 import {
   ProgressAPIResponseType,
   todaysWorkoutData,
@@ -20,14 +20,14 @@ import ExerciseInput from "components/ExerciseInput";
 
 function choosingColor(name: string) {
   switch (name) {
-    case "Squat":
-      return "bg-red-700";
-    case "Lunges":
-      return "bg-green-700";
-    case "Jumping Jacks":
-      return "bg-blue-700";
+    case 'Squat':
+      return 'bg-red-700';
+    case 'Lunges':
+      return 'bg-green-700';
+    case 'Jumping Jacks':
+      return 'bg-blue-700';
     default:
-      return "bg-red-700";
+      return 'bg-red-700';
   }
 }
 type WorkoutLine = {
@@ -89,9 +89,9 @@ const Dashboard = () => {
       return {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
-        workoutLineId: workoutLine.id,
+        workoutLineId: workoutLine.id
       };
-    }),
+    })
   };
 
   const formik = useFormik({
@@ -100,13 +100,13 @@ const Dashboard = () => {
     onSubmit: async (values: any, resetForm: any) => {
       // formik.resetForm();
       console.log(values);
-      const res = await axios.put("/api/userLogs/test", values); //This is on userLogs/test to avoid session errors
-      console.log("userLogs", res);
-    },
+      const res = await axios.put('/api/userLogs/test', values); //This is on userLogs/test to avoid session errors
+      console.log('userLogs', res);
+    }
   });
   // console.log(logsByExercise);
 
-  if (!logsByExercise || !workout || !workoutInfo) {
+  if (!logsByExercise || !workout || !workoutInfo || !userStreak) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
@@ -118,7 +118,7 @@ const Dashboard = () => {
     <Layout>
       <div className="min-h-screen p-5 bg-gray-100">
         {/* welcome div */}
-        <DashboardHeadTab userStreak={userStreak || 0 ? userStreak : 0} />
+        <DashboardHeadTab userStreak={userStreak} />
         {/* TODO: fix error */}
         {/* Personal Records */}
 
@@ -191,7 +191,6 @@ const Dashboard = () => {
                                 className="w-[3rem] mx-[1rem] md:w-[12rem] lg:w-[19rem] px-2 focus:bg-gray-300 focus:ring-indigo-500 focus:border-gray-600 relative block  rounded-md bg-transparent focus:z-10 sm:text-sm border-gray-100"
                               ></input> 
 
-
                               <input
                                 name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
                                 placeholder={`${workout.recReps}`}
@@ -203,6 +202,7 @@ const Dashboard = () => {
                         )
                       )}
                     </div> 
+
                   </div>
                   <ExerciseInput workout={workout} workoutIndex={workoutIndex} todaysWorkout={todaysWorkout}/>
                 </div>

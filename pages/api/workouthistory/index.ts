@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Exercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
+import { Exercise, UserLog, WorkoutLine } from '@prisma/client';
 import _ from 'lodash';
-import { ProgressAPIResponseType } from 'types';
-import { Collection } from "lodash";
-import {prisma} from "../prismaClient"
-import { getSession } from 'next-auth/react';
+import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
+
+import prisma from "prismaClient"
+
 
 
 type Data = {
@@ -28,11 +28,11 @@ export default async function handler(
   prisma 
   // const { userId } = req.query;
 
-  const session = await getSession({ req });
-  const userEmail = session?.user?.email;
+ 
+  const { user } = await getUser({ req, res });
 
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail as string }
+  const fullUser = await prisma.user.findUnique({
+    where: { id: user?.id as string }
   });
   console.log(user);
 
