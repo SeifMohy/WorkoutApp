@@ -16,6 +16,7 @@ import { CircularProgress } from "@mui/material";
 import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
 import DashboardHeadTab from "components/DashboardHeadTab";
 import ExerciseIndex from "components/ExerciseIndex";
+import ExerciseInput from "components/ExerciseInput";
 
 function choosingColor(name: string) {
   switch (name) {
@@ -159,56 +160,51 @@ const Dashboard = () => {
                   className="flex-col items-center p-2 mb-1"
                 >
                   <ExerciseIndex workout={workout} />
-
-                  <div className="flex-col justify-end bg-white">
-                    <div className="flex justify-start p-3 bg-gray-200 border">
-                      <div className="mr-[0.5rem] rounded-2xl w-[3rem]">
-                        Set #
+                  <div className="flex w-4/5 border-l-4 ml-[2rem] pl-[2.5rem]  md:w-[90%]">
+                    <div className="flex-col justify-end w-full bg-white">
+                      <div className="flex justify-start p-3 bg-gray-200 border">
+                        <div className="mr-[0.5rem] rounded-2xl w-[3rem]">
+                          Set
+                        </div>
+                        <div className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2">
+                          Weight
+                        </div>
+                        <div className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2 ml-[1.7rem] lg:ml-[5.7rem]">
+                          Reps
+                        </div>
                       </div>
-                      <div className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2">
-                        Weight
-                      </div>
-                      <div className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2">
-                        Reps
-                      </div>
-                      {/* <div className="flex justify-start px-1">
-                        
-                      </div>
-                      <div className="flex justify-start px-1">
-                       
-                      </div>
-                      <div className="flex justify-start px-1">
-                        
-                      </div> */}
-                    </div>
-                    {Array.from(Array(workout.recSets)).map(
-                      (_, exerciseSetIndex) => (
-                        <div
-                          key={exerciseSetIndex}
-                          className="flex justify-start pb-3"
-                        >
-                          <div className="m-3 w-[3rem]">
-                            {exerciseSetIndex + 1}
-                          </div>
-
-                          <input
-                            name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
-                            placeholder={`${workout.recWeight}`}
-                            onChange={formik.handleChange}
-                            className="mr-[0.5rem] md:w-[4rem] lg:w-[15rem] px-2 focus:ring-indigo-500 focus:border-indigo-500 relative block rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
-                          ></input>
-
-                          <input
-                            name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
-                            placeholder={`${workout.recReps}`}
-                            onChange={formik.handleChange}
-                            className="mr-[0.5rem] md:w-[4rem] lg:w-[15rem] px-2 focus:ring-indigo-500 focus:border-indigo-500 relative block rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
+                      {Array.from(Array(workout.recSets)).map(
+                        (_, exerciseSetIndex) => (
+                          <div className="mx-[0.5rem] py-[0.5rem] border-b-4" key={exerciseSetIndex}>
+                          <div
                             
-                          ></input>
-                        </div> //TODO: make check button work and filter if not checked
-                      )
-                    )}
+                            className="flex justify-start pb-3"
+                          >
+                            <div className="m-3 w-[3rem]">
+                              {exerciseSetIndex + 1}
+                            </div>
+                            
+                              <input
+                                name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
+                                placeholder={`${workout.recWeight}`}
+                                onChange={formik.handleChange}
+                                className="w-[3rem] mx-[1rem] md:w-[12rem] lg:w-[19rem] px-2 focus:bg-gray-300 focus:ring-indigo-500 focus:border-gray-600 relative block  rounded-md bg-transparent focus:z-10 sm:text-sm border-gray-100"
+                              ></input> 
+
+
+                              <input
+                                name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
+                                placeholder={`${workout.recReps}`}
+                                onChange={formik.handleChange}
+                                className="w-[3rem] mx-[1rem] md:w-[12rem] lg:w-[19rem] px-2 focus:bg-gray-300 focus:ring-indigo-500 focus:border-indigo-500 relative block rounded-md bg-transparent focus:z-10 sm:text-sm border-gray-300" 
+                              ></input> 
+                            </div>
+                          </div> //TODO: make check button work and filter if not checked
+                        )
+                      )}
+                    </div> 
                   </div>
+                  <ExerciseInput workout={workout} workoutIndex={workoutIndex} todaysWorkout={todaysWorkout}/>
                 </div>
               );
             })}
@@ -225,13 +221,13 @@ const Dashboard = () => {
           </>
         </div>
       </div>
-      //--------------------------------
-      <div>
+      {/* //-------------------------------- */}
+      {/* <div>
         <fieldset>
           <legend className="block text-sm font-medium text-gray-700">
             Card Details
           </legend>
-          <div className="mt-1 bg-white rounded-md shadow-sm -space-y-px">
+          <div className="mt-1 -space-y-px bg-white rounded-md shadow-sm">
             <div>
               <label htmlFor="card-number" className="sr-only">
                 Card number
@@ -240,12 +236,12 @@ const Dashboard = () => {
                 type="text"
                 name="card-number"
                 id="card-number"
-                className="focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
+                className="relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-t-md focus:z-10 sm:text-sm"
                 placeholder="Card number"
               />
             </div>
             <div className="flex -space-x-px">
-              <div className="w-1/2 flex-1 min-w-0">
+              <div className="flex-1 w-1/2 min-w-0">
                 <label htmlFor="card-expiration-date" className="sr-only">
                   Expiration date
                 </label>
@@ -253,7 +249,7 @@ const Dashboard = () => {
                   type="text"
                   name="card-expiration-date"
                   id="card-expiration-date"
-                  className="focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none rounded-bl-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
+                  className="relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-bl-md focus:z-10 sm:text-sm"
                   placeholder="MM / YY"
                 />
               </div>
@@ -265,7 +261,7 @@ const Dashboard = () => {
                   type="text"
                   name="card-cvc"
                   id="card-cvc"
-                  className="focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none rounded-br-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
+                  className="relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-br-md focus:z-10 sm:text-sm"
                   placeholder="CVC"
                 />
               </div>
@@ -276,7 +272,7 @@ const Dashboard = () => {
           <legend className="block text-sm font-medium text-gray-700">
             Billing address
           </legend>
-          <div className="mt-1 rounded-md shadow-sm -space-y-px">
+          <div className="mt-1 -space-y-px rounded-md shadow-sm">
             <div>
               <label htmlFor="country" className="sr-only">
                 Country
@@ -285,7 +281,7 @@ const Dashboard = () => {
                 id="country"
                 name="country"
                 autoComplete="country-name"
-                className="focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
+                className="relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-t-md focus:z-10 sm:text-sm"
               >
                 <option>United States</option>
                 <option>Canada</option>
@@ -301,14 +297,14 @@ const Dashboard = () => {
                 name="postal-code"
                 id="postal-code"
                 autoComplete="postal-code"
-                className="focus:ring-indigo-500 focus:border-indigo-500 relative block w-full rounded-none rounded-b-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
+                className="relative block w-full bg-transparent border-gray-300 rounded-none focus:ring-indigo-500 focus:border-indigo-500 rounded-b-md focus:z-10 sm:text-sm"
                 placeholder="ZIP / Postal code"
               />
             </div>
           </div>
         </fieldset>
-      </div>
-      //----------------------------------------------------------------
+      </div> */}
+      {/* //---------------------------------------------------------------- */}
     </Layout>
   );
 };
