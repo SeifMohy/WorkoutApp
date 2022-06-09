@@ -5,7 +5,7 @@ import Image from "next/image";
 type props = {
   workout: todaysWorkoutData;
 };
-function ExerciseIndex({ workout }: props) {
+const ExerciseIndex:React.FC<props> =({ workout }) => {
   return (
     <div className="flex items-stretch">
       <div className="relative m-2 border-4 border-white border-solid rounded-full w-14 h-14 overflow-hidden">

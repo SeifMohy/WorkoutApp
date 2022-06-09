@@ -16,7 +16,7 @@ type sidebarProps = {
   open: boolean;
   setOpen: (open: boolean) => void;
 };
-const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
+const Sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -107,4 +107,4 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
   );
 };
 
-export default sidebar;
+export default Sidebar;

@@ -3,7 +3,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Calendar } from "react-multi-date-picker";
 
-export default function Example() {
+export const Example:React.FC = () => {
   const [value, setValue] = useState<string[]>([]);
   useEffect(() => {
     const workOutData = async () => {

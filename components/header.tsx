@@ -20,28 +20,28 @@ const Header:React.FC<Props>= ({
   openAccount,
   setOpenAccount,
 }) => {
-  const { user, isLoading, error, accessToken, checkSession } = useUser();
+  const { user } = useUser();
   const data = user?.user_metadata;
   return (
     <div>
       <Sidebar open={open} setOpen={setOpen} />
       <header className="relative">
-        <nav className="flex justify-between items-center px-4 lg:justify-end">
+        <nav className="flex items-center justify-between px-4 lg:justify-end">
           <button
             type="button"
-            className="-ml-2 rounded-md bg-white p-2 text-gray-400 block lg:hidden"
+            className="block p-2 -ml-2 text-gray-400 bg-white rounded-md lg:hidden"
             onClick={() => setOpen(true)}
           >
-            <MenuIcon className="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
+            <MenuIcon className="flex-shrink-0 w-8 h-8 text-gray-400 group-hover:text-gray-500" />
           </button>
-          <div className="bg-white flex items-center">
+          <div className="flex items-center bg-white">
             {data?.name}
             <Menu>
               <Menu.Button
                 type="button"
                 onClick={() => setOpenAccount(!openAccount)}
               >
-                <div className="relative w-10 h-10 rounded-full m-2 overflow-hidden">
+                <div className="relative w-10 h-10 m-2 overflow-hidden rounded-full">
                   <Image
                     objectFit="cover"
                     src={data?.avatar_url}

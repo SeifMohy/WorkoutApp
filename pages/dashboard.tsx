@@ -10,7 +10,7 @@ import {
 } from 'types/index';
 import { useFormik } from 'formik';
 import { CircularProgress } from '@mui/material';
-import { useWorkout } from 'context/WorkoutProvider';
+import { useWorkout } from 'components/WorkoutProvider';
 import DashboardHeadTab from 'components/DashboardHeadTab';
 import ExerciseIndex from 'components/ExerciseIndex';
 import ExerciseInput from 'components/ExerciseInput';
@@ -48,7 +48,7 @@ const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
 const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
-const Dashboard = () => {
+const Dashboard:React.FC = () => {
 
   const { daysWorkout } = useWorkout();
   const todaysWorkoutId = daysWorkout; //TODO: have something that determines which workout is todays workout

@@ -7,12 +7,12 @@ import { useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
-type props = {
+type Props = {
   children: React.ReactNode;
 };
 
-const Layout = ({ children }: props) =>  {
-  const { user, isLoading,error, accessToken,checkSession } = useUser();
+const Layout:React.FC<Props> = ({ children }) =>  {
+  const { user, isLoading } = useUser();
   const [openAccount, setOpenAccount] = useState(false);
   const [open, setOpen] = useState(false);
   const [fullUser, setFullUser] = useState<User | null>();
@@ -23,27 +23,29 @@ const Layout = ({ children }: props) =>  {
     }
   }
 
-  const getFullUser = useCallback( async () => {
+  const getFullUser = async () => {
     try {
       const res = await axios.get("/api/user");
+      const user = await res.data.user;
+      setFullUser(user);
+      console.log(user);
+      
       if (res.status !== 200) {
         router.push("/signup");
       }
-      setFullUser(res.data.user);
     } catch (error) {
-      router.push("/signup");
+      console.log(error);
+      
     }
-  }, [router]) 
+  }
+
+  useEffect(() => {getFullUser()}, []);
 
   useEffect(() => {
-    getFullUser();
-  }, [getFullUser]);
-
-  useEffect(() => {
-    if (!isLoading && !user) {
+    if (!user) {
       router.push("/signin");
     }
-  }, [user, isLoading, router])
+  }, [user, router])
   
   if (isLoading)
   return (
@@ -51,7 +53,8 @@ const Layout = ({ children }: props) =>  {
     loading...
     </>
   )
-if (user && fullUser)
+if (user)
+
   return (
 
       <div className="min-h-screen" onClick={() => handleClose()}>

@@ -7,14 +7,14 @@ import moment from 'moment';
 import Image from "next/image";
 
 interface Props {}
-const calendar:React.FC<Props> = () => {
+const Calendar:React.FC<Props> = () => {
   const fetchWorkoutHistory = (url: string) => axios.get(url).then((res) => res.data);
   const { data, error } = useSWR<WorkoutHistoryCard>(
     `/api/workoutHistory/workoutCard`,
 
     fetchWorkoutHistory
   );
-  console.log(data);
+
 
   const workOutData = useCallback(async () => {
     const res = await axios.get('/api/workouthistory');
@@ -30,15 +30,15 @@ const calendar:React.FC<Props> = () => {
 
   return (
     <Layout>
-      <div className="bg-gray-100 min-h-screen">
-        <div className="md:px-32 px-0 pt-8 text-2xl font-bold">
+      <div className="min-h-screen bg-gray-100">
+        <div className="px-0 pt-8 text-2xl font-bold md:px-32">
           Workout history
         </div>
         <div>
           <>
             {data?.workouts.map((workout, idx: number) => {
               return (
-                <div key={workout.workoutName} className="grid sm:grid-cols-1 lg:grid-cols-2 py-8 md:px-8 px-0 bg-white rounded-md">
+                <div key={workout.workoutName} className="grid px-0 py-8 bg-white rounded-md sm:grid-cols-1 lg:grid-cols-2 md:px-8">
                   <div>
                     <h1>Workout</h1>
                     <span className="block text-xs text-gray-400">
@@ -51,9 +51,9 @@ const calendar:React.FC<Props> = () => {
                       {moment(workout.date).format('MMM Do YY')}
                     </span>
                   </div>
-                  <div className="bg-white my-8 flex rounded-l-3xl">
+                  <div className="flex my-8 bg-white rounded-l-3xl">
                     <>
-                      {workout.workoutLines.map((exercise) => {
+                      {workout.workoutLines.map((exercise, idx:number) => {
                         return (
                           <div key={exercise.exercise.id}>
                             <Image
@@ -64,7 +64,7 @@ const calendar:React.FC<Props> = () => {
                               height={200}                            />
                             <div>
                               <>
-                                {exercise.logs.map((logs) => {
+                                {exercise.logs.map((logs, idx:number) => {
                                   return (
                                     <span key={logs.id} className="block text-xs text-gray-400">
                                       {logs.reps} reps . {logs.weight}kg
@@ -88,4 +88,4 @@ const calendar:React.FC<Props> = () => {
   );
 };
 
-export default calendar;
+export default Calendar;

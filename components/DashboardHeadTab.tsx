@@ -9,7 +9,7 @@ import { StreakInfo } from '../pages/index';
 type props = {
   userStreak: StreakInfo;
 };
-function DashboardHeadTab({ userStreak }: props) {
+const DashboardHeadTab:React.FC<props> = ({ userStreak }) => {
   const { user} = useUser();
   const data = user?.user_metadata;
 
@@ -17,7 +17,7 @@ function DashboardHeadTab({ userStreak }: props) {
     <div className="w-full bg-white border rounded-2xl">
       <div className="align-center flex flex-col items-start md:flex-row md:justify-between lg:flex-row  lg:justify-between bg-white p-[1.2rem]">
         <div className="flex flex-row items-center justify-center ">
-          <div className="h-12 w-12 relative rounded-full overflow-hidden">
+          <div className="relative w-12 h-12 overflow-hidden rounded-full">
             <Image
               src={data?.avatar_url}
               alt="Avatar"

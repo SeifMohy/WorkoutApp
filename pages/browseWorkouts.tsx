@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 
 const fetchWorkouts = (url: string) => axios.get(url).then((res) => res.data);
 
-const BrowseWorkouts = () => {
+const BrowseWorkouts:React.FC = () => {
   const router = useRouter();
 
   const { data, error } = useSWR(`/api/workouts`, fetchWorkouts);

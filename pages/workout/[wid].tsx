@@ -1,18 +1,16 @@
-import React, { useEffect, useContext, Fragment } from 'react';
-import useSWR from 'swr';
-import axios from 'axios';
-import Link from 'next/link';
-import Image from 'next/image';
-import { useRouter } from 'next/router';
-import ActiveExcercise from 'components/ActiveExcercise';
-import { CircularProgress } from '@mui/material';
-import { Exercise, WorkoutLine } from '@prisma/client';
-import Layout from 'components/layout';
-import { useWorkout, WorkoutContext } from 'components/WorkoutProvider';
-import { WorkoutInfo } from 'types/index';
-import { AnySchema } from 'yup';
+import React, { Fragment } from "react";
+import useSWR from "swr";
+import axios from "axios";
+import Image from "next/image";
+import { useRouter } from "next/router";
+import ActiveExcercise from "components/ActiveExcercise";
+import { CircularProgress } from "@mui/material";
+import { Exercise, WorkoutLine } from "@prisma/client";
+import Layout from "components/layout";
+import { useWorkout } from "context/WorkoutProvider";
 
-export default function Workout() {
+const Workout:React.FC = () => {
+
   const router = useRouter();
   const { wid } = router.query;
   const { daysWorkout, setWorkoutForTheDay } = useWorkout();
@@ -99,3 +97,5 @@ export default function Workout() {
     </Layout>
   );
 }
+
+export default Workout

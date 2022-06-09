@@ -3,10 +3,10 @@ import React, { Fragment, useEffect, useState } from 'react'
 import { WorkoutInfo } from 'types/index'
 
 type props = {
-  exercise:Exercise
+  exercise:Exercise[]
 }
 
-function ActiveExcercise({exercise}: props){
+const ActiveExcercise:React.FC<props> = ({exercise}) => {
 
   return (
     <Fragment>
