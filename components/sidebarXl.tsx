@@ -7,6 +7,7 @@ import {
 } from "@heroicons/react/outline";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 const SidebarXl = () => {
   const router = useRouter();
@@ -14,7 +15,7 @@ const SidebarXl = () => {
     <div className="min-h-screen bg-white border-r border-gray-200 ">
       <div>
 
-        <img className="w-64 h-[5.5rem] m-3 bg-auto" src="/logo.png" />
+        <Image className="w-64 h-[5.5rem] m-3 bg-auto" src="/logo.png " alt="pic" />
 
       </div>
       {/* pages list */}

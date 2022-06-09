@@ -5,9 +5,8 @@ import CalenderComp from "../components/calendarComponent";
 import Image from "next/image";
 import axios from "axios";
 import useSWR from "swr";
-import { WorkoutHistoryCard } from "types";
+import { WorkoutHistoryCard } from "types/index";
 import moment from "moment";
-import exercise from "./api/exercise";
 
 const fetchWorkoutHistory = (url: string) =>
   axios.get(url).then((res) => res.data);
@@ -59,7 +58,7 @@ const calendar = () => {
                         {workout.workoutLines.map((exercise, idx) => {
                           return (
                             <div key={idx} className="flex mb-4">
-                              <img
+                              <Image
                                 className="rounded-l-3xl"
                                 src={`${exercise.exercise.imageUrl}`}
                                 alt="Picture of the author"

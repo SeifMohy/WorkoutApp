@@ -9,6 +9,7 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/outline";
 import Link from "next/link";
+import Image from "next/image";
 
 type sidebarProps = {
   open: boolean;
@@ -51,7 +52,7 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
               {/* close button */}
               <div className="flex justify-between px-4 pt-5 pb-2 ">
 
-                <img className="w-64 h-[5.5rem] m-2 bg-auto" src="/logo.png" />
+                <Image className="w-64 h-[5.5rem] m-2 bg-auto" src="/logo.png" alt="img" />
 
                 <button
                   type="button"
