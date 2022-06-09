@@ -1,9 +1,8 @@
-import { Exercise, PrismaClient, Workout, WorkoutLine } from '@prisma/client';
+import { PrismaClient, Workout, WorkoutLine } from '@prisma/client';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { WorkoutInfo } from 'types';
+import { WorkoutInfo } from 'types/index';
 
 const prisma = new PrismaClient();
-
 
 type Response = { msg: string };
 
@@ -24,18 +23,4 @@ export default async function handle(
       res.status(200).json(workout);
     }
   }
-  // else if (req.method === 'POST') {
-  //   try {
-  //     const { name, imgUrl } = req.body
-  //     const workout = await prisma.workout.create({
-  //       data: {
-  //         name,
-  //         imgUrl,
-  //       },
-  //     })
-  //     res.status(200).json({ msg: 'workout created', workout })
-  //   } catch (err) {
-  //     res.status(400).json({ msg: 'something went wrong', details: err })
-  //   }
-  // }
 }

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import Layout from '../components/layout';
-import { useSession } from 'next-auth/react';
 import axios from 'axios';
 import useSWR from 'swr';
 import {
@@ -8,12 +7,10 @@ import {
   todaysWorkoutData,
   WorkoutInfo,
   WorkoutLineData
-} from 'types';
+} from 'types/index';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import Link from 'next/link';
 import { CircularProgress } from '@mui/material';
-import { useWorkout, WorkoutContext } from 'components/WorkoutProvider';
+import { useWorkout } from 'components/WorkoutProvider';
 import DashboardHeadTab from 'components/DashboardHeadTab';
 import ExerciseIndex from 'components/ExerciseIndex';
 import ExerciseInput from 'components/ExerciseInput';
@@ -52,10 +49,10 @@ const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const Dashboard = () => {
-  const session = useSession();
+
   const { daysWorkout } = useWorkout();
   const todaysWorkoutId = daysWorkout; //TODO: have something that determines which workout is todays workout
-  const userEmail = session.data?.user?.email;
+
 
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
@@ -98,25 +95,30 @@ const Dashboard = () => {
     initialValues: initialValues,
     enableReinitialize: true,
     onSubmit: async (values: any, resetForm: any) => {
-      // formik.resetForm();
+      formik.resetForm();
       console.log(values);
       const res = await axios.put('/api/userLogs/test', values); //This is on userLogs/test to avoid session errors
       console.log('userLogs', res);
     }
   });
 
+
   if (!logsByExercise || !workout || !workoutInfo) {
+
 
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
       </div>
     );
-  }else{}
+  } else {
+  }
   return (
     <Layout>
       <div className="min-h-screen p-5 bg-gray-100">
+
         <DashboardHeadTab userStreak={userStreak!} /> 
+
         <div className="flex">
           <p className="my-3 text-lg">&#127942;</p>
           <div className="mx-1 my-3 text-lg">Personal Records</div>
@@ -146,7 +148,7 @@ const Dashboard = () => {
         </div>
         <div>
           <>
-            {todaysWorkout.map((workout, workoutIndex) => {
+            {todaysWorkout?.map((workout, workoutIndex) => {
               return (
                 <div
                   key={workoutIndex}

@@ -1,24 +1,57 @@
 import React from "react";
-import Footer from "./footer";
 import Header from "./header";
-import { useState, createContext } from "react";
+import { useState} from "react";
 import SidebarXl from "./sidebarXl";
-import {WorkoutProvider} from './WorkoutProvider'
+import { User } from "@prisma/client";
+import { useEffect, useCallback } from "react";
+import { useRouter } from "next/router";
+import axios from "axios";
+import { useUser } from "@supabase/supabase-auth-helpers/react";
 type props = {
   children: React.ReactNode;
 };
 
 function Layout({ children }: props) {
+  const { user, isLoading,error, accessToken,checkSession } = useUser();
   const [openAccount, setOpenAccount] = useState(false);
   const [open, setOpen] = useState(false);
-
+  const [fullUser, setFullUser] = useState<User | null>();
+  const router = useRouter();
   function handleClose() {
     if (openAccount === true) {
       setOpenAccount(false);
     }
   }
 
+  const getFullUser = useCallback( async () => {
+    try {
+      const res = await axios.get("/api/user");
+      if (res.status !== 200) {
+        router.push("/signup");
+      }
+      setFullUser(res.data.user);
+    } catch (error) {
+      router.push("/signup");
+    }
+  }, [router]) 
+
+  useEffect(() => {
+    getFullUser();
+  }, [getFullUser]);
+
+  useEffect(() => {
+    if (!isLoading && !user) {
+      router.push("/signin");
+    }
+  }, [user, isLoading, router])
   
+  if (isLoading)
+  return (
+    <>
+    loading...
+    </>
+  )
+if (user)
 
   return (
 
@@ -41,6 +74,10 @@ function Layout({ children }: props) {
 
 
   );
+  return (
+    <>
+    redirecting....</>
+  )
 }
 
 export default Layout;

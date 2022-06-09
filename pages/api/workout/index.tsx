@@ -1,8 +1,9 @@
 import { PrismaClient } from '@prisma/client'
+import { NextApiRequest, NextApiResponse } from 'next'
 
 const prisma = new PrismaClient()
 
-export default async function handle(req, res) {
+export default async function handle(req:NextApiRequest, res:NextApiResponse) {
   if (req.method === 'GET') {
 
     const workouts = await prisma.workout.findMany({
@@ -13,19 +14,5 @@ export default async function handle(req, res) {
       res.status(400).json({ msg: 'no workouts' })
     }
     res.status(200).json(workouts)
-  } else if (req.method === 'POST') {
-
-    try {
-      const { name, imgUrl } = req.body
-      const workout = await prisma.workout.create({
-        data: {
-          name,
-          imgUrl,
-        },
-      })
-      res.status(200).json({ msg: 'workout created', workout })
-    } catch (err) {
-      res.status(400).json({ msg: 'something went wrong', details: err })
-    }
-  }
+  } 
 }
