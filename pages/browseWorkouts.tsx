@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../components/layout";
-import Image from "next/image";
-import axios from "axios";
-import useSWR from "swr";
-import { Workout } from "@prisma/client";
-import Link from "next/link";
-import { CircularProgress } from "@mui/material";
+import React, { useEffect, useState } from 'react';
+import Layout from '../components/layout';
+import Image from 'next/image';
+import axios from 'axios';
+import useSWR from 'swr';
+import { Workout } from '@prisma/client';
+import Link from 'next/link';
+import { CircularProgress } from '@mui/material';
 
-import { useRouter } from "next/router";
+import { useRouter } from 'next/router';
 
 const fetchWorkouts = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -52,14 +52,6 @@ const BrowseWorkouts = () => {
               </div>
               <div className="">
                 <h3 className="font-bold">{workout.name}</h3>
-                {/* <Link href={`/workout/${workout.id}`}>
-                  <a className="my-4 text-gray-600 transition duration-150 ease-out hover:ease-in">
-                    get it started
-                  </a>
-                </Link> */}
-                <p className="my-4 text-gray-600 transition duration-150 ease-out hover:ease-in">
-                  get it started
-                </p>
               </div>
             </li>
           ))}
