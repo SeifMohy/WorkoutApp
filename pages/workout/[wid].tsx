@@ -4,7 +4,6 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-
 import ActiveExcercise from "components/ActiveExcercise";
 import { CircularProgress } from "@mui/material";
 import { Exercise } from "@prisma/client";
@@ -51,7 +50,7 @@ export default function Workout() {
           <h1 className="mt-[1.5rem] lg:mt-[3rem] mb-[0.5rem] self-start p-[1rem] text-[3rem] font-bold text-left text-gray-100">
             {data.name}
           </h1>
-          <h2 className="ml-[1rem] w-full text-gray-100 text-[1.2rem]">
+          <h2 className="ml-[1rem] w-[95%] text-gray-100 text-[1.2rem]">
             {data.description} Lorem ipsum dolor sit amet consectetur
             adipisicing elit. Doloremque, aliquam placeat officiis odit.
           </h2>
@@ -62,7 +61,7 @@ export default function Workout() {
         ) : (
           <ul className="flex flex-col items-center justify-center">
             {data?.exercises?.map((exercise: Exercise) => (
-              <li key={exercise.id} className="flex-col justify-center border transition ease-in-out delay-150 p-[1rem] rounded-2xl my-[2rem] hover:-translate-y-1 hover:bg-white duration-300">
+              <li key={exercise.id} className="flex-col justify-center border transition ease-in-out delay-150 p-[1rem] rounded-2xl my-[2rem] w-[90%] hover:-translate-y-1 hover:bg-white duration-300">
                 <ActiveExcercise exercise={exercise} />
               </li>
             ))}

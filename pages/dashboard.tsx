@@ -101,9 +101,11 @@ const Dashboard = () => {
       console.log('userLogs', res);
     }
   });
-  // console.log(logsByExercise);
 
-  if (!logsByExercise || !workout || !workoutInfo || !userStreak) {
+
+  if (!logsByExercise || !workout || !workoutInfo) {
+
+
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
@@ -114,11 +116,8 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="min-h-screen p-5 bg-gray-100">
-        {/* welcome div */}
 
-        <DashboardHeadTab userStreak={userStreak} />
-        {/* TODO: fix error */}
-        {/* Personal Records */}
+        <DashboardHeadTab userStreak={userStreak!} /> 
 
         <div className="flex">
           <p className="my-3 text-lg">&#127942;</p>
