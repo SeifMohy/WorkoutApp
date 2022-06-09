@@ -23,12 +23,12 @@ const Signup = () => {
     }
   }, [])
 
-  useEffect(() => {
-    if (!fullUser) {
-      router.push('/');
-    }
-    getUser();
-  }, [getUser, fullUser, router]);
+  // useEffect(() => {
+  //   if (!fullUser) {
+  //     router.push('/');
+  //   }
+  //   getUser();
+  // }, [getUser, fullUser, router]);
 
 
   const formik = useFormik({
