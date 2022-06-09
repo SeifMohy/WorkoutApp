@@ -52,7 +52,6 @@ const Layout = ({ children }: props) =>  {
     </>
   )
 if (user && fullUser)
-
   return (
 
       <div className="min-h-screen" onClick={() => handleClose()}>
