@@ -19,7 +19,7 @@ export const useWorkout = () => {
 };
 
 const WorkoutProvider = ({ children }: props) => {
-  const [daysWorkout, setDaysWorkout] = useState<String>("2");
+  const [daysWorkout, setDaysWorkout] = useState<String>("1");
   const setWorkoutForTheDay = (value: String) => {
     setDaysWorkout(value);
     console.log({ value });

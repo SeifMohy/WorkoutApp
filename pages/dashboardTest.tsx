@@ -1,32 +1,32 @@
-import React, { useContext, useEffect } from "react";
-import Layout from "../components/layout";
-import { useSession } from "next-auth/react";
-import axios from "axios";
-import useSWR from "swr";
+import React, { useContext, useEffect } from 'react';
+import Layout from '../components/layout';
+import { useSession } from 'next-auth/react';
+import axios from 'axios';
+import useSWR from 'swr';
 import {
   ProgressAPIResponseType,
   todaysWorkoutData,
   WorkoutInfo,
-  WorkoutLineData,
-} from "types";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import Link from "next/link";
-import { CircularProgress } from "@mui/material";
-import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
-import DashboardHeadTab from "components/DashboardHeadTab";
-import ExerciseIndex from "components/ExerciseIndex";
+  WorkoutLineData
+} from 'types';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import Link from 'next/link';
+import { CircularProgress } from '@mui/material';
+import { useWorkout, WorkoutContext } from 'components/WorkoutProvider';
+import DashboardHeadTab from 'components/DashboardHeadTab';
+import ExerciseIndex from 'components/ExerciseIndex';
 
 function choosingColor(name: string) {
   switch (name) {
-    case "Squat":
-      return "bg-red-700";
-    case "Lunges":
-      return "bg-green-700";
-    case "Jumping Jacks":
-      return "bg-blue-700";
+    case 'Squat':
+      return 'bg-red-700';
+    case 'Lunges':
+      return 'bg-green-700';
+    case 'Jumping Jacks':
+      return 'bg-blue-700';
     default:
-      return "bg-red-700";
+      return 'bg-red-700';
   }
 }
 type WorkoutLine = {
@@ -88,9 +88,9 @@ const Dashboard = () => {
       return {
         weight: Array.from(Array(workoutLine.recSets)),
         reps: Array.from(Array(workoutLine.recSets)),
-        workoutLineId: workoutLine.id,
+        workoutLineId: workoutLine.id
       };
-    }),
+    })
   };
 
   const formik = useFormik({
@@ -99,13 +99,13 @@ const Dashboard = () => {
     onSubmit: async (values: any, resetForm: any) => {
       // formik.resetForm();
       console.log(values);
-      const res = await axios.put("/api/userLogs/test", values); //This is on userLogs/test to avoid session errors
-      console.log("userLogs", res);
-    },
+      const res = await axios.put('/api/userLogs/test', values); //This is on userLogs/test to avoid session errors
+      console.log('userLogs', res);
+    }
   });
   // console.log(logsByExercise);
 
-  if (!logsByExercise || !workout || !workoutInfo) {
+  if (!logsByExercise || !workout || !workoutInfo || !userStreak) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
@@ -117,7 +117,7 @@ const Dashboard = () => {
     <Layout>
       <div className="min-h-screen p-5 bg-gray-100">
         {/* welcome div */}
-        <DashboardHeadTab userStreak={userStreak || 0 ? userStreak : 0} />
+        <DashboardHeadTab userStreak={userStreak} />
         {/* TODO: fix error */}
         {/* Personal Records */}
 
@@ -203,7 +203,6 @@ const Dashboard = () => {
                             placeholder={`${workout.recReps}`}
                             onChange={formik.handleChange}
                             className="mr-[0.5rem] md:w-[4rem] lg:w-[15rem] px-2 focus:ring-indigo-500 focus:border-indigo-500 relative block rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
-                            
                           ></input>
                         </div> //TODO: make check button work and filter if not checked
                       )

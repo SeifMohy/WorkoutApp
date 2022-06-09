@@ -1,11 +1,10 @@
-
-import Image from "next/image";
-import { useFormik, yupToFormErrors } from "formik";
-import * as Yup from "yup";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { User } from "@prisma/client";
+import Image from 'next/image';
+import { useFormik, yupToFormErrors } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { User } from '@prisma/client';
 
 const Signup = () => {
   const router = useRouter();
@@ -13,7 +12,7 @@ const Signup = () => {
   const [fullUser, setFullUser] = useState<User | null>();
 
   const getUser = async () => {
-    const res = await axios.get("/api/user");
+    const res = await axios.get('/api/user');
     const data = res.data.user;
     setFullUser(data);
   };
@@ -23,22 +22,22 @@ const Signup = () => {
   }, []);
 
   if (fullUser?.age) {
-    router.push("/dashboard");
+    router.push('/dashboard');
   }
 
   const formik = useFormik({
     initialValues: {
-      age: "",
-      weight: "",
-      height: "",
-      gender: "",
+      age: '',
+      weight: '',
+      height: '',
+      gender: ''
     },
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
-      const res = axios.post("/api/user", values);
+      const res = axios.post('/api/user', values);
       const data = await res;
-      console.log("data", data);
-      router.push("/dashboard");
+      console.log('data', data);
+      router.push('/dashboard');
       // const res = await fetch("/api/user", {
       //   method: "POST",
       //   body:  JSON.stringify(values),
@@ -46,11 +45,11 @@ const Signup = () => {
       resetForm();
     },
     validationSchema: Yup.object({
-      age: Yup.number().required("this input is required"),
-      weight: Yup.number().required("this input is required"),
-      height: Yup.number().required("this input is required"),
-      gender: Yup.string().required("this input is required"),
-    }),
+      age: Yup.number().required('this input is required'),
+      weight: Yup.number().required('this input is required'),
+      height: Yup.number().required('this input is required'),
+      gender: Yup.string().required('this input is required')
+    })
   });
 
   return (
@@ -149,7 +148,7 @@ const Signup = () => {
 
               <button
                 type="submit"
-                className="text-white  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-700"
+                className="text-white bg-gray-700 focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-gray-700"
                 onClick={(e) => {
                   e.preventDefault();
                   formik.handleSubmit();

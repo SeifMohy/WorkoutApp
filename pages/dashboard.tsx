@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
 import Layout from '../components/layout';
-
 import axios from 'axios';
 import useSWR from 'swr';
 import {
@@ -10,10 +9,8 @@ import {
   WorkoutLineData
 } from 'types/index';
 import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import Link from 'next/link';
 import { CircularProgress } from '@mui/material';
-import { useWorkout, WorkoutContext } from 'components/WorkoutProvider';
+import { useWorkout } from 'components/WorkoutProvider';
 import DashboardHeadTab from 'components/DashboardHeadTab';
 import ExerciseIndex from 'components/ExerciseIndex';
 
@@ -150,7 +147,7 @@ const Dashboard = () => {
         </div>
         <div>
           <>
-            {todaysWorkout.map((workout, workoutIndex) => {
+            {todaysWorkout?.map((workout, workoutIndex) => {
               return (
                 <div
                   key={workoutIndex}

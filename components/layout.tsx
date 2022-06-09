@@ -53,7 +53,7 @@ function Layout({ children }: props) {
     loading...
     </>
   )
-if (user && fullUser)
+if (user)
 
   return (
 

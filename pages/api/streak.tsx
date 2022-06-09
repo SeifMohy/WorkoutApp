@@ -57,7 +57,7 @@ async function getUserStreak(req: NextApiRequest, res: NextApiResponse) {
       console.log(count);
       //---------- end streak counter
 
-      res.status(200).json(`{${count}}`);
+      res.status(200).json(`${count}`);
     } catch (err: any) {
       console.log(err);
       res.status(400).json({ msg: 'something went wrong', err });
