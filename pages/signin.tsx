@@ -2,7 +2,9 @@
 import { createClient } from '@supabase/supabase-js'
 import Image from "next/image";
 import { useRouter } from "next/router";
-const SignIn = () => {
+
+type props = {}
+const SignIn:React.FC<props> = () => {
   const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!)
   const router = useRouter();
   const loginWithGoogle = async () => {
@@ -15,8 +17,8 @@ const SignIn = () => {
 
   return (
     <div className="grid sm:grid-cols-1 lg:grid-cols-3 ">
-      <div className="lg:col-span-1 md:col-span-1 flex items-center justify-center h-screen">
-        <div className="h-80 px-4 ">
+      <div className="flex items-center justify-center h-screen lg:col-span-1 md:col-span-1">
+        <div className="px-4 h-80 ">
           <div>
             <Image
               src="/images/logo.png"
@@ -27,7 +29,7 @@ const SignIn = () => {
             />
           </div>
           <div>
-            <p className="font-bold pt-2 pb-2 	text-4xl">
+            <p className="pt-2 pb-2 text-4xl font-bold">
               Sign in to your account
             </p>
             <span className="">Or create a new acount</span>
@@ -40,7 +42,7 @@ const SignIn = () => {
                     onClick={() =>
                       loginWithGoogle()
                     }
-                    className="bg-black w-full mb-2 text-white py-3 rounded-md"
+                    className="w-full py-3 mb-2 text-white bg-black rounded-md"
                   >
                  GOOGLE
                   </button>
