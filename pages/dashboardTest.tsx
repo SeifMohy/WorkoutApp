@@ -123,7 +123,9 @@ const Dashboard = () => {
 
         <div className="flex">
           <p className="my-3 text-lg">&#127942;</p>
-          <div className="mx-1 my-3 text-lg">Personal Records TODO msg: no personal records..</div>
+          <div className="mx-1 my-3 text-lg">
+            Personal Records TODO msg: no personal records..
+          </div>
         </div>
 
         <div className="">
@@ -160,23 +162,32 @@ const Dashboard = () => {
 
                   <div className="flex-col justify-end bg-white">
                     <div className="flex justify-start p-3 bg-gray-200 border">
-                      <div className="flex justify-around px-1">
-                        <span className="text-center">#</span>
+                      <div className="mr-[0.5rem] rounded-2xl w-[3rem]">
+                        Set #
+                      </div>
+                      <div className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2">
+                        Weight
+                      </div>
+                      <div className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2">
+                        Reps
+                      </div>
+                      {/* <div className="flex justify-start px-1">
+                        
                       </div>
                       <div className="flex justify-start px-1">
-                        <span className="text-center">Weight</span>
+                       
                       </div>
                       <div className="flex justify-start px-1">
-                        <span className="text-center">Reps</span>
-                      </div>
+                        
+                      </div> */}
                     </div>
                     {Array.from(Array(workout.recSets)).map(
                       (_, exerciseSetIndex) => (
                         <div
                           key={exerciseSetIndex}
-                          className="flex justify-around pb-3"
+                          className="flex justify-start pb-3"
                         >
-                          <div className="text-center">
+                          <div className="m-3 w-[3rem]">
                             {exerciseSetIndex + 1}
                           </div>
 
@@ -184,14 +195,15 @@ const Dashboard = () => {
                             name={`workoutLogs[${workoutIndex}].weight[${exerciseSetIndex}]`}
                             placeholder={`${workout.recWeight}`}
                             onChange={formik.handleChange}
-                            className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
+                            className="mr-[0.5rem] md:w-[4rem] lg:w-[15rem] px-2 focus:ring-indigo-500 focus:border-indigo-500 relative block rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
                           ></input>
 
                           <input
                             name={`workoutLogs[${workoutIndex}].reps[${exerciseSetIndex}]`}
                             placeholder={`${workout.recReps}`}
                             onChange={formik.handleChange}
-                            className="mr-[0.5rem] rounded-2xl w-[3rem] md:w-[4rem] lg:w-[15rem] px-2"
+                            className="mr-[0.5rem] md:w-[4rem] lg:w-[15rem] px-2 focus:ring-indigo-500 focus:border-indigo-500 relative block rounded-none rounded-t-md bg-transparent focus:z-10 sm:text-sm border-gray-300"
+                            
                           ></input>
                         </div> //TODO: make check button work and filter if not checked
                       )
@@ -213,8 +225,6 @@ const Dashboard = () => {
           </>
         </div>
       </div>
-
-
       //--------------------------------
       <div>
         <fieldset>
@@ -298,11 +308,7 @@ const Dashboard = () => {
           </div>
         </fieldset>
       </div>
-
-
-
       //----------------------------------------------------------------
-
     </Layout>
   );
 };
