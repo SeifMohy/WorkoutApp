@@ -99,8 +99,8 @@ function createChartData(
 
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
-
-const ProgressTest = () => {
+type props = {}
+const ProgressTest:React.FC<props> = () => {
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(
       `/api/progress`,
@@ -108,13 +108,10 @@ const ProgressTest = () => {
     );
 
   console.log(logsByExercise);
-  // if (!logsByExercise) {
-  //   return <div>loading...</div>;
-  // }
 
   return (
     <Layout>
-      <div className="bg-gray-100 min-h-screen p-5 pt-8">
+      <div className="min-h-screen p-5 pt-8 bg-gray-100">
         <div className="text-2xl font-extrabold">Progress</div>
         <>
           {logsByExercise?.map((log) => {
@@ -128,7 +125,7 @@ const ProgressTest = () => {
                     data={data}
                   />
                 </div>
-                <div className="flex justify-between m-4 px-4">
+                <div className="flex justify-between px-4 m-4">
                   <div>{log.name}</div>
                   <div>Max {log.max}KG</div>
                 </div>

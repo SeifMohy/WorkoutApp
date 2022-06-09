@@ -2,27 +2,30 @@ import React from 'react';
 import Header from './header';
 import { useState } from 'react';
 import SidebarXl from './sidebarXl';
-import { User } from '@prisma/client';
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useUser } from '@supabase/supabase-auth-helpers/react';
+import { useAppDispatch, useAppSelector } from '../store/hook';
+import { authFullUser } from 'slices/auth.slice';
+import { authState } from '../slices/auth.slice';
+
 type Props = {
   children: React.ReactNode;
 };
 
 const Layout: React.FC<Props> = ({ children }) => {
   const { user, isLoading } = useUser();
+  const fullUser = useAppSelector(authState);
+  const dispatch = useAppDispatch();
   const [openAccount, setOpenAccount] = useState(false);
   const [open, setOpen] = useState(false);
-  const [fullUser, setFullUser] = useState<User | null>();
   const router = useRouter();
   function handleClose() {
     if (openAccount === true) {
       setOpenAccount(false);
     }
   }
-  console.log(fullUser);
 
   const getFullUser = async () => {
     try {
@@ -30,8 +33,12 @@ const Layout: React.FC<Props> = ({ children }) => {
       if (res.status !== 200) {
         router.push('/signup');
       }
+<<<<<<< HEAD
       console.log({u: res.data})
       setFullUser(res.data.fullUser);
+=======
+      dispatch(authFullUser(res.data.fullUser));
+>>>>>>> 9ea339fb31cf626cd235e34ffd3bddddcba22b08
     } catch (error) {
       console.log(error);
       router.push('/signup');
