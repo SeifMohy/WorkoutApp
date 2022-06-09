@@ -10,7 +10,7 @@ import {
 } from 'types/index';
 import { useFormik } from 'formik';
 import { CircularProgress } from '@mui/material';
-import { useWorkout } from 'components/WorkoutProvider';
+import { useWorkout } from 'context/WorkoutProvider';
 import DashboardHeadTab from 'components/DashboardHeadTab';
 import ExerciseIndex from 'components/ExerciseIndex';
 import ExerciseInput from 'components/ExerciseInput';
@@ -144,7 +144,7 @@ const Dashboard:React.FC = () => {
           </div>
         </div>
         <div id="workoutTitle" className="m-3 text-lg">
-          {` Today's`} Workout ({workoutInfo.name} Workout)
+          {` Today's`} Workout ({workoutInfo.workout.name} Workout)
         </div>
         <div>
           <>

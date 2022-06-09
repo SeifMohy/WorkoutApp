@@ -3,7 +3,7 @@ import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { Calendar } from "react-multi-date-picker";
 
-export const Example:React.FC = () => {
+const CalenderComp:React.FC = () => {
   const [value, setValue] = useState<string[]>([]);
   useEffect(() => {
     const workOutData = async () => {
@@ -22,3 +22,5 @@ export const Example:React.FC = () => {
 
   return <Calendar readOnly={true} value={value} onChange={() => {}} />;
 }
+
+export default CalenderComp

@@ -1,15 +1,14 @@
-import React, { Fragment } from "react";
-import useSWR from "swr";
-import axios from "axios";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { CircularProgress } from "@mui/material";
-import { Exercise, WorkoutLine } from "@prisma/client";
-import Layout from "components/layout";
-import { useWorkout } from "context/WorkoutProvider";
+import React, { Fragment } from 'react';
+import useSWR from 'swr';
+import axios from 'axios';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { CircularProgress } from '@mui/material';
+import { Exercise, WorkoutLine } from '@prisma/client';
+import Layout from 'components/layout';
+import { useWorkout } from 'context/WorkoutProvider';
 
-const Workout:React.FC = () => {
-
+const Workout: React.FC = () => {
   const router = useRouter();
   const { wid } = router.query;
   const { daysWorkout, setWorkoutForTheDay } = useWorkout();
@@ -95,6 +94,6 @@ const Workout:React.FC = () => {
       </div>
     </Layout>
   );
-}
+};
 
-export default Workout
+export default Workout;

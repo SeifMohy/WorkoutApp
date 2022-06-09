@@ -144,7 +144,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div id="workoutTitle" className="m-3 text-lg">
-          {` Today's`} Workout ({workoutInfo.name} Workout)
+          {` Today's`} Workout ({workoutInfo.workout.name} Workout)
         </div>
         <div>
           <>
