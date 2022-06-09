@@ -44,6 +44,7 @@ const header = ({
                   className="w-10 h-10 rounded-full m-2"
                   src={data?.avatar || "/icon.png"}
                   alt="Rounded avatar"
+                  layout='fill'
                 />
               </Menu.Button>
               <AccountProp

@@ -3,7 +3,7 @@ import Header from "./header";
 import { useState} from "react";
 import SidebarXl from "./sidebarXl";
 import { User } from "@prisma/client";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
@@ -23,7 +23,7 @@ function Layout({ children }: props) {
     }
   }
 
-  const getFullUser = async () => {
+  const getFullUser = useCallback( async () => {
     try {
       const res = await axios.get("/api/user");
       if (res.status !== 200) {
@@ -33,19 +33,17 @@ function Layout({ children }: props) {
     } catch (error) {
       router.push("/signup");
     }
-  };
+  }, [router]) 
 
   useEffect(() => {
     getFullUser();
-  }, []);
+  }, [getFullUser]);
 
   useEffect(() => {
-    console.log("sup dude", { user, isLoading })
     if (!isLoading && !user) {
-    router.push("/signin");
-      
+      router.push("/signin");
     }
-  }, [user, accessToken, isLoading])
+  }, [user, isLoading, router])
   
   if (isLoading)
   return (

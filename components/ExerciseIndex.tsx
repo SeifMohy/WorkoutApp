@@ -12,6 +12,7 @@ function ExerciseIndex({ workout }: props) {
         className="m-2 border-4 border-white border-solid rounded-full w-14 h-14"
         src={workout.exercise.imageUrl}
         alt="Rounded avatar"
+        layout='fill'
       />
       <div className="self-center">
         <div className="text-xl font-bold">{workout.exercise.name}</div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import Layout from '../components/layout';
 import axios from 'axios';
 import useSWR from 'swr';
@@ -6,30 +6,27 @@ import { WorkoutHistoryCard } from 'types/index';
 import moment from 'moment';
 import Image from "next/image";
 
-
-const fetchWorkoutHistory = (url: string) =>
-  axios.get(url).then((res) => res.data);
-
-const calendar = () => {
+interface Props {}
+const calendar:React.FC<Props> = () => {
+  const fetchWorkoutHistory = (url: string) => axios.get(url).then((res) => res.data);
   const { data, error } = useSWR<WorkoutHistoryCard>(
     `/api/workoutHistory/workoutCard`,
 
     fetchWorkoutHistory
   );
   console.log(data);
-  const [myDate, setMyDate] = useState('');
 
-  const workOutData = async () => {
+  const workOutData = useCallback(async () => {
     const res = await axios.get('/api/workouthistory');
     const data = await res.data;
     console.log(
       data['Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)']
     );
-  };
+  }, [])
 
   useEffect(() => {
     workOutData();
-  }, []);
+  }, [workOutData]);
 
   return (
     <Layout>
@@ -64,8 +61,7 @@ const calendar = () => {
                               src={`${exercise.exercise.imageUrl}`}
                               alt="Picture of the author"
                               width={150}
-                              height={200}
-                            />
+                              height={200}                            />
                             <div>
                               <>
                                 {exercise.logs.map((logs) => {
