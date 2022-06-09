@@ -16,12 +16,12 @@ function DashboardHeadTab({ userStreak }: props) {
     <div className="w-full bg-white border rounded-2xl">
       <div className="align-center flex flex-col items-start md:flex-row md:justify-between lg:flex-row  lg:justify-between bg-white p-[1.2rem]">
         <div className="flex flex-row items-center justify-center ">
-          <div className="h-12 w-12 relative rounded-full">
+          <div className="h-12 w-12 relative rounded-full overflow-hidden">
             <Image
-              src={data?.image || '/icon.png'}
+              src={data?.avatar_url}
               alt="Avatar"
               layout="fill"
-              className="rounded-full"
+              objectFit='cover'
             />
           </div>
           <div className="flex flex-col items-start justify-start ml-5">
