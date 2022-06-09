@@ -20,7 +20,7 @@ export default async function handle(
     if (!workout) {
       res.status(400).json({ msg: 'no workout found' });
     } else {
-      res.status(200).json(workout);
+      res.status(200).json({ workout: workout });
     }
   }
 }

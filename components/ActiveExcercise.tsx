@@ -1,7 +1,9 @@
+import { Exercise } from '@prisma/client'
 import React, { Fragment, useEffect, useState } from 'react'
+import { WorkoutInfo } from 'types/index'
 
 type props = {
-  exercise:any
+  exercise:WorkoutInfo
 }
 
 function ActiveExcercise({exercise}: props){
