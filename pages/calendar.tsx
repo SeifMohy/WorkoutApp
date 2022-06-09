@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Layout from "../components/layout";
 import CalenderComp from "../components/calendarComponent";
 import Image from "next/image";
@@ -20,13 +20,24 @@ const Calendar:React.FC<Props>  = () => {
 
   console.log(data);
 
-  if (!data) {
-    return (
-      <div className="flex justify-center items-center w-full h-[100vh]">
-        <CircularProgress color="inherit" className="w-[12rem]" />
-      </div>
-    );
-  }
+  const workOutData = useCallback(async () => {
+    try{
+      const res = await axios.get('/api/workouthistory');
+      const data = await res.data;
+      console.log(
+        data['Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)']
+      );
+
+    }
+    catch (err){
+        console.log(err);
+        
+    }
+  }, [])
+
+  useEffect(() => {
+    workOutData();
+  }, [workOutData]);
 
   return (
     <Layout>
@@ -37,7 +48,7 @@ const Calendar:React.FC<Props>  = () => {
         <div className="grid gap-10 p-8 px-0 py-8 bg-white rounded-md sm:grid-cols-1 lg:grid-cols-3 md:px-8">
           <div className="lg:col-span-2 md:col-span-2">
             <>
-              {data.workouts.map((workout, idx: number) => {
+              {data?.workouts.map((workout, idx: number) => {
                 return (
                   <div
                     key={idx}

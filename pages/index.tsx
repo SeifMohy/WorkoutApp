@@ -10,11 +10,14 @@ import {
 } from 'types/index';
 import { useFormik } from 'formik';
 import { CircularProgress } from '@mui/material';
-import { useWorkout } from 'context/WorkoutProvider';
+
 import DashboardHeadTab from 'components/DashboardHeadTab';
 import ExerciseIndex from 'components/ExerciseIndex';
 import ExerciseInput from 'components/ExerciseInput';
 import {useRouter} from 'next/router';
+import { useDispatch } from 'react-redux';
+import { useAppSelector } from '../store/hook';
+import { workoutState } from '../slices/workout.slice';
 
 function choosingColor(name: string) {
   switch (name) {
@@ -51,14 +54,9 @@ const fetchWorkoutName = (url: string) =>
 
 const Dashboard = () => {
   const router = useRouter();
-  const { daysWorkout } = useWorkout();
-  const todaysWorkoutId = daysWorkout; //TODO: have something that determines which workout is todays workout
+  const state = useAppSelector(workoutState);
+  const todaysWorkoutId = state.daysWorkout; //TODO: have something that determines which workout is todays workout
 
-//   useEffect(() => {
-//     if(router.pathname === '/') {
-//     router.push('/signin');
-//   }
-// }, [])
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
 
@@ -149,7 +147,7 @@ const Dashboard = () => {
           </div>
         </div>
         <div id="workoutTitle" className="m-3 text-lg">
-          {` Today's`} Workout ({workoutInfo.workout.name} Workout)
+          {/* {` Today's`} Workout ({workoutInfo.workout.name} Workout) */}
         </div>
         <div>
           <>
