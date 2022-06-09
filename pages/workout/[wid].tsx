@@ -3,7 +3,6 @@ import useSWR from "swr";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import ActiveExcercise from "components/ActiveExcercise";
 import { CircularProgress } from "@mui/material";
 import { Exercise, WorkoutLine } from "@prisma/client";
 import Layout from "components/layout";
