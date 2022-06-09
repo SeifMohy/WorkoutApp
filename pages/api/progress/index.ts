@@ -23,13 +23,14 @@ export default async function handler(
 
   try {
     const session = await getSession({ req });
+  const userEmail = "seifmohy@gmail.com";
+    
 
-
-    if (!session) {
+    if (!userEmail) {
       res.status(400);
     }
 
-    const userEmail = session?.user?.email;
+    //const userEmail = session?.user?.email;
     console.log({ userEmail, session });
 
     const user = await prisma.user.findUnique({

@@ -105,20 +105,19 @@ const Dashboard = () => {
   });
   // console.log(logsByExercise);
 
-
-  if (!logsByExercise || !workout || !workoutInfo) {
-
+  if (!logsByExercise || !workout || !workoutInfo || !userStreak) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
         <CircularProgress color="inherit" className="w-[12rem]" />
       </div>
     );
-  }else{}
+  } else {
+  }
   return (
     <Layout>
       <div className="min-h-screen p-5 bg-gray-100">
         {/* welcome div */}
-        <DashboardHeadTab userStreak={userStreak || 0? userStreak : 0} /> 
+        <DashboardHeadTab userStreak={userStreak} />
         {/* TODO: fix error */}
         {/* Personal Records */}
 
@@ -157,10 +156,10 @@ const Dashboard = () => {
                   key={workoutIndex}
                   className="flex-col items-center p-2 mb-1"
                 >
-                  <ExerciseIndex workout={workout}/>
-                  
+                  <ExerciseIndex workout={workout} />
+
                   <div className="flex-col justify-end bg-white">
-                    <div className='flex justify-center p-3 bg-gray-200 border'>
+                    <div className="flex justify-center p-3 bg-gray-200 border">
                       <div className="flex justify-start px-1">
                         <span className="text-center">#</span>
                       </div>
@@ -169,7 +168,7 @@ const Dashboard = () => {
                       </div>
                       <div className="flex justify-start px-1">
                         <span className="text-center">Reps</span>
-                      </div>  
+                      </div>
                     </div>
                     {Array.from(Array(workout.recSets)).map(
                       (_, exerciseSetIndex) => (
@@ -197,7 +196,6 @@ const Dashboard = () => {
                       )
                     )}
                   </div>
-
                 </div>
               );
             })}

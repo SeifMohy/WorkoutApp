@@ -37,12 +37,14 @@ type Data = {
 
 async function getUserStreak(req: NextApiRequest, res: NextApiResponse) {
   const session = await getSession({ req });
-  if (session) {
+  const userEmail = "seifmohy@gmail.com";
+
+  if (userEmail) {
     // Signed in
     try {
       // const userEmail = session?.user?.email;
       const userEmail1 = "mahmoudezz878@gmail.com";
-      const userEmail = "seifmohy@gmail.com";
+      // const userEmail = "seifmohy@gmail.com";
       const userEmail3 = "nac9cm@gmail.com";
 
       let user = await prisma.user.findUnique({
@@ -81,7 +83,7 @@ async function getUserStreak(req: NextApiRequest, res: NextApiResponse) {
       console.log(count);
       //---------- end streak counter
 
-      res.status(200).json(count);
+      res.status(200).json(`{${count}}`);
     } catch (err: any) {
       console.log(err);
       res.status(400).json({ msg: "something went wrong", err });
