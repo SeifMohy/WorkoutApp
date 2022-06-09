@@ -11,7 +11,7 @@ type props = {
   children: React.ReactNode;
 };
 
-function Layout({ children }: props) {
+const Layout = ({ children }: props) =>  {
   const { user, isLoading,error, accessToken,checkSession } = useUser();
   const [openAccount, setOpenAccount] = useState(false);
   const [open, setOpen] = useState(false);
@@ -51,7 +51,7 @@ function Layout({ children }: props) {
     loading...
     </>
   )
-if (user)
+if (user && fullUser)
 
   return (
 
@@ -76,7 +76,8 @@ if (user)
   );
   return (
     <>
-    redirecting....</>
+      redirecting....
+    </>
   )
 }
 

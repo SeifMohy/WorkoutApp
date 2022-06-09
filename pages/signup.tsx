@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useFormik, yupToFormErrors } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { User } from '@prisma/client';
 
@@ -11,19 +11,25 @@ const Signup = () => {
 
   const [fullUser, setFullUser] = useState<User | null>();
 
-  const getUser = async () => {
-    const res = await axios.get('/api/user');
-    const data = res.data.user;
-    setFullUser(data);
-  };
+  const getUser = useCallback(async () => {
+    try {
+      const res = await axios.get('/api/user');
+      const data = res.data.user;
+      setFullUser(data);
+      
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }, [])
 
   useEffect(() => {
+    if (!fullUser) {
+      router.push('/');
+    }
     getUser();
-  }, []);
+  }, [getUser, fullUser, router]);
 
-  if (fullUser?.age) {
-    router.push('/dashboard');
-  }
 
   const formik = useFormik({
     initialValues: {
@@ -37,7 +43,7 @@ const Signup = () => {
       const res = axios.post('/api/user', values);
       const data = await res;
       console.log('data', data);
-      router.push('/dashboard');
+      router.push('/');
       // const res = await fetch("/api/user", {
       //   method: "POST",
       //   body:  JSON.stringify(values),
