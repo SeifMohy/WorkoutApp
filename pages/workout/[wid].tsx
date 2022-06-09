@@ -22,8 +22,6 @@ export default function Workout() {
     router.push("/");
   };
 
-
-  console.log(daysWorkout);
   if (!data) {
     return (
       <div className="flex justify-center items-center w-full h-[100vh]">
@@ -37,8 +35,8 @@ export default function Workout() {
       <div className="flex flex-col justify-start min-h-screen bg-gray-100 align-center">
         <div className="relative w-full h-[20rem] mb-[0.75rem] bg-black">
           <Image
-            src={data.imgUrl}
-            alt={data.name}
+            src={data.workout.imgUrl}
+            alt={data.workout.name}
             layout="fill"
             objectFit="cover"
             className="opacity-50"
@@ -46,7 +44,7 @@ export default function Workout() {
         </div>
         <div className="absolute flex-col justify-start items-start pt-[5.5rem]">
           <h1 className="mt-[1.5rem] lg:mt-[3rem] mb-[0.5rem] self-start p-[1rem] text-[3rem] font-bold text-left text-gray-100">
-            {data.name}
+            {data.data.name}
           </h1>
           <h2 className="ml-[1rem] w-[95%] text-gray-100 text-[1.2rem]">
             {data.description} Lorem ipsum dolor sit amet consectetur
@@ -58,11 +56,7 @@ export default function Workout() {
           <h1>no exercise</h1>
         ) : (
           <ul className="flex flex-col items-center justify-center">
-            {data?.exercises?.map((exercise: Exercise) => (
-              <li key={exercise.id} className="flex-col justify-center border transition ease-in-out delay-150 p-[1rem] rounded-2xl my-[2rem] w-[90%] hover:-translate-y-1 hover:bg-white duration-300">
-                <ActiveExcercise exercise={exercise} />
-              </li>
-            ))}
+            {data.workout.map((exercise:Exercise) =>{return <li key={exercise.id}><ActiveExcercise exercise={exercise} /></li>})}
           </ul>
         )}
 
