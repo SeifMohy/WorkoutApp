@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Exercise, PrismaClient, UserLog, WorkoutLine } from '@prisma/client';
 import _ from 'lodash';
-import { ProgressAPIResponseType } from 'types';
-import { Collection } from "lodash";
-import {prisma} from "../prismaClient"
-import { getSession } from "next-auth/react";
+import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
+
+
+import prisma from "prismaClient"
+
 
 
 type Data = {
@@ -20,23 +20,22 @@ export default async function handler(
 ) {
   prisma
   try {
-    const session = await getSession({ req });
+    const { user } = await getUser({ req, res });
 
 
-    if (!session) {
+    if (!user) {
       res.status(400);
 
     } else {
-      const userEmail = session?.user?.email;
-      console.log({ userEmail, session });
+
   
-      const user = await prisma.user.findUnique({
-        where: { email: userEmail as string },
+      const fullUser = await prisma.user.findUnique({
+        where: { id: user?.id },
       });
-      if (!user) {
+      if (!fullUser) {
         res.status(400);
       }else{      const userLogs = await prisma.userLog.findMany({
-        where: { userId: user?.id as string },
+        where: { userId: fullUser?.id  },
         include: { workoutLine: { include: { exercise: true } } }
       });
       const sortedUserLogs = userLogs.sort((a: any, b: any) => a.date - b.date);

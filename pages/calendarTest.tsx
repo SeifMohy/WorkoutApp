@@ -6,7 +6,7 @@ import axios from 'axios';
 import useSWR from 'swr';
 import { WorkoutHistoryCard } from 'types';
 import moment from 'moment';
-import exercise from './api/exercise';
+
 
 const fetchWorkoutHistory = (url: string) =>
   axios.get(url).then((res) => res.data);

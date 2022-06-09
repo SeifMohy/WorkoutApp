@@ -4,7 +4,7 @@ import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-// import { useSession } from 'next-auth/react'
+
 import ActiveExcercise from "components/ActiveExcercise";
 import { CircularProgress } from "@mui/material";
 import { Exercise } from "@prisma/client";

@@ -1,14 +1,13 @@
 import { Exercise, UserLog, Workout, WorkoutLine } from "@prisma/client";
 import { Collection } from "lodash";
 
-export type ProgressAPIResponseType = Collection<{
-    name: string;
-    exercise: Exercise;
-    max: number;
-    data: number[];
-    labels: Date[];
-  }>;
-  
+export type ProgressAPIResponseType =  _.Collection<{
+  name: string;
+  exercise: Exercise;
+  max: number;
+  data: number[];
+  labels: Date[];
+}>
   export type WorkoutLineData = {
     data: _.Object<_.Dictionary<(WorkoutLine & {
       exercise: Exercise;

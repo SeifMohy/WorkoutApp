@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React from 'react'
 import Image from "next/image";
-import { useSession } from "next-auth/react";
+
 import {StreakInfo} from '../pages/dashboard';
 
 type props = {
@@ -9,7 +9,7 @@ type props = {
 }
 function DashboardHeadTab({userStreak}:props) {
 
-    const session = useSession();
+
   return (
     <div className="w-full bg-white border rounded-2xl">
           <div className="align-center flex flex-col items-start md:flex-row md:justify-between lg:flex-row  lg:justify-between bg-white p-[1.2rem]">

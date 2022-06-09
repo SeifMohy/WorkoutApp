@@ -3,7 +3,7 @@ import Sidebar from "./sidebar";
 import AccountProp from "./accountProp";
 import { MenuIcon } from "@heroicons/react/solid";
 import { Menu } from "@headlessui/react";
-import { useSession } from "next-auth/react";
+import { useUser } from "@supabase/supabase-auth-helpers/react";
 
 type headerProps = {
   open: boolean;
@@ -18,7 +18,8 @@ const header = ({
   openAccount,
   setOpenAccount,
 }: headerProps) => {
-  const session = useSession();
+  const { user, isLoading, error, accessToken, checkSession } = useUser();
+  const data = user?.user_metadata;
   return (
     <div>
       <Sidebar open={open} setOpen={setOpen} />
@@ -32,7 +33,7 @@ const header = ({
             <MenuIcon className="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
           </button>
           <div className="bg-white flex items-center">
-            {session?.data?.user?.name?.replace(/[0-9]/g, '')}
+            {data?.name}
             <Menu>
               <Menu.Button
                 type="button"
@@ -40,7 +41,7 @@ const header = ({
               >
                 <img
                   className="w-10 h-10 rounded-full m-2"
-                  src={session?.data?.user?.image || "/icon.png"}
+                  src={data?.avatar || "/icon.png"}
                   alt="Rounded avatar"
                 />
               </Menu.Button>
