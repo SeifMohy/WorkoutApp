@@ -104,8 +104,6 @@ const Dashboard = () => {
       console.log('userLogs', res);
     }
   });
-  // console.log(logsByExercise);
-
 
   if (!logsByExercise || !workout || !workoutInfo) {
 
@@ -118,11 +116,7 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="min-h-screen p-5 bg-gray-100">
-        {/* welcome div */}
-        <DashboardHeadTab userStreak={userStreak! || 0? userStreak! : 0} /> 
-        {/* TODO: fix error */}
-        {/* Personal Records */}
-
+        <DashboardHeadTab userStreak={userStreak!} /> 
         <div className="flex">
           <p className="my-3 text-lg">&#127942;</p>
           <div className="mx-1 my-3 text-lg">Personal Records</div>
@@ -160,7 +154,6 @@ const Dashboard = () => {
                 >
                   <ExerciseIndex workout={workout}/>
                   <ExerciseInput workout={workout} workoutIndex={workoutIndex} todaysWorkout={todaysWorkout}/> 
-
                 </div>
               );
             })}
