@@ -1,5 +1,5 @@
 import React from "react";
-import { Dialog, Tab, Transition } from "@headlessui/react";
+import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 import {
   XIcon,
@@ -50,7 +50,6 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
             <div className="h-full bg-white w-80">
               {/* close button */}
               <div className="flex justify-between px-4 pt-5 pb-2 ">
-
                 <img className="w-64 h-[5.5rem] m-2 bg-auto" src="./logo.png" />
 
                 <button
@@ -65,32 +64,23 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
               {/* pages list */}
               <div className="px-6 py-6 space-y-6 border-t border-gray-200">
                 <div className="flow-root">
-                  <Link href="/dashboard" >
-                  <a
-                    
-                    className="flex p-2 -m-2 font-medium text-gray-900"
-                  >
-                    <HomeIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900 xl: display" />
-                    Dashboard
-                  </a>
+                  <Link href="/dashboard">
+                    <a className="flex p-2 -m-2 font-medium text-gray-900">
+                      <HomeIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900 xl: display" />
+                      Dashboard
+                    </a>
                   </Link>
                   <div>
                     <Link href="/browseWorkouts">
-                      <a
-                        className="flex p-2 -m-2 font-medium text-gray-900"
-                      >  
-                    
-                      <LightningBoltIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900" />
-                      Browse Workouts
-                    </a>
+                      <a className="flex p-2 -m-2 font-medium text-gray-900">
+                        <LightningBoltIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900" />
+                        Browse Workouts
+                      </a>
                     </Link>
                   </div>
                   <div>
                     <Link href="/calendar">
-                      <a
-                        
-                        className="flex p-2 -m-2 font-medium text-gray-900"
-                      >
+                      <a className="flex p-2 -m-2 font-medium text-gray-900">
                         <CalendarIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900" />
                         Calender
                       </a>
@@ -98,13 +88,10 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
                   </div>
                   <div>
                     <Link href="/progress">
-                      <a
-                        
-                        className="flex p-2 -m-2 font-medium text-gray-900"
-                      >
+                      <a className="flex p-2 -m-2 font-medium text-gray-900">
                         <ChartBarIcon className="flex-shrink-0 w-6 h-6 mx-2 text-gray-400 group-hover:text-gray-900" />
                         Progress
-                      </a> 
+                      </a>
                     </Link>
                   </div>
                 </div>

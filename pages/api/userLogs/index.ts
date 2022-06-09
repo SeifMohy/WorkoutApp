@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../prismaClient";
-import { getSession } from "next-auth/react";
+import prisma  from "prismaClient";
+import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
+
 type Error = {
   message: string;
 };
@@ -15,10 +16,10 @@ export default async function handler(
 ) {
   prisma;
   const { workoutLogs } = req.body;
-  const session = await getSession({ req });
-  const userEmail = session?.user?.email;
-  const user = await prisma.user.findUnique({
-    where: { email: userEmail as string },
+
+  const { user } = await getUser({ req, res });
+  const fullUser = await prisma.user.findUnique({
+    where: { id: user?.id as string },
   });
 
   if (!user) {
@@ -30,7 +31,7 @@ export default async function handler(
     return {
       reps: +workoutLine?.reps[idx],
       weight: +workoutLine.weight[idx],
-      userId: user?.id,
+      userId: fullUser?.id,
       workoutLineId: workoutLine.workoutLineId,
       setNumber: +idx + 1,
     };

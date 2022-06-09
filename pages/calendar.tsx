@@ -4,7 +4,7 @@ import CalenderComp from '../components/calendarComponent';
 import Image from 'next/image';
 import axios from 'axios';
 import useSWR from 'swr';
-import { WorkoutHistoryCard } from 'types';
+import { WorkoutHistoryCard } from 'types/index';
 import moment from 'moment';
 
 const fetchWorkoutHistory = (url: string) =>
@@ -26,7 +26,7 @@ const calendar = () => {
     <Layout>
       <div className="bg-gray-100 min-h-screen">
         <>
-          {data.map((x) => {
+          {data?.map((x) => {
             return (
               <div>
                 <div className="grid sm:grid-cols-1 lg:grid-cols-2 py-8 md:px-8 px-0 bg-white rounded-md">

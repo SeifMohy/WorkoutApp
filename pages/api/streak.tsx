@@ -1,13 +1,14 @@
 import {
   PrismaClient,
-  User,
+ 
   Exercise,
   UserLog,
   WorkoutLine,
 } from "@prisma/client";
-import _, { values } from "lodash";
+import _ from "lodash";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react";
+import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
+
 const prisma = new PrismaClient();
 
 export default async function handle(
@@ -36,26 +37,23 @@ type Data = {
 };
 
 async function getUserStreak(req: NextApiRequest, res: NextApiResponse) {
-  const session = await getSession({ req });
-  if (session) {
+  const { user } = await getUser({ req, res });
+  if (user) {
     // Signed in
     try {
-      // const userEmail = session?.user?.email;
-      const userEmail1 = "mahmoudezz878@gmail.com";
-      const userEmail = "seifmohy@gmail.com";
-      const userEmail3 = "nac9cm@gmail.com";
+     
 
-      let user = await prisma.user.findUnique({
-        where: { email: userEmail! },
+      let fullUser = await prisma.user.findUnique({
+        where: { id: user.id },
       });
-      if (!user) {
+      if (!fullUser) {
         return res.status(400).json({ msg: "no user" });
       }
 
       //--------streak counter ------------
 
       const userLogs = await prisma.userLog.findMany({
-        where: { userId: user?.id as string },
+        where: { userId: fullUser?.id as string },
         include: { workoutLine: { include: { exercise: true } } },
       });
       const amendDate = userLogs.map((x) => x.date.setUTCHours(0, 0, 0, 0));

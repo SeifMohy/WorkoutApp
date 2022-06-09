@@ -1,4 +1,4 @@
-import { useSession, signIn, signOut, getProviders } from "next-auth/react";
+
 import Image from "next/image";
 import { useFormik, yupToFormErrors } from "formik";
 import * as Yup from "yup";
@@ -11,9 +11,9 @@ const Signup = () => {
   const router = useRouter();
 
   const [fullUser, setFullUser] = useState<User | null>();
-  const session = useSession();
 
-  const email = session?.data?.user?.email;
+
+
 
   const getUser = async () => {
     const res = await axios.get("/api/user");

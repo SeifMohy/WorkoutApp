@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Layout from '../components/layout';
-import { useSession } from 'next-auth/react';
+
 import axios from 'axios';
 import useSWR from 'swr';
 import {
@@ -8,7 +8,7 @@ import {
   todaysWorkoutData,
   WorkoutInfo,
   WorkoutLineData
-} from 'types';
+} from 'types/index';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import Link from 'next/link';
@@ -51,10 +51,10 @@ const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const Dashboard = () => {
-  const session = useSession();
+
   const { daysWorkout } = useWorkout();
   const todaysWorkoutId = daysWorkout; //TODO: have something that determines which workout is todays workout
-  const userEmail = session.data?.user?.email;
+
 
   const { data: logsByExercise, error: logsByExerciseError } =
     useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);

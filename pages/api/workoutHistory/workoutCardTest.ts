@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import _ from 'lodash';
-import { WorkoutHistoryCard } from 'types';
-import { prisma } from '../prismaClient';
+import { WorkoutHistoryCard } from 'types/index';
+import prisma from 'prismaClient';
 
 type Error = {
   message: string;

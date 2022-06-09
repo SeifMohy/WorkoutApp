@@ -1,8 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { WorkoutLine, PrismaClient } from "@prisma/client";
 import _ from 'lodash';
-import { WorkoutLineData } from "types";
-import {prisma} from "../prismaClient"
+import { WorkoutLineData } from "types/index";
+import prisma from "prismaClient"
 
 type Error = {
   message: string;

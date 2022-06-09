@@ -1,70 +1,76 @@
-import { PrismaClient, User } from '@prisma/client'
-import { NextApiRequest, NextApiResponse } from 'next'
-import { getSession } from 'next-auth/react'
-const prisma = new PrismaClient()
+import { PrismaClient, User } from "@prisma/client";
+import { NextApiRequest, NextApiResponse } from "next";
+import { getUser } from "@supabase/supabase-auth-helpers/nextjs";
+const prisma = new PrismaClient();
 
-export default async function handle(req:NextApiRequest, res:NextApiResponse) {
-
+export default async function handle(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   //todo: add auth support
 
   switch (req.method) {
-    case 'PUT':
-      updateUserInfo(req, res)
-      break
-      case 'GET':
-        getUserByEmail(req, res)
-        break
+    case "POST":
+      createUser(req, res);
+      break;
+    case "GET":
+      getUserId(req, res);
+      break;
   }
 }
 
+async function createUser(req: NextApiRequest, res: NextApiResponse) {
+  console.log(req, res);
+  try {
+    const { user } = await getUser({ req, res });
+    const { weight, height, age, gender } = req.body;
+    console.log(req.body);
+    console.log(user);
+    const data = user?.user_metadata;
+    const newUser = await prisma.user.create({
+      data: {
+        id: user?.id!,
+        email: user?.email,
+        image: data?.avatar_url,
+        name: data?.name,
+        weight: +weight,
+        age: +age,
+        height: +height,
+        gender: gender,
+      },
+    });
 
-async function updateUserInfo(req: NextApiRequest, res:NextApiResponse) {
+    res.status(200).json({ msg: "user info created", newUser });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ msg: "something went wrong", details: err });
+  }
+}
+
+async function getUserId(req: NextApiRequest, res: NextApiResponse) {
+  const { user } = await getUser({ req, res });
+  console.log(user);
+  if (user) {
+    // Signed in
     try {
-        const session= await getSession({req})
-      const userEmail = session?.user?.email
-      const { weight, height, age, gender } =req.body
-      console.log(req.body)
-
-      const updateUserInfo = await prisma.user.updateMany({
-
-        where: { email: userEmail},
-        data: {
-          weight:+weight,
-          age:+age,
-          height:+height,
-          gender,
-        },
-      })
-        
-      res.status(200).json({ msg: 'user info updated', updateUserInfo })
-    } catch (err) {
-        console.log(err)
-      res.status(400).json({ msg: 'something went wrong', details: err })
-    }
-}
-  
-async function getUserByEmail(req: NextApiRequest, res: NextApiResponse) {
-  
-    const session = await getSession({ req });
-    if (session) {
-      // Signed in
-      try {
-        const userEmail = session?.user?.email;
-        const user = await prisma.user.findUnique({
-          where: { email: userEmail! },
-        });
-        console.log(user)
-        if (!user) {
-          return res.status(400).json({ msg: 'no user' });
-        }
-        res.status(200).json({ msg: 'user info', user: user });
-      } catch (err: any) {
-        console.log(err);
-        res.status(400).json({ msg: 'something went wrong', err });
+      const userId = user?.id;
+      const fullUser = await prisma.user.findUnique({
+        where: { id: userId },
+      });
+      if (!fullUser) {
+        return res.status(400).json({ msg: "no user" });
       }
-    } else {
-      // Not Signed in
-      res.status(401);
+      return res.status(200).json({ msg: "user info", fullUser });
+    } catch (err: any) {
+      console.log(err);
+      res.status(400).json({ msg: "something went wrong", err });
     }
-    res.end();
+  } else {
+    // Not Signed in
+    console.log("User Redirected");
+
+    return res.writeHead(403, {
+      Location: "/signup",
+    });
   }
+}
