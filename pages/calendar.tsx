@@ -1,34 +1,32 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import Layout from '../components/layout';
 import axios from 'axios';
 import useSWR from 'swr';
 import { WorkoutHistoryCard } from 'types/index';
 import moment from 'moment';
+import Image from "next/image";
 
-
-const fetchWorkoutHistory = (url: string) =>
-  axios.get(url).then((res) => res.data);
-
-const calendar = () => {
-
+interface Props {}
+const calendar:React.FC<Props> = () => {
+  const fetchWorkoutHistory = (url: string) => axios.get(url).then((res) => res.data);
   const { data, error } = useSWR<WorkoutHistoryCard>(
     `/api/workoutHistory/workoutCard`,
 
     fetchWorkoutHistory
-    );
-  console.log(data)
-  const [myDate, setMyDate] = useState("");
+  );
+  console.log(data);
 
-  const workOutData = async () => {
-    const res = await axios.get('/api/workouthistory')
-    const data = await res.data
-    console.log(data["Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)"])
-  }
+  const workOutData = useCallback(async () => {
+    const res = await axios.get('/api/workouthistory');
+    const data = await res.data;
+    console.log(
+      data['Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)']
+    );
+  }, [])
 
   useEffect(() => {
-    workOutData()
-  },[])
+    workOutData();
+  }, [workOutData]);
 
   return (
     <Layout>
@@ -38,7 +36,7 @@ const calendar = () => {
         </div>
         <div>
           <>
-            {data.workouts.map((workout, idx: number) => {
+            {data?.workouts.map((workout, idx: number) => {
               return (
                 <div className="grid sm:grid-cols-1 lg:grid-cols-2 py-8 md:px-8 px-0 bg-white rounded-md">
                   <div>
@@ -58,13 +56,12 @@ const calendar = () => {
                       {workout.workoutLines.map((exercise) => {
                         return (
                           <div>
-                            <img
+                            <Image
                               className="rounded-l-3xl"
                               src={`${exercise.exercise.imageUrl}`}
                               alt="Picture of the author"
                               width={150}
-                              height={200}
-                            />
+                              height={200}                            />
                             <div>
                               <>
                                 {exercise.logs.map((logs) => {

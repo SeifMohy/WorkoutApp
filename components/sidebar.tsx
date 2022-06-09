@@ -9,8 +9,10 @@ import {
   ChartBarIcon,
 } from "@heroicons/react/outline";
 import Link from "next/link";
+import Image from "next/image";
+import LogoPic from 'assets/images/logo.png';
 
-type sidebarProps = {
+type sidebarProps = { 
   open: boolean;
   setOpen: (open: boolean) => void;
 };
@@ -50,9 +52,9 @@ const sidebar: React.FC<sidebarProps> = ({ open, setOpen }) => {
             <div className="h-full bg-white w-80">
               {/* close button */}
               <div className="flex justify-between px-4 pt-5 pb-2 ">
-
-                <img className="w-64 h-[5.5rem] m-2 bg-auto" src="/logo.png" />
-
+                <div className="relative w-64 h-[5.5rem] m-2 bg-auto">
+                    <Image  src={LogoPic} objectFit="contain" alt="img" layout='fill' />
+                </div>
                 <button
                   type="button"
                   className="inline-flex items-center justify-center p-2 -m-2 text-gray-400 rounded-md"

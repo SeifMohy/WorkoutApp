@@ -4,6 +4,7 @@ import AccountProp from "./accountProp";
 import { MenuIcon } from "@heroicons/react/solid";
 import { Menu } from "@headlessui/react";
 import { useUser } from "@supabase/supabase-auth-helpers/react";
+import Image from "next/image";
 
 type headerProps = {
   open: boolean;
@@ -39,10 +40,11 @@ const header = ({
                 type="button"
                 onClick={() => setOpenAccount(!openAccount)}
               >
-                <img
+                <Image
                   className="w-10 h-10 rounded-full m-2"
                   src={data?.avatar || "/icon.png"}
                   alt="Rounded avatar"
+                  layout='fill'
                 />
               </Menu.Button>
               <AccountProp
