@@ -20,7 +20,7 @@ export default function Workout() {
   
   const startWorkout = () => {
     setWorkoutForTheDay(wid!.toString());
-    router.push("/dashboard");
+    router.push("/");
   };
 
 

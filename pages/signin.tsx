@@ -9,7 +9,7 @@ const SignIn = () => {
     const { user, session, error } = await supabase.auth.signIn({
       provider: 'google'
     })
-    router.push("/dashboard");
+    router.push("/");
 }
 
 
