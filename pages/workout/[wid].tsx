@@ -35,7 +35,6 @@ export default function Workout() {
 
   return (
     <Layout>
-
       <div className="flex flex-col justify-start min-h-screen bg-gray-100 align-center">
         <div className="relative w-full h-[20rem] mb-[0.75rem] bg-black">
           <Image
