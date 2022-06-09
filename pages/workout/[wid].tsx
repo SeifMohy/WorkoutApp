@@ -58,12 +58,7 @@ export default function Workout() {
           <h1>no exercise</h1>
         ) : (
           <ul className="flex flex-col items-center justify-center">
-            {data.workout.map((exercise:Exercise) =>{return <li>{exercise.name}</li>})}
-            {/* {data?.data.exercises?.map((exercise: WorkoutInfo) => (
-              <li key={exercise.id} className="flex-col justify-center border transition ease-in-out delay-150 p-[1rem] rounded-2xl my-[2rem] w-[90%] hover:-translate-y-1 hover:bg-white duration-300">
-                <ActiveExcercise exercises={exercises} />
-              </li> */}
-            {/* ))} */}
+            {data.workout.map((exercise:Exercise) =>{return <li key={exercise.id}><ActiveExcercise exercise={exercise} /></li>})}
           </ul>
         )}
 
