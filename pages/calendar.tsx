@@ -17,11 +17,18 @@ const Calendar:React.FC<Props> = () => {
 
 
   const workOutData = useCallback(async () => {
-    const res = await axios.get('/api/workouthistory');
-    const data = await res.data;
-    console.log(
-      data['Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)']
-    );
+    try{
+      const res = await axios.get('/api/workouthistory');
+      const data = await res.data;
+      console.log(
+        data['Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)']
+      );
+
+    }
+    catch (err){
+        console.log(err);
+        
+    }
   }, [])
 
   useEffect(() => {
