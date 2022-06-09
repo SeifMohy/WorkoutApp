@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import axios from 'axios';
@@ -5,20 +6,29 @@ import useSWR from 'swr';
 import { WorkoutHistoryCard } from 'types/index';
 import moment from 'moment';
 
+
 const fetchWorkoutHistory = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const calendar = () => {
+
   const { data, error } = useSWR<WorkoutHistoryCard>(
     `/api/workoutHistory/workoutCard`,
+
     fetchWorkoutHistory
-  );
+    );
+  console.log(data)
+  const [myDate, setMyDate] = useState("");
 
-  console.log(data);
-
-  if (!data) {
-    return <div>loading...</div>;
+  const workOutData = async () => {
+    const res = await axios.get('/api/workouthistory')
+    const data = await res.data
+    console.log(data["Mon Apr 11 2022 12:35:55 GMT+0200 (Eastern European Standard Time)"])
   }
+
+  useEffect(() => {
+    workOutData()
+  },[])
 
   return (
     <Layout>
