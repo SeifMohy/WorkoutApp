@@ -10,7 +10,10 @@ const nextConfig = {
       'www.youtube.com',
       "artimg.gympik.com",
       "media.istockphoto.com",
-      "img.freepik.com"
+      "img.freepik.com",
+      "www.mensjournal.com",
+      "www.momarketplace.com",
+      "phantom-marca.unidadeditorial.es"
     ],
   },
 }

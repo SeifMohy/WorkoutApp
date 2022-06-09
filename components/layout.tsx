@@ -27,11 +27,9 @@ const Layout: React.FC<Props> = ({ children }) => {
   const getFullUser = async () => {
     try {
       const res = await axios.get('/api/user');
-
       if (res.status !== 200) {
         router.push('/signup');
       }
-
       console.log({u: res.data})
       setFullUser(res.data.fullUser);
     } catch (error) {
@@ -43,18 +41,11 @@ const Layout: React.FC<Props> = ({ children }) => {
   useEffect(() => {
     getFullUser();
   }, []);
-
+console.log(isLoading)
   useEffect(() => {
-    // if (!user) {
-    //   router.push("/signin");
-    // }
-
     if (!isLoading && !user) {
       router.push('/signin');
     }
-    // if (router.pathname === '/' && !user) {
-    //   router.push('/signin');
-    // }
   }, [user, router, fullUser]);
 
   if (isLoading) return <>loading...</>;
