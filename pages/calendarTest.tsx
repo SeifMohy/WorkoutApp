@@ -10,8 +10,8 @@ import moment from "moment";
 
 const fetchWorkoutHistory = (url: string) =>
   axios.get(url).then((res) => res.data);
-
-const calendar = () => {
+interface Props {}
+const Calendar:React.FC<Props>  = () => {
   const { data, error } = useSWR<WorkoutHistoryCard>(
     `/api/workoutHistory/workoutCardTest`,
     fetchWorkoutHistory
@@ -25,20 +25,20 @@ const calendar = () => {
 
   return (
     <Layout>
-      <div className="bg-gray-100 min-h-screen">
-        <div className="md:px-32 px-0 pt-8 text-2xl font-bold">
+      <div className="min-h-screen bg-gray-100">
+        <div className="px-0 pt-8 text-2xl font-bold md:px-32">
           Workout history
         </div>
-        <div className="grid sm:grid-cols-1 lg:grid-cols-3 py-8 md:px-8 px-0 bg-white rounded-md p-8 gap-10">
+        <div className="grid gap-10 p-8 px-0 py-8 bg-white rounded-md sm:grid-cols-1 lg:grid-cols-3 md:px-8">
           <div className="lg:col-span-2 md:col-span-2">
             <>
               {data.workouts.map((workout, idx: number) => {
                 return (
                   <div
                     key={idx}
-                    className=" sm:grid-cols-1 lg:grid-cols-2 py-8 md:px-8 bg-white rounded-md"
+                    className="py-8 bg-white rounded-md sm:grid-cols-1 lg:grid-cols-2 md:px-8"
                   >
-                    <div className="flex justify-between items-center max-w-lg">
+                    <div className="flex items-center justify-between max-w-lg">
                       <div>
                         <h1>Workout</h1>
                         <span className="block text-xs text-gray-400">
@@ -53,7 +53,7 @@ const calendar = () => {
                       </div>
                     </div>
 
-                    <div className="bg-white my-8 flex flex-col rounded-l-3xl">
+                    <div className="flex flex-col my-8 bg-white rounded-l-3xl">
                       <>
                         {workout.workoutLines.map((exercise, idx) => {
                           return (
@@ -99,4 +99,4 @@ const calendar = () => {
   );
 };
 
-export default calendar;
+export default Calendar;

@@ -11,7 +11,7 @@ type props = {
   children: React.ReactNode;
 };
 
-function Layout({ children }: props) {
+const Layout:React.FC<props> = ({ children }) => {
   const { user, isLoading,error, accessToken,checkSession } = useUser();
   const [openAccount, setOpenAccount] = useState(false);
   const [open, setOpen] = useState(false);

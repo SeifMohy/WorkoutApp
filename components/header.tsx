@@ -13,27 +13,27 @@ type headerProps = {
   setOpenAccount: (open: boolean) => void;
 };
 
-const header = ({
+const Header:React.FC<headerProps> = ({
   open,
   setOpen,
   openAccount,
   setOpenAccount,
-}: headerProps) => {
+}) => {
   const { user, isLoading, error, accessToken, checkSession } = useUser();
   const data = user?.user_metadata;
   return (
     <div>
       <Sidebar open={open} setOpen={setOpen} />
       <header className="relative">
-        <nav className="flex justify-between items-center px-4 lg:justify-end">
+        <nav className="flex items-center justify-between px-4 lg:justify-end">
           <button
             type="button"
-            className="-ml-2 rounded-md bg-white p-2 text-gray-400 block lg:hidden"
+            className="block p-2 -ml-2 text-gray-400 bg-white rounded-md lg:hidden"
             onClick={() => setOpen(true)}
           >
-            <MenuIcon className="h-8 w-8 flex-shrink-0 text-gray-400 group-hover:text-gray-500" />
+            <MenuIcon className="flex-shrink-0 w-8 h-8 text-gray-400 group-hover:text-gray-500" />
           </button>
-          <div className="bg-white flex items-center">
+          <div className="flex items-center bg-white">
             {data?.name}
             <Menu>
               <Menu.Button
@@ -41,7 +41,7 @@ const header = ({
                 onClick={() => setOpenAccount(!openAccount)}
               >
                 <Image
-                  className="w-10 h-10 rounded-full m-2"
+                  className="w-10 h-10 m-2 rounded-full"
                   src={data?.avatar || "/icon.png"}
                   alt="Rounded avatar"
                   layout='fill'
@@ -59,4 +59,4 @@ const header = ({
   );
 };
 
-export default header;
+export default Header;

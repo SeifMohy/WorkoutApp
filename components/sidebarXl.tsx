@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import LogoPic from 'assets/images/logo.png';
 
-const SidebarXl = () => {
+const SidebarXl:React.FC = () => {
   const router = useRouter();
   return (
     <div className="min-h-screen bg-white border-r border-gray-200 ">
@@ -21,7 +21,6 @@ const SidebarXl = () => {
                 </div>
 
       </div>
-      {/* pages list */}
       <div className="px-6 py-6 space-y-6">
         <div className="flow-root">
           <Link

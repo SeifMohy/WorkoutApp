@@ -10,7 +10,7 @@ import { Exercise } from "@prisma/client";
 import Layout from "components/layout";
 import { useWorkout, WorkoutContext } from "components/WorkoutProvider";
 
-export default function Workout() {
+const Workout:React.FC = () => {
 
   const router = useRouter();
   const { wid } = router.query;
@@ -79,3 +79,5 @@ export default function Workout() {
     </Layout>
   );
 }
+
+export default Workout

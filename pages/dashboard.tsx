@@ -48,7 +48,7 @@ const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
 const fetchWorkoutName = (url: string) =>
   axios.get(url).then((res) => res.data);
 
-const Dashboard = () => {
+const Dashboard:React.FC = () => {
 
   const { daysWorkout } = useWorkout();
   const todaysWorkoutId = daysWorkout; //TODO: have something that determines which workout is todays workout

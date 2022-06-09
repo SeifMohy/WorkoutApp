@@ -18,15 +18,12 @@ export const useWorkout = () => {
   return context;
 };
 
-const WorkoutProvider = ({ children }: props) => {
+const WorkoutProvider:React.FC<props> = ({ children }) => {
   const [daysWorkout, setDaysWorkout] = useState<String>("1");
   const setWorkoutForTheDay = (value: String) => {
     setDaysWorkout(value);
     console.log({ value });
   };
-  useEffect(() => {
-    console.log("resetting provider again");
-  }, []);
   return (
     <WorkoutContext.Provider value={{ daysWorkout, setWorkoutForTheDay }}>
       {children}

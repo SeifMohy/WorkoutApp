@@ -11,7 +11,7 @@ type props = {
   todaysWorkout: todaysWorkoutData[];
 };
 
-function ExerciseInput({ workout, workoutIndex, todaysWorkout }: props) {
+const ExerciseInput:React.FC<props> = ({ workout, workoutIndex, todaysWorkout }) => {
   const initialValues = {
     workoutLogs: todaysWorkout?.map((workoutLine) => {
       return {
