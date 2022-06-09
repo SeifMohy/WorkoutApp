@@ -5,13 +5,12 @@ import useSWR from 'swr';
 import { WorkoutHistoryCard } from 'types/index';
 import moment from 'moment';
 
-
 const fetchWorkoutHistory = (url: string) =>
   axios.get(url).then((res) => res.data);
 
 const calendar = () => {
   const { data, error } = useSWR<WorkoutHistoryCard>(
-    `/api/workoutHistory/workoutCardTest`,
+    `/api/workoutHistory/workoutCard`,
     fetchWorkoutHistory
   );
 
