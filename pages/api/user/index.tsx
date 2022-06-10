@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 export default async function handle(
   req: NextApiRequest,
-  res: NextApiResponse
+  res: NextApiResponse<User>
 ) {
   //todo: add auth support
 
@@ -26,6 +26,14 @@ async function createUser(req: NextApiRequest, res: NextApiResponse) {
     const { weight, height, age, gender } = req.body;
     console.log(req.body);
     console.log(user);
+
+    const exists = await prisma.user.findFirst({where: {id : user?.id}})
+
+    if(exists){
+      //can update the users data with new info
+      return res.status(200).json({msg: "here is the user", exists})
+    }
+
     const data = user?.user_metadata;
     const newUser = await prisma.user.create({
       data: {

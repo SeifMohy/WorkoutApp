@@ -2,34 +2,15 @@ import Image from 'next/image';
 import { useFormik, yupToFormErrors } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useRouter } from 'next/router';
 import { User } from '@prisma/client';
+import { authFullUser } from 'slices/auth.slice';
+import { useAppDispatch } from 'store/hook';
 
 const Signup = () => {
   const router = useRouter();
-
-  const [fullUser, setFullUser] = useState<User | null>();
-
-  const getUser = useCallback(async () => {
-    try {
-      const res = await axios.get('/api/user');
-      const data = res.data.user;
-      setFullUser(data);
-      
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }, [])
-
-  // useEffect(() => {
-  //   if (!fullUser) {
-  //     router.push('/');
-  //   }
-  //   getUser();
-  // }, [getUser, fullUser, router]);
-
+  const dispatch = useAppDispatch();
 
   const formik = useFormik({
     initialValues: {
@@ -40,14 +21,11 @@ const Signup = () => {
     },
     onSubmit: async (values: any, resetForm: any) => {
       console.log(values);
-      const res = axios.post('/api/user', values);
-      const data = await res;
+      const res = await axios.post('/api/user', values);
+      const data :User = res.data.exists
+      dispatch(authFullUser(data));
       console.log('data', data);
       router.push('/');
-      // const res = await fetch("/api/user", {
-      //   method: "POST",
-      //   body:  JSON.stringify(values),
-      // });
       resetForm();
     },
     validationSchema: Yup.object({
