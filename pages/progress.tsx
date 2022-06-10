@@ -99,13 +99,10 @@ function createChartData(
 
 const fetchExercisesById = (url: string) =>
   axios.get(url).then((res) => res.data);
-type props = {}
-const ProgressTest:React.FC<props> = () => {
+type props = {};
+const ProgressTest: React.FC<props> = () => {
   const { data: logsByExercise, error: logsByExerciseError } =
-    useSWR<ProgressAPIResponseType>(
-      `/api/progress`,
-      fetchExercisesById
-    );
+    useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
 
   console.log(logsByExercise);
 

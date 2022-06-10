@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Header from './header';
 import { useState } from 'react';
 import SidebarXl from './sidebarXl';
@@ -26,9 +26,17 @@ const Layout: React.FC<Props> = ({ children }) => {
     }
   }
 
-  if(!user && !fullUser){
-    router.push('/')
-  }
+  const getFullUser = useCallback( async () => {
+    if(!user && !fullUser){
+      router.push('/')
+    }
+  }, [router, user, fullUser]) 
+
+  useEffect(() => {
+    getFullUser();
+  }, [getFullUser]);
+
+
     return (
       <div className="min-h-screen" onClick={() => handleClose()}>
         <div className="grid grid-cols-4 bg-white ">
