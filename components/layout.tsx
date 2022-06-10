@@ -33,12 +33,7 @@ const Layout: React.FC<Props> = ({ children }) => {
       if (res.status !== 200) {
         router.push('/signup');
       }
-<<<<<<< HEAD
-      console.log({u: res.data})
-      setFullUser(res.data.fullUser);
-=======
       dispatch(authFullUser(res.data.fullUser));
->>>>>>> 9ea339fb31cf626cd235e34ffd3bddddcba22b08
     } catch (error) {
       console.log(error);
       router.push('/signup');
