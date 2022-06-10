@@ -2,8 +2,7 @@ import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
 import { useUser } from '@supabase/supabase-auth-helpers/react';
-
-import { StreakInfo } from '../pages/index';
+import { StreakInfo } from 'pages/dashboard';
 
 
 type props = {

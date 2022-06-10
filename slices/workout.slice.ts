@@ -7,7 +7,7 @@ interface WORKOUTState {
 }
 
 const initialState: WORKOUTState = {
-	daysWorkout: 0,
+	daysWorkout: 1,
 };
 
 const workoutSlice = createSlice({

@@ -11,10 +11,7 @@ const nextConfig = {
       "artimg.gympik.com",
       "media.istockphoto.com",
       "img.freepik.com",
-<<<<<<< HEAD
       "www.mensjournal.com",
-=======
->>>>>>> 9ea339fb31cf626cd235e34ffd3bddddcba22b08
       "www.momarketplace.com",
       "phantom-marca.unidadeditorial.es"
     ],

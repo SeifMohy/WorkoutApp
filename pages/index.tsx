@@ -1,182 +1,76 @@
-import React, { useContext, useEffect } from 'react';
-import Layout from '../components/layout';
-import axios from 'axios';
-import useSWR from 'swr';
-import {
-  ProgressAPIResponseType,
-  todaysWorkoutData,
-  WorkoutInfo,
-  WorkoutLineData
-} from 'types/index';
-import { useFormik } from 'formik';
-import { CircularProgress } from '@mui/material';
+import { useUser } from '@supabase/supabase-auth-helpers/react';
+import { createClient } from '@supabase/supabase-js';
+import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { authState } from 'slices/auth.slice';
+import { useAppDispatch, useAppSelector } from 'store/hook';
 
-import DashboardHeadTab from 'components/DashboardHeadTab';
-import ExerciseIndex from 'components/ExerciseIndex';
-import ExerciseInput from 'components/ExerciseInput';
-import {useRouter} from 'next/router';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from '../store/hook';
-import { workoutState } from '../slices/workout.slice';
-
-function choosingColor(name: string) {
-  switch (name) {
-    case 'Squat':
-      return 'bg-red-700';
-    case 'Lunges':
-      return 'bg-green-700';
-    case 'Jumping Jacks':
-      return 'bg-blue-700';
-    default:
-      return 'bg-red-700';
-  }
-}
-type WorkoutLine = {
-  weight: any[];
-  reps: any[];
-  workoutLineId: String;
-  userId: String;
-};
-
-export type StreakInfo = {
-  userStreak: number;
-};
-
-const fetchUserStreak = (url: string) => axios.get(url).then((res) => res.data);
-
-const fetchExercisesById = (url: string) =>
-  axios.get(url).then((res) => res.data);
-
-const fetchWorkout = (url: string) => axios.get(url).then((res) => res.data);
-
-const fetchWorkoutName = (url: string) =>
-  axios.get(url).then((res) => res.data);
-
-const Dashboard = () => {
+type props = {};
+const SignIn: React.FC<props> = () => {
+  const { user } = useUser();
+  const { fullUser } = useAppSelector(authState);
+  const dispatch = useAppDispatch();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
   const router = useRouter();
-  const state = useAppSelector(workoutState);
-  const todaysWorkoutId = state.daysWorkout; //TODO: have something that determines which workout is todays workout
-
-  const { data: logsByExercise, error: logsByExerciseError } =
-    useSWR<ProgressAPIResponseType>(`/api/progress`, fetchExercisesById);
-
-  const { data: workout, error: workoutError } = useSWR<WorkoutLineData>(
-    `/api/workoutLines/${todaysWorkoutId}`,
-    fetchWorkout
-  );
-
-  const { data: workoutInfo, error: workoutInfoError } = useSWR<WorkoutInfo>(
-    `/api/workout/${todaysWorkoutId}`,
-    fetchWorkoutName
-  );
-
-  const { data: userStreak, error: userStreakError } = useSWR<StreakInfo>(
-    `/api/streak`,
-    fetchUserStreak
-  );
-
-  console.log(logsByExercise);
-  console.log(workout);
-  console.log(workoutInfo);
-  console.log(userStreak);
-
-  const todaysWorkout: todaysWorkoutData[] = Object.values(
-    workout?.data || []
-  )[0];
-
-  const initialValues = {
-    workoutLogs: todaysWorkout?.map((workoutLine) => {
-      return {
-        weight: Array.from(Array(workoutLine.recSets)),
-        reps: Array.from(Array(workoutLine.recSets)),
-        workoutLineId: workoutLine.id
-      };
-    })
+  const loginWithGoogle = async () => {
+    const { user, session, error } = await supabase.auth.signIn({
+      provider: 'google'
+    });
+    router.push('/dashboard');
+    console.log({ user, session, error });
   };
 
-  const formik = useFormik({
-    initialValues: initialValues,
-    enableReinitialize: true,
-    onSubmit: async (values: any, resetForm: any) => {
-      // formik.resetForm();
-      console.log(values);
-      const res = await axios.put('/api/userLogs/test', values); //This is on userLogs/test to avoid session errors
-      console.log('userLogs', res);
-    }
-  });
+  console.log({ user, fullUser });
 
-  
-  if (!logsByExercise || !workout || !workoutInfo) {
-
-
-    return (
-      <div className="flex justify-center items-center w-full h-[100vh]">
-        <CircularProgress color="inherit" className="w-[12rem]" />
-      </div>
-    );
-  } else {
+  if (user && !fullUser) {
+    router.push('/signup');
+  } else if (user && fullUser) {
+    router.push('/dashboard'); 
   }
+
   return (
-    <Layout>
-      <div className="min-h-screen p-5 bg-gray-100">
-
-        <DashboardHeadTab userStreak={userStreak!} /> 
-
-        <div className="flex">
-          <p className="my-3 text-lg">&#127942;</p>
-          <div className="mx-1 my-3 text-lg">Personal Records</div>
-        </div>
-
-        <div className="">
-          <div className="grid lg:grid lg:grid-cols-3 lg:gap-5 justify-items-stretch">
-            <>
-              {logsByExercise.map((exercise) => {
-                return (
-                  <div
-                    key={exercise.name}
-                    className={`${choosingColor(
-                      exercise.name
-                    )} rounded-md p-5 w-3/4 lg:w-full my-3 justify-self-center`}
-                  >
-                    <div className="text-base text-white">{exercise.name}</div>
-                    <div className="text-sm text-white">{exercise.max} KG</div>
-                  </div>
-                );
-              })}
-            </>
+    <div className="grid sm:grid-cols-1 lg:grid-cols-3 ">
+      <div className="flex items-center justify-center h-screen lg:col-span-1 md:col-span-1">
+        <div className="px-4 h-80 ">
+          <div>
+            <Image
+              src="/images/logo.png"
+              alt="logo"
+              width={300}
+              height={100}
+              objectFit="cover"
+            />
+          </div>
+          <div>
+            <p className="pt-2 pb-2 text-4xl font-bold">
+              Sign in to your account
+            </p>
+            <span className="">Or create a new acount</span>
+          </div>
+          <div className="w-full mt-6">
+            <button
+              onClick={() => loginWithGoogle()}
+              className="w-full py-3 mb-2 text-white bg-black rounded-md"
+            >
+              GOOGLE
+            </button>
           </div>
         </div>
-        <div id="workoutTitle" className="m-3 text-lg">
-          {/* {` Today's`} Workout ({workoutInfo.workout.name} Workout) */}
-        </div>
-        <div>
-          <>
-            {todaysWorkout?.map((workout, workoutIndex) => {
-              return (
-                <div
-                  key={workoutIndex}
-                  className="flex-col items-center p-2 mb-1"
-                >
-                  <ExerciseIndex workout={workout}/>
-                  <ExerciseInput workout={workout} workoutIndex={workoutIndex} todaysWorkout={todaysWorkout}/> 
-                </div>
-              );
-            })}
-            {/* <button
-              type="submit"
-              className="text-white  focus:outline-none  font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center bg-gray-700"
-              onClick={(e) => {
-                e.preventDefault();
-                formik.handleSubmit();
-              }}
-            >
-              Finish
-            </button> */}
-          </>
-        </div>
       </div>
-    </Layout>
+
+      <div className="lg:col-span-2 md:col-span-2 relative h-[100vh] hidden lg:block">
+        <Image
+          src="/images/signin.jpg"
+          alt="Picture of the author"
+          layout="fill"
+          objectFit="cover"
+        />
+      </div>
+    </div>
   );
 };
 
-export default Dashboard;
+export default SignIn;

@@ -6,19 +6,19 @@ import { useRouter } from 'next/router';
 import { CircularProgress } from '@mui/material';
 import { Exercise, WorkoutLine } from '@prisma/client';
 import Layout from 'components/layout';
-import { useWorkout } from 'context/WorkoutProvider';
-
+// import { useWorkout } from 'context/WorkoutProvider';
+//TODO: replace 
 const Workout: React.FC = () => {
   const router = useRouter();
   const { wid } = router.query;
-  const { daysWorkout, setWorkoutForTheDay } = useWorkout();
+  // const { daysWorkout, setWorkoutForTheDay } = useWorkout();
   const fetcher = (url: string) => axios.get(url).then((res) => res.data);
   const { data, error } = useSWR('/api/workout/' + wid, fetcher);
 
-  const startWorkout = () => {
-    setWorkoutForTheDay(wid!.toString());
-    router.push('/');
-  };
+  // const startWorkout = () => {
+  //   setWorkoutForTheDay(wid!.toString());
+  //   router.push('/dashboard');
+  // };
 
   if (!data) {
     return (
@@ -87,7 +87,7 @@ const Workout: React.FC = () => {
 
         <button
           className="self-center mx-[0.5rem] mt-[1.7rem] mb-[2.5rem] bg-black text-white border rounded-2xl p-[0.6rem] transition ease-in-out delay-150 hover:bg-gray-700 font-bold text-[1.5rem]	 md:w-4/5 sm:max-w-sm hover:scale-105 duration-300 ..."
-          onClick={startWorkout}
+          // onClick={startWorkout}
         >
           start the workout
         </button>
