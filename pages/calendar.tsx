@@ -14,7 +14,7 @@ const fetchWorkoutHistory = (url: string) =>
 interface Props {}
 const Calendar:React.FC<Props>  = () => {
   const { data, error } = useSWR<WorkoutHistoryCard>(
-    `/api/workoutHistory/workoutCardTest`,
+    `/api/workoutHistory/workoutCard`,
     fetchWorkoutHistory
   );
 

@@ -11,10 +11,10 @@ export default async function handle(
   res: NextApiResponse<WorkoutInfo | Response>
 ) {
   if (req.method === 'GET') {
-    const { wid } = req.query;
+    const { todaysWorkoutId } = req.query;
 
     const workout = await prisma.workout.findFirst({
-      where: { id: wid as string },
+      where: { id: todaysWorkoutId as string },
       include: { exercises: { include: { exercise: true } } }
     });
     if (!workout) {
