@@ -14,7 +14,7 @@ const workoutSlice = createSlice({
 	name: "workout",
 	initialState,
 	reducers: {
-		workoutHistory: (state:WorkoutState, {payload}:PayloadAction<string>) => {
+		todaysWorkout: (state:WorkoutState, {payload}:PayloadAction<string>) => {
 			state.daysWorkout = payload;
 		},
     },
@@ -22,5 +22,5 @@ const workoutSlice = createSlice({
 });
 
 export const workoutReducer = workoutSlice.reducer;
-export const { workoutHistory } = workoutSlice.actions;
+export const { todaysWorkout } = workoutSlice.actions;
 export const workoutState = (state: RootState) => state.workout;
